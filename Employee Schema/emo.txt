@@ -1,0 +1,72 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| COMPANY            |
+| INSTITUTE          |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use COMPANY;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_COMPANY |
++-------------------+
+| department        |
+| dept_locations    |
+| employee          |
+| project           |
++-------------------+
+4 rows in set (0.00 sec)
+
+mysql> create table works_on(Essn char(9) NOT NULL primary key,pno int NOT NULL,hours decimal(3,1) NOT NULL);
+Query OK, 0 rows affected (0.26 sec)
+
+mysql> create table dependent(Essn char(9) NOT NULL primary key,Dependent_name varchar(15) NOT NULL,Sex char,Bdate date,Relationship varchar(8));
+Query OK, 0 rows affected (0.26 sec)
+
+mysql> drop table dependent;
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> create table dependent(Essn char(9) NOT NULL primary key foreign key(Essn) references employee(Ssn),Dependent_name varchar(15) NOT NULL,Sex char,Bdate date,Relationship varchar(8));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key(Essn) references employee(Ssn),Dependent_name varchar(15) NOT NULL,S' at line 1
+mysql> create table dependent(Essn char(9) NOT NULL primary key,foreign key(Essn) references employee(Ssn),Dependent_name varchar(15) NOT NULL,Sex char,Bdate date,Relationship varchar(8));
+Query OK, 0 rows affected (0.52 sec)
+
+mysql> desc dependent;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Essn           | char(9)     | NO   | PRI | NULL    |       |
+| Dependent_name | varchar(15) | NO   |     | NULL    |       |
+| Sex            | char(1)     | YES  |     | NULL    |       |
+| Bdate          | date        | YES  |     | NULL    |       |
+| Relationship   | varchar(8)  | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc works_on;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| Essn  | char(9)      | NO   | PRI | NULL    |       |
+| pno   | int(11)      | NO   |     | NULL    |       |
+| hours | decimal(3,1) | NO   |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table works_on Essn Essn primary key,foreign key(Essn) references employee(Ssn); 
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Essn Essn primary key,foreign key(Essn) references employee(Ssn)' at line 1
+mysql> alter table works_on Essn Essn primary key,foreign key(Essn) references employee(Ssn) char(9);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Essn Essn primary key,foreign key(Essn) references employee(Ssn) char(9)' at line 1
+mysql> alter table works_on Essn Essn primary key,foreign key(Essn) references employee(Ssn) char(9);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Essn Essn primary key,foreign key(Essn) references employee(Ssn) char(9)' at line 1
+mysql> quit

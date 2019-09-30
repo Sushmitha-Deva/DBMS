@@ -1,0 +1,239 @@
+1
+select * from(SELECT *,@rownumber :=@rownumber+1 m from employee join(select @rownumber :=0)r)t where m%2=1;
+
+2
+select * from(SELECT *,@rownumber :=@rownumber+1 m from employee join(select @rownumber :=0)r)t where m%2=0;
+
+3.
+select year(Mgr_start_date) from department;
+
+4
+select year(subdate(Mgr_start_date,"%y/%m/%d")) from department;
+or
+select substring(Bdate,1,4) from employee;
+select year(str_to_date(Bdate,%Y-%m-%d)) from employee;
+
+5
+select substring(fname,1,3) from employee;
+
+6
+select IF(str_to_date('1998/02/01','%Y/%m/%d')='1998/02/01','Yes','No') as ANS;
+
+7
+select ssn from employee group by ssn having count(*)>1;
+
+8
+create table dup(sid int, eid int);
+insert into dup values(212,213),(256,563),(212,213);
+delete from dup where (sid,eid) in (select sid,eid from(select * from dup) d group by sid,eid having count(*)>1);
+
+
+
+9
+  create table dup2 as select * from dup;
+  create table dup3 as (select distinct * from dup2);
+  delete from dup2;
+
+
+10
+select Salary from employee order by Salary desc limit 2,1;
+
+11
+select Salary from employee order by Salary desc limit 0,3;
+
+12
+ select table_schema as "Database",sum(data_length+index_length)/1024/1024 as "size in MB" from information_schema.tables where table_schema='COMPANY' group by table_schema;
+
+13
+select year(Mgr_start_date),month(Mgr_start_date),day(Mgr_start_date) from department;
+
+14
+select current_time();   
+
+15
+select date('2018-01-02 12:54:51') as date;
+
+16
+select adddate('1999-09-21',interval 24 hour) as "next_day's_date";
+
+17
+select position('o' in Fname) from employee where Fname='John';
+
+18
+select LTRIM(Fname) from employee;
+
+19
+select Fname,length(Fname) from employee;
+
+20
+select replace(Fname,'o','*') from employee;
+
+21
+select concat(Fname,'_',Lname) from employee;
+
+22
+select concat(Fname,'_',Lname) from employee where Lname like '%sh%';
+
+23
+ select Sex,count(*) from employee where Bdate between '1937-11-10' and '1972-12-31' group by Sex;
+24
+ select User,authentication_string from mysql.user where concat(User,'@',Host)=user();
+
+25
+select Fname from employee where  (length(Fname)-length(replace(Fname,' ',''))+1)>=2;
+
+26
+select Fname from employee where Fname like '%n' and length(Fname)=4;
+select Fname from employee where Fname like '___n';
+
+27
+ select Fname from employee where month(Bdate)='01';
+
+28
+select now();
+
+29
+select * from (select * from employee where Dno=5) s natural join (select * from employee) e;
+
+
+30
+select Fname from employee where Lname like '%a%';
+
+31
+select replace(Fname,'a',' ') from employee;
+
+32
+select Fname from employee where year(Bdate)='1972' and month(Bdate)='12';
+
+33
+select left(Fname,5) from employee;
+
+34
+select lower(Fname) from employee;
+select upper(Fname) from employee;
+
+35
+select * from employee limit 3;
+
+36
+select * from employee limit 3 offset 5;
+
+37
+select * from employee where ASCII(lower(Fname))=ASCII(upper(Fname));
+
+
+
+39
+create table emptem as(select * from employee where 1=2);
+
+40
+(select * from employee) union (select * from emptem);
+
+41
+select * from employee e join emptem p where e.Ssn=p.Ssn;
+
+
+42
+select * from employee e left outer join emptem p on p.Ssn=e.Ssn where p.Ssn=NULL;
+
+
+43
+select database();
+
+44
+ select user();
+45
+select version();
+
+46
+select 5 | 2;
+select 5 & 2;
+select 5^2;
+
+47
+select * from employee where Fname in ('John','Deva');
+
+alter table EMPLOYEE add FULLTEXT(Fname,Lname,Address);
+select * from employee where MATCH(Fname,Lname,Address) against ("mysql oracle" IN BOOLEAN MODE);
+	
+
+48
+select datediff('1919-2-15','1919-2-9');
+
+49
+select adddate(curdate(),interval 1 day) as "next_day's_date";
+
+50
+select adddate(curdate(),interval 10/4 hour_minute);
+
+51
+select floor(5.3);
+select ceil(5.3);
+select power(5,4);
+select log(2,4);
+select mod(2,4);
+select round(4.35,1);
+SELECT TRUNCATE(242.465,-2);
+
+52
+select * from employee where Fname REGEXP "^a";
+select * from employee where Fname REGEXP "^a.*$";
+select * from employee where Fname REGEXP "a$";
+select * from employee where Fname REGEXP "e*";
+select * from employee where Fname REGEXP "de|abc";
+
+53
+select if('deva'='Dev','yes','no') as ans;
+
+54
+ DELIMITER //
+   CREATE FUNCTION Grade(mark int)
+   returns varchar(20)
+   BEGIN
+   DECLARE grade varchar(20);
+   IF mark>=90 and mark<=100 then set grade='S';
+   ELSEIF mark>=80 and mark<90 then set grade='A';
+   ELSEIF mark>=70 and mark<80 then set grade='B';
+   ELSEIF mark>=60 and mark<70 then set grade='C';
+   ELSEIF mark>=50 and mark<60 then set grade='D';
+   ELSEIF mark>=40 and mark<50 then set grade='E';
+   ELSEIF mark>=0 and mark<40 then set grade='F';
+   ELSE set grade='INVALID';
+   END IF;
+   RETURN grade;
+   END; //
+   DELIMITER ;
+
+55
+select IFNULL(10*NULL,4+5);
+
+56
+ create user 'user'@'localhost' identified by'123';
+  or
+ grant all privileges on *.* to 'user'@'localhost';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

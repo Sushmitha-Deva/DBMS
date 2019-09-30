@@ -1,0 +1,82 @@
+1
+ select title,start_hr,start_min,end_hr,end_min from section s,course c,time_slot t where s.course_id=c.course_id and s.time_slot_id=t.time_slot_id; 
+
+2
+select i_ID,count(*) from advisor a,instructor i,student s where s.ID=a.s_ID and i.ID=a.i_ID and i.dept_name=s.dept_name group by i_ID;
+
+3
+select s_ID,c.course_id,dept_name,year from course c,takes t where t.course_id=c.course_id; 	
+
+4
+ select capacity from classroom where (building,room_number) IN(select building,room_number from section  where course_id=(select course_id from takes group by course_id having count(ID)>=ALL( select count(ID) from takes group by course_id)));
+
+4
+ select capacity from classroom c,section s where c.building=s.building and c.room_number=s.room_number and course_id=( select course_id from takes group by course_id having count(ID)>=all(select count(ID) from takes group by course_id));
+
+5
+select distinct building,room_number from section where time_slot_id not in(select time_slot_id from time_slot where start_hr=9 and start_min=0 and day='M');
+
+6
+select distinct name,course_id from teaches ,instructor  where ID= (select ID from instructor where salary>=ALL(select salary from instructor));
+
+7
+select distinct i.ID,d.dept_name from instructor i,department d where i.dept_name=d.dept_name and i.salary<=ALL(select salary from instructor where dept_name=d.dept_name);
+
+7
+ select ID,name,dept_name from instructor where (dept_name,salary) in( select dept_name,min(salary) from instructor group by dept_name);
+
+
+8
+> select dept_name,((budget*1.1)-(budget)) as expenditure from department where ((budget*1.1)-(budget))=(select max(((budget*1.1)-(budget))) from department);
+
+9
+select name from student where ID in(select T.ID from takes T,course C where C.course_id=T.course_id and T.semester='Fall' and T.year=2009 group by ID having sum(credits)>=ALL(select sum(credits) from takes t,course c where c.course_id=t.course_id and semester='Fall' and year=2009 group by ID));
+
+10
+ select course_id ,sec_id,ID,coalesce(name,'-') from (section natural left outer join teaches) natural left outer join instructor where semester='Spring' and year='2010';
+
+11
+select t.ID,s.name,t.grade from takes t,student s where s.ID=t.ID and t.year=(select year from takes group by year having count(ID)<=ALL(select count(ID) from takes group by year)) order by s.name ;
+
+12
+select i.name,t.course_id from instructor i,teaches t where i.ID=t.ID and dept_name='Comp. Sci.';
+
+13
+select c.title from course c where c.course_id in(select course_id from teaches where course_id=c.course_id and year=2009 and (semester='Fall' or semester='Spring') );
+
+14
+ select i.name from instructor i,department d where i.dept_name=d.dept_name and building='Taylor';
+
+15
+ select year,name,grade,course_id from student s,takes t where t.ID=s.ID and dept_name='Comp. Sci.' order by year,grade;
+
+16
+select c.title,c.course_id from course c,teaches t where c.course_id=t.course_id and c.course_id in(select course_id from teaches where year=2009 and semester='Fall') and c.course_id not in(select course_id from teaches where year=2010 and semester='Spring');
+
+17
+select t.ID from takes t,teaches s where t.course_id=s.course_id and s.ID=(select ID from instructor where name='Einstein');
+
+18
+ select distinct s.name from student s,takes t,course c where s.ID=t.ID and t.course_id=c.course_id and c.dept_name='Comp. Sci.';
+
+19
+select dept_name,max(salary) from instructor group by dept_name;
+
+20
+select i.ID,i.name,count(t.course_id) as number from instructor i left outer join teaches t on t.ID=i.ID group by i.ID,i.name;
+
+21
+select i.ID,i.name,count(t.course_id) as Number from teaches t,instructor i where  t.ID=i.ID group by i.ID;
+
+22
+select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and T.ID=t.ID)=(select count(*) from course where dept_name='Biology');
+		
+23
+select s.name,t.semester,t.year from student s,takes t where s.tot_cred>=80 and s.ID=t.ID order by name;
+
+24
+select course_id,ID from teaches where ID in(select ID from teaches group by ID having count(distinct course_id) >=all(select count(distinct t.course_id) from teaches t group by t.ID));
+
+25
+select building,room_number,capacity from classroom where capacity=(select max(capacity) from classroom);
+

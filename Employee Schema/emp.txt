@@ -1,0 +1,3005 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| INSTITUTE          |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.05 sec)
+
+mysql> create database COMPANY;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| COMPANY            |
+| INSTITUTE          |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use COMPANY;
+Database changed
+mysql> create table employee;
+ERROR 1113 (42000): A table must have at least 1 column
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| COMPANY            |
+| INSTITUTE          |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use COMPANY;
+Database changed
+mysql> create table employee(Fname varchar(15) NOT NULL,Minit char,Lname varchar(15) NOT NULL,Ssn char(9) primary key,Bdate date,Address varchar(30),Sex char, Salary decimal(10,2),Super_ssn char(9),Dno int NOT NULL);
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> describe employee;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| Fname     | varchar(15)   | NO   |     | NULL    |       |
+| Minit     | char(1)       | YES  |     | NULL    |       |
+| Lname     | varchar(15)   | NO   |     | NULL    |       |
+| Ssn       | char(9)       | NO   | PRI | NULL    |       |
+| Bdate     | date          | YES  |     | NULL    |       |
+| Address   | varchar(30)   | YES  |     | NULL    |       |
+| Sex       | char(1)       | YES  |     | NULL    |       |
+| Salary    | decimal(10,2) | YES  |     | NULL    |       |
+| Super_ssn | char(9)       | YES  |     | NULL    |       |
+| Dno       | int(11)       | NO   |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+10 rows in set (0.01 sec)
+
+mysql> insert into employee values('Deva','D','Sushmitha',755016802,'09-01-1999','hno 2-6-1156,ngo's colony','F',45000.25 );
+    '> ^C
+mysql> alter table employee drop Super_ssn char(9);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'char(9)' at line 1
+mysql> alter table employee drop Super_ssn;
+Query OK, 0 rows affected (0.49 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee drop Dno;
+Query OK, 0 rows affected (0.58 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe employee;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| Fname   | varchar(15)   | NO   |     | NULL    |       |
+| Minit   | char(1)       | YES  |     | NULL    |       |
+| Lname   | varchar(15)   | NO   |     | NULL    |       |
+| Ssn     | char(9)       | NO   | PRI | NULL    |       |
+| Bdate   | date          | YES  |     | NULL    |       |
+| Address | varchar(30)   | YES  |     | NULL    |       |
+| Sex     | char(1)       | YES  |     | NULL    |       |
+| Salary  | decimal(10,2) | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> create table department(Dname varchar(15) NOT NULL,Dnumber int primary key,Mgr_ssn char(9) NOT NULL,Mgr_start date date);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'date)' at line 1
+mysql> create table department(Dname varchar(15) NOT NULL,Dnumber int primary key,Mgr_ssn char(9) NOT NULL,Mgr_start_date date);
+Query OK, 0 rows affected (0.29 sec)
+
+mysql> describe department;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Dname          | varchar(15) | NO   |     | NULL    |       |
+| Dnumber        | int(11)     | NO   | PRI | NULL    |       |
+| Mgr_ssn        | char(9)     | NO   |     | NULL    |       |
+| Mgr_start_date | date        | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> create table dept_locations(Dnumber int primary key, Dlocation varchar(15) primary key);
+ERROR 1068 (42000): Multiple primary key defined
+mysql> create table dept_locations(Dnumber int, Dlocation varchar(15) primary key);
+Query OK, 0 rows affected (0.31 sec)
+
+mysql> create table project(pname varchar(15) unique,pnumber int primary key,plocation varchar(15),Dnum int NOT NULL);
+Query OK, 0 rows affected (0.28 sec)
+
+mysql> drop table project;
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> create table project(pname varchar(15) NOT NULL unique,pnumber int primary key,plocation varchar(15),Dnum int NOT NULL);
+Query OK, 0 rows affected (0.60 sec)
+
+mysql> quit
+mysql> use company;
+ERROR 1049 (42000): Unknown database 'company'
+mysql> use COMPANY;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_COMPANY |
++-------------------+
+| department        |
+| dependent         |
+| dept_locations    |
+| employee          |
+| project           |
+| works_on          |
++-------------------+
+6 rows in set (0.00 sec)
+
+mysql> desc employee;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| Fname   | varchar(15)   | NO   |     | NULL    |       |
+| Minit   | char(1)       | YES  |     | NULL    |       |
+| Lname   | varchar(15)   | NO   |     | NULL    |       |
+| Ssn     | char(9)       | NO   | PRI | NULL    |       |
+| Bdate   | date          | YES  |     | NULL    |       |
+| Address | varchar(30)   | YES  |     | NULL    |       |
+| Sex     | char(1)       | YES  |     | NULL    |       |
+| Salary  | decimal(10,2) | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select * from employee;
+Empty set (0.00 sec)
+
+mysql> insert into employee values('James','E','Bong',888665555,1937-11-10,'450 stone,Houseton,TX','M',55000);
+ERROR 1292 (22007): Incorrect date value: '1916' for column 'Bdate' at row 1
+mysql> insert into employee values('James','E','Bong',888665555,'1937-11-10','450 stone,Houseton,TX','M',55000);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into employee values('Ahmed','V','Jabbar',987987987,1937-03-10,'980 Dallas,Houseton,TX','M',25000);
+ERROR 1292 (22007): Incorrect date value: '1924' for column 'Bdate' at row 1
+mysql> insert into employee values('Ahmed','V','Jabbar',987987987,'1937-03-10','980 Dallas,Houseton,TX','M',25000);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into employee values('John','B','Smith',123456789,'1965-03-09','731 Fondren,Houseton,TX','M',30000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into employee values('Franklin','T','Wong',333445555,'1955-12-08','678 Voss,Houseton,TX','M',40000);
+Query OK, 1 row affected (0.31 sec)
+
+mysql> insert into employee values('Joyce','A','English',453453453,'1972-12-31','6448 Rice,Houseton,TX','M',25000);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into employee values('Alicia','J','Zelaya',999887777,'1968-01-19','897 Castle,Houseton,TX','F',25000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into employee values('Arun','K','Narayanan',666884444,'1962-01-15','112 Fire oak,Houseton,TX','M',38000);
+Query OK, 1 row affected (0.40 sec)
+
+mysql> insert into employee values('Jennifer','S','Wallace',987654321,'1941-06-20','182 Berry,Houseton,TX','F',43000);
+Query OK, 1 row affected (0.31 sec)
+
+mysql> select * from employee;
++----------+-------+-----------+-----------+------------+--------------------------+------+----------+
+| Fname    | Minit | Lname     | Ssn       | Bdate      | Address                  | Sex  | Salary   |
++----------+-------+-----------+-----------+------------+--------------------------+------+----------+
+| John     | B     | Smith     | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX  | M    | 30000.00 |
+| Franklin | T     | Wong      | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX     | M    | 40000.00 |
+| Joyce    | A     | English   | 453453453 | 1972-12-31 | 6448 Rice,Houseton,TX    | M    | 25000.00 |
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX | M    | 38000.00 |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX    | M    | 55000.00 |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX    | F    | 43000.00 |
+| Ahmed    | V     | Jabbar    | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX   | M    | 25000.00 |
+| Alicia   | J     | Zelaya    | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX   | F    | 25000.00 |
++----------+-------+-----------+-----------+------------+--------------------------+------+----------+
+8 rows in set (0.00 sec)
+
+mysql> insert into employee values('Deva','D','Sushmitha',755016802,'1975-01-09','197 Berry,Houseton,TX','F',75000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into employee values('Cecilia','F','Kolonsky',345678912,'1960-04-05','1978 Windy lane,Houseton,TX','F',43000);
+Query OK, 1 row affected (0.31 sec)
+
+mysql> desc department;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Dname          | varchar(15) | NO   |     | NULL    |       |
+| Dnumber        | int(11)     | NO   | PRI | NULL    |       |
+| Mgr_ssn        | char(9)     | NO   |     | NULL    |       |
+| Mgr_start_date | date        | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table department modify Dname varchar(15) unique;
+Query OK, 0 rows affected (0.79 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc department;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Dname          | varchar(15) | YES  | UNI | NULL    |       |
+| Dnumber        | int(11)     | NO   | PRI | NULL    |       |
+| Mgr_ssn        | char(9)     | NO   |     | NULL    |       |
+| Mgr_start_date | date        | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table department add constraint foreign key(Mgr_Ssn) references employee(Ssn);
+Query OK, 0 rows affected (1.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc department;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Dname          | varchar(15) | YES  | UNI | NULL    |       |
+| Dnumber        | int(11)     | NO   | PRI | NULL    |       |
+| Mgr_ssn        | char(9)     | NO   | MUL | NULL    |       |
+| Mgr_start_date | date        | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into department values('Research',6,333445555,'1980-05-22');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into department values('Administration',5,987654321,'1976-03-12');
+Query OK, 1 row affected (0.33 sec)
+
+mysql> insert into department values('Headquarters',2,888665555,'1989-02-19');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> alter table employee add Super_Ssn char(9);
+Query OK, 0 rows affected (0.93 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee add constraint foreign key(Super_Ssn) references employee(Ssn);
+Query OK, 10 rows affected (0.79 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> describe employee;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| Fname     | varchar(15)   | NO   |     | NULL    |       |
+| Minit     | char(1)       | YES  |     | NULL    |       |
+| Lname     | varchar(15)   | NO   |     | NULL    |       |
+| Ssn       | char(9)       | NO   | PRI | NULL    |       |
+| Bdate     | date          | YES  |     | NULL    |       |
+| Address   | varchar(30)   | YES  |     | NULL    |       |
+| Sex       | char(1)       | YES  |     | NULL    |       |
+| Salary    | decimal(10,2) | YES  |     | NULL    |       |
+| Super_Ssn | char(9)       | YES  | MUL | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+9 rows in set (0.01 sec)
+
+mysql> alter table employee add Dno int NOT NULL;
+Query OK, 0 rows affected (0.63 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee add constraint foreign key(Dno) references department(Dnumber);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`COMPANY`.`#sql-411_5`, CONSTRAINT `#sql-411_5_ibfk_2` FOREIGN KEY (`Dno`) REFERENCES `department` (`Dnumber`))
+mysql> alter table department modify Dname varchar(15) unique;
+Query OK, 0 rows affected, 1 warning (0.57 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> alter table employee add constraint foreign key(Dno) references department(Dnumber);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`COMPANY`.`#sql-411_5`, CONSTRAINT `#sql-411_5_ibfk_2` FOREIGN KEY (`Dno`) REFERENCES `department` (`Dnumber`))
+mysql> alter table employee add constraint foreign key(Dno) reference department(Dnumber);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reference department(Dnumber)' at line 1
+mysql> alter table employee add constraint foreign key(Dno) references department(Dnumber);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`COMPANY`.`#sql-411_5`, CONSTRAINT `#sql-411_5_ibfk_2` FOREIGN KEY (`Dno`) REFERENCES `department` (`Dnumber`))
+mysql> desc department;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Dname          | varchar(15) | YES  | UNI | NULL    |       |
+| Dnumber        | int(11)     | NO   | PRI | NULL    |       |
+| Mgr_ssn        | char(9)     | NO   | MUL | NULL    |       |
+| Mgr_start_date | date        | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select *from department;
++----------------+---------+-----------+----------------+
+| Dname          | Dnumber | Mgr_ssn   | Mgr_start_date |
++----------------+---------+-----------+----------------+
+| Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Administration |       5 | 987654321 | 1976-03-12     |
+| Research       |       6 | 333445555 | 1980-05-22     |
++----------------+---------+-----------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> desc employee;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| Fname     | varchar(15)   | NO   |     | NULL    |       |
+| Minit     | char(1)       | YES  |     | NULL    |       |
+| Lname     | varchar(15)   | NO   |     | NULL    |       |
+| Ssn       | char(9)       | NO   | PRI | NULL    |       |
+| Bdate     | date          | YES  |     | NULL    |       |
+| Address   | varchar(30)   | YES  |     | NULL    |       |
+| Sex       | char(1)       | YES  |     | NULL    |       |
+| Salary    | decimal(10,2) | YES  |     | NULL    |       |
+| Super_Ssn | char(9)       | YES  | MUL | NULL    |       |
+| Dno       | int(11)       | NO   |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+mysql> alter table employee drop Dno;
+Query OK, 0 rows affected (0.68 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| Fname     | varchar(15)   | NO   |     | NULL    |       |
+| Minit     | char(1)       | YES  |     | NULL    |       |
+| Lname     | varchar(15)   | NO   |     | NULL    |       |
+| Ssn       | char(9)       | NO   | PRI | NULL    |       |
+| Bdate     | date          | YES  |     | NULL    |       |
+| Address   | varchar(30)   | YES  |     | NULL    |       |
+| Sex       | char(1)       | YES  |     | NULL    |       |
+| Salary    | decimal(10,2) | YES  |     | NULL    |       |
+| Super_Ssn | char(9)       | YES  | MUL | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql> alter table employee add constraint foreign key(Dno) references department(Dnumber);
+ERROR 1072 (42000): Key column 'Dno' doesn't exist in table
+mysql> alter table employee add Dno int NOT NULL;
+Query OK, 0 rows affected (0.81 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| Fname     | varchar(15)   | NO   |     | NULL    |       |
+| Minit     | char(1)       | YES  |     | NULL    |       |
+| Lname     | varchar(15)   | NO   |     | NULL    |       |
+| Ssn       | char(9)       | NO   | PRI | NULL    |       |
+| Bdate     | date          | YES  |     | NULL    |       |
+| Address   | varchar(30)   | YES  |     | NULL    |       |
+| Sex       | char(1)       | YES  |     | NULL    |       |
+| Salary    | decimal(10,2) | YES  |     | NULL    |       |
+| Super_Ssn | char(9)       | YES  | MUL | NULL    |       |
+| Dno       | int(11)       | NO   |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+mysql> alter table employee add constraint foreign key(Dno) references department(Dnumber);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`COMPANY`.`#sql-411_5`, CONSTRAINT `#sql-411_5_ibfk_2` FOREIGN KEY (`Dno`) REFERENCES `department` (`Dnumber`))
+mysql> alter table employee add constraint foreign key(Dno) references department(Dnumber);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`COMPANY`.`#sql-411_5`, CONSTRAINT `#sql-411_5_ibfk_2` FOREIGN KEY (`Dno`) REFERENCES `department` (`Dnumber`))
+mysql> quit
+mysql> update employee set Dno=6 where ssn=123456789;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| Fname    | Minit | Lname     | Ssn       | Bdate      | Address                     | Sex  | Salary   | Super_Ssn | Dno |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| John     | B     | Smith     | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX     | M    | 30000.00 | NULL      |   6 |
+| Franklin | T     | Wong      | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX        | M    | 40000.00 | NULL      |   0 |
+| Cecilia  | F     | Kolonsky  | 345678912 | 1960-04-05 | 1978 Windy lane,Houseton,TX | F    | 43000.00 | NULL      |   0 |
+| Joyce    | A     | English   | 453453453 | 1972-12-31 | 6448 Rice,Houseton,TX       | M    | 25000.00 | NULL      |   0 |
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX    | M    | 38000.00 | NULL      |   0 |
+| Deva     | D     | Sushmitha | 755016802 | 1975-01-09 | 197 Berry,Houseton,TX       | F    | 75000.00 | NULL      |   0 |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX       | M    | 55000.00 | NULL      |   0 |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX       | F    | 43000.00 | NULL      |   0 |
+| Ahmed    | V     | Jabbar    | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX      | M    | 25000.00 | NULL      |   0 |
+| Alicia   | J     | Zelaya    | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX      | F    | 25000.00 | NULL      |   0 |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+10 rows in set (0.00 sec)
+
+mysql> update employee set Dno=6 where ssn=333445555;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Dno=6 where ssn=999887777;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Dno=5 where ssn=987654321;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Dno=5 where ssn=666884444;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Dno=2 where ssn=453453453;
+Query OK, 1 row affected (0.31 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Dno=6 where ssn=987987987;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Dno=5 where ssn=888665555;
+Query OK, 1 row affected (0.31 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Dno=2 where ssn=755016802;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Dno=2 where ssn=345678912;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Super_Ssn=333445555 where ssn=345678912;
+Query OK, 1 row affected (0.33 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Super_Ssn=NULL where ssn=755016802;
+Query OK, 0 rows affected (0.05 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> update employee set Super_Ssn=333445555 where ssn=123456789;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Super_Ssn=888665555 where ssn=333445555;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Super_Ssn=987654321 where ssn=999887777;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Super_Ssn=888665555 where ssn=987654321;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Super_Ssn=333445555 where ssn=666884444;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Super_Ssn=333445555 where ssn=453453453;
+Query OK, 1 row affected (0.33 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Super_Ssn=987654321 where ssn=987987987;
+Query OK, 1 row affected (0.31 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set Super_Ssn=NULL where ssn=888665555;
+Query OK, 0 rows affected (0.04 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> desc employee;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| Fname     | varchar(15)   | NO   |     | NULL    |       |
+| Minit     | char(1)       | YES  |     | NULL    |       |
+| Lname     | varchar(15)   | NO   |     | NULL    |       |
+| Ssn       | char(9)       | NO   | PRI | NULL    |       |
+| Bdate     | date          | YES  |     | NULL    |       |
+| Address   | varchar(30)   | YES  |     | NULL    |       |
+| Sex       | char(1)       | YES  |     | NULL    |       |
+| Salary    | decimal(10,2) | YES  |     | NULL    |       |
+| Super_Ssn | char(9)       | YES  | MUL | NULL    |       |
+| Dno       | int(11)       | NO   |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+mysql> select * from employee;
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| Fname    | Minit | Lname     | Ssn       | Bdate      | Address                     | Sex  | Salary   | Super_Ssn | Dno |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| John     | B     | Smith     | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX     | M    | 30000.00 | 333445555 |   6 |
+| Franklin | T     | Wong      | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX        | M    | 40000.00 | 888665555 |   6 |
+| Cecilia  | F     | Kolonsky  | 345678912 | 1960-04-05 | 1978 Windy lane,Houseton,TX | F    | 43000.00 | 333445555 |   2 |
+| Joyce    | A     | English   | 453453453 | 1972-12-31 | 6448 Rice,Houseton,TX       | M    | 25000.00 | 333445555 |   2 |
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX    | M    | 38000.00 | 333445555 |   5 |
+| Deva     | D     | Sushmitha | 755016802 | 1975-01-09 | 197 Berry,Houseton,TX       | F    | 75000.00 | NULL      |   2 |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX       | M    | 55000.00 | NULL      |   5 |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX       | F    | 43000.00 | 888665555 |   5 |
+| Ahmed    | V     | Jabbar    | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX      | M    | 25000.00 | 987654321 |   6 |
+| Alicia   | J     | Zelaya    | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX      | F    | 25000.00 | 987654321 |   6 |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+10 rows in set (0.01 sec)
+
+mysql> alter table atable employee add constraint foreign key(Dno) references department(Dnumber);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employee add constraint foreign key(Dno) references department(Dnumber)' at line 1
+mysql> alter table employee add constraint foreign key(Dno) references department(Dnumber);
+Query OK, 10 rows affected (1.03 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| Fname     | varchar(15)   | NO   |     | NULL    |       |
+| Minit     | char(1)       | YES  |     | NULL    |       |
+| Lname     | varchar(15)   | NO   |     | NULL    |       |
+| Ssn       | char(9)       | NO   | PRI | NULL    |       |
+| Bdate     | date          | YES  |     | NULL    |       |
+| Address   | varchar(30)   | YES  |     | NULL    |       |
+| Sex       | char(1)       | YES  |     | NULL    |       |
+| Salary    | decimal(10,2) | YES  |     | NULL    |       |
+| Super_Ssn | char(9)       | YES  | MUL | NULL    |       |
+| Dno       | int(11)       | NO   | MUL | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+mysql> desc dept_locations;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Dnumber   | int(11)     | YES  |     | NULL    |       |
+| Dlocation | varchar(15) | NO   | PRI | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> drop table dept_locations;
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> create table dept_locations(Dnumber int NOT NULL,Dlocation varchar(15) NOT NULL,primary key(Dnumber,Dlocation));
+Query OK, 0 rows affected (0.53 sec)
+
+mysql> insert into dept_locations values(1,'Houston');
+Query OK, 1 row affected (0.32 sec)
+
+mysql> insert into dept_locations values(5,'Stafford');
+Query OK, 1 row affected (0.33 sec)
+
+mysql> insert into dept_locations values(6,'Bellaine');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into dept_locations values(6,'Sugarland');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into dept_locations values(2,'Houston');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from dept_locations;
++---------+-----------+
+| Dnumber | Dlocation |
++---------+-----------+
+|       1 | Houston   |
+|       2 | Houston   |
+|       5 | Stafford  |
+|       6 | Bellaine  |
+|       6 | Sugarland |
++---------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> alter table dept_locations add constraint foreign key(Dnumber) references department(Dnumber);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`COMPANY`.`#sql-411_7`, CONSTRAINT `#sql-411_7_ibfk_1` FOREIGN KEY (`Dnumber`) REFERENCES `department` (`Dnumber`))
+mysql> delete from dept_locations where Dnumber=1;
+Query OK, 1 row affected (0.31 sec)
+
+mysql> alter table dept_locations add constraint foreign key(Dnumber) references department(Dnumber);
+Query OK, 4 rows affected (0.80 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc project;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| pname     | varchar(15) | NO   | UNI | NULL    |       |
+| pnumber   | int(11)     | NO   | PRI | NULL    |       |
+| plocation | varchar(15) | YES  |     | NULL    |       |
+| Dnum      | int(11)     | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into project values('Product X',1,'Bellaire',6);
+Query OK, 1 row affected (0.33 sec)
+
+mysql> insert into project values('Product Y',2,'Sugarland',6);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into project values('Product Z',20,'Houston',2);
+Query OK, 1 row affected (0.32 sec)
+
+mysql> insert into project values('Computerization',24,'Stafford',5);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from project;
++-----------------+---------+-----------+------+
+| pname           | pnumber | plocation | Dnum |
++-----------------+---------+-----------+------+
+| Product X       |       1 | Bellaire  |    6 |
+| Product Y       |       2 | Sugarland |    6 |
+| Product Z       |      20 | Houston   |    2 |
+| Computerization |      24 | Stafford  |    5 |
++-----------------+---------+-----------+------+
+4 rows in set (0.00 sec)
+
+mysql> alter table dept_locations add constraint foreign key(Dnum) references department(Dnumber);
+ERROR 1072 (42000): Key column 'Dnum' doesn't exist in table
+mysql> alter table project add constraint foreign key(Dnum) references department(Dnumber);
+Query OK, 4 rows affected (0.86 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc project;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| pname     | varchar(15) | NO   | UNI | NULL    |       |
+| pnumber   | int(11)     | NO   | PRI | NULL    |       |
+| plocation | varchar(15) | YES  |     | NULL    |       |
+| Dnum      | int(11)     | NO   | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc works_on;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| Essn  | char(9)      | NO   | PRI | NULL    |       |
+| pno   | int(11)      | NO   |     | NULL    |       |
+| hours | decimal(3,1) | NO   |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into works_on values(123456789,2,33.5);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into works_on values(123456789,5,7.5);
+ERROR 1062 (23000): Duplicate entry '123456789' for key 'PRIMARY'
+mysql> insert into works_on values(66688444,5,7.5);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into works_on values(453453453,6,20);
+Query OK, 1 row affected (0.52 sec)
+
+mysql> insert into works_on values(333445555,6,4.5);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into works_on values(99988777,5,6.3);
+Query OK, 1 row affected (0.31 sec)
+
+mysql> insert into works_on values(987987987,2,3);
+Query OK, 1 row affected (0.32 sec)
+
+mysql> delete from works_on;
+Query OK, 6 rows affected (0.06 sec)
+
+mysql> insert into works_on values(987987987,2,3);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into works_on values(99988777,1,6.3);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into works_on values(333445555,20,4.5);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into works_on values(453453453,24,20);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into works_on values(66688444,20,7.5);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into works_on values(123456789,24,7.5);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> alter table works_on add constraint foreign key(Essn) references employee(ssn);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`COMPANY`.`#sql-411_7`, CONSTRAINT `#sql-411_7_ibfk_1` FOREIGN KEY (`Essn`) REFERENCES `employee` (`Ssn`))
+mysql> drop table works_on;
+Query OK, 0 rows affected (0.41 sec)
+
+mysql> create table works_on(Essn char(9) NOT NULL,Pno int NOT NULL,Hours decimal(2,1),primary key(Essn,Pno));
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> insert into works_on values(123456789,24,7.5);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into works_on values(66688444,20,7.5);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into works_on values(453453453,24,20);
+ERROR 1264 (22003): Out of range value for column 'Hours' at row 1
+mysql> insert into works_on values(453453453,24,2.5);
+Query OK, 1 row affected (0.31 sec)
+
+mysql> insert into works_on values(333445555,20,4.5);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into works_on values(99988777,1,6.3);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into works_on values(987987987,2,3);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> alter table works_on add constraint foreign key(Essn) references employee(Ssn);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`COMPANY`.`#sql-411_7`, CONSTRAINT `#sql-411_7_ibfk_1` FOREIGN KEY (`Essn`) REFERENCES `employee` (`Ssn`))
+mysql> alter table works_on modify Hours decimal(3,1) NOT NULL;
+Query OK, 6 rows affected (1.83 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> desc works_on;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| Essn  | char(9)      | NO   | PRI | NULL    |       |
+| Pno   | int(11)      | NO   | PRI | NULL    |       |
+| Hours | decimal(3,1) | NO   |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from works_on;
++-----------+-----+-------+
+| Essn      | Pno | Hours |
++-----------+-----+-------+
+| 123456789 |  24 |   7.5 |
+| 333445555 |  20 |   4.5 |
+| 453453453 |  24 |   2.5 |
+| 66688444  |  20 |   7.5 |
+| 987987987 |   2 |   3.0 |
+| 99988777  |   1 |   6.3 |
++-----------+-----+-------+
+6 rows in set (0.00 sec)
+
+mysql> update works_on set Essn=666884444 where Essn=66688444; 
+Query OK, 1 row affected (0.32 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update works_on set Essn=999887777 where Essn=99988777;
+Query OK, 1 row affected (0.32 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> alter table works_on add constraint foreign key(Essn) references employee(Ssn);
+Query OK, 6 rows affected (0.71 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> desc dependent;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Essn           | char(9)     | NO   | PRI | NULL    |       |
+| Dependent_name | varchar(15) | NO   |     | NULL    |       |
+| Sex            | char(1)     | YES  |     | NULL    |       |
+| Bdate          | date        | YES  |     | NULL    |       |
+| Relationship   | varchar(8)  | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table dependent add constraint primary key(Essn,Dependent_name);
+ERROR 1068 (42000): Multiple primary key defined
+mysql> alter table dependent modify Essn char(9) NOT NULL;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dependent;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Essn           | char(9)     | NO   | PRI | NULL    |       |
+| Dependent_name | varchar(15) | NO   |     | NULL    |       |
+| Sex            | char(1)     | YES  |     | NULL    |       |
+| Bdate          | date        | YES  |     | NULL    |       |
+| Relationship   | varchar(8)  | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table dependent drop Essn;
+ERROR 1828 (HY000): Cannot drop column 'Essn': needed in a foreign key constraint 'dependent_ibfk_1'
+mysql> drop table dependent;
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> create table dependent(Essn char(9),Dependent_name varchar(15),Sex char(1),Bdate date,Relationship varchar(8),primary key(Essn,Dependent_name));
+Query OK, 0 rows affected (0.29 sec)
+
+mysql> alter table dependent modify Essn char(9) NOT NULL;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table dependent modify Dependent_name varchar(15) NOT NULL;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dependent;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Essn           | char(9)     | NO   | PRI | NULL    |       |
+| Dependent_name | varchar(15) | NO   | PRI | NULL    |       |
+| Sex            | char(1)     | YES  |     | NULL    |       |
+| Bdate          | date        | YES  |     | NULL    |       |
+| Relationship   | varchar(8)  | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into dependent values(333445555,'Alice','F','1986-04-05','Daughter');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into dependent values(987654321,'Theodone','M','1983-03-25','Son');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> insert into dependent values(123456789,'Joy','F','1958-07-26','Spouse');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into dependent values(345678912,'Abner','M','1958-08-12','Spouse');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> alter table dependent add constraint foreign key(Essn) references employee(Ssn);
+Query OK, 4 rows affected (0.69 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc dependent;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Essn           | char(9)     | NO   | PRI | NULL    |       |
+| Dependent_name | varchar(15) | NO   | PRI | NULL    |       |
+| Sex            | char(1)     | YES  |     | NULL    |       |
+| Bdate          | date        | YES  |     | NULL    |       |
+| Relationship   | varchar(8)  | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from dependent;
++-----------+----------------+------+------------+--------------+
+| Essn      | Dependent_name | Sex  | Bdate      | Relationship |
++-----------+----------------+------+------------+--------------+
+| 123456789 | Joy            | F    | 1958-07-26 | Spouse       |
+| 333445555 | Alice          | F    | 1986-04-05 | Daughter     |
+| 345678912 | Abner          | M    | 1958-08-12 | Spouse       |
+| 987654321 | Theodone       | M    | 1983-03-25 | Son          |
++-----------+----------------+------+------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> alter table dependent add constraint foreign key(Essn) references employee(Ssn);
+Query OK, 4 rows affected (1.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc dependent;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Essn           | char(9)     | NO   | PRI | NULL    |       |
+| Dependent_name | varchar(15) | NO   | PRI | NULL    |       |
+| Sex            | char(1)     | YES  |     | NULL    |       |
+| Bdate          | date        | YES  |     | NULL    |       |
+| Relationship   | varchar(8)  | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> quit
+mysql> select Bdate,Address from employee where Fname='John'and Minit='B' and Lname='Smith';
++------------+-------------------------+
+| Bdate      | Address                 |
++------------+-------------------------+
+| 1965-03-09 | 731 Fondren,Houseton,TX |
++------------+-------------------------+
+1 row in set (0.02 sec)
+
+mysql> select Fname,Lname,Address from employee,department where Dname='Reasearch' and Dnumber=Dno;
+Empty set (0.03 sec)
+
+mysql> select * from employee;
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| Fname    | Minit | Lname     | Ssn       | Bdate      | Address                     | Sex  | Salary   | Super_Ssn | Dno |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| John     | B     | Smith     | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX     | M    | 30000.00 | 333445555 |   6 |
+| Franklin | T     | Wong      | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX        | M    | 40000.00 | 888665555 |   6 |
+| Cecilia  | F     | Kolonsky  | 345678912 | 1960-04-05 | 1978 Windy lane,Houseton,TX | F    | 43000.00 | 333445555 |   2 |
+| Joyce    | A     | English   | 453453453 | 1972-12-31 | 6448 Rice,Houseton,TX       | M    | 25000.00 | 333445555 |   2 |
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX    | M    | 38000.00 | 333445555 |   5 |
+| Deva     | D     | Sushmitha | 755016802 | 1975-01-09 | 197 Berry,Houseton,TX       | F    | 75000.00 | NULL      |   2 |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX       | M    | 55000.00 | NULL      |   5 |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX       | F    | 43000.00 | 888665555 |   5 |
+| Ahmed    | V     | Jabbar    | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX      | M    | 25000.00 | 987654321 |   6 |
+| Alicia   | J     | Zelaya    | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX      | F    | 25000.00 | 987654321 |   6 |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+10 rows in set (0.00 sec)
+
+mysql> select * from department;
++----------------+---------+-----------+----------------+
+| Dname          | Dnumber | Mgr_ssn   | Mgr_start_date |
++----------------+---------+-----------+----------------+
+| Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Administration |       5 | 987654321 | 1976-03-12     |
+| Research       |       6 | 333445555 | 1980-05-22     |
++----------------+---------+-----------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from project;
++-----------------+---------+-----------+------+
+| pname           | pnumber | plocation | Dnum |
++-----------------+---------+-----------+------+
+| Product X       |       1 | Bellaire  |    6 |
+| Product Y       |       2 | Sugarland |    6 |
+| Product Z       |      20 | Houston   |    2 |
+| Computerization |      24 | Stafford  |    5 |
++-----------------+---------+-----------+------+
+4 rows in set (0.04 sec)
+
+mysql> select * from dept_locations;
++---------+-----------+
+| Dnumber | Dlocation |
++---------+-----------+
+|       2 | Houston   |
+|       5 | Stafford  |
+|       6 | Bellaine  |
+|       6 | Sugarland |
++---------+-----------+
+4 rows in set (0.02 sec)
+
+mysql> select * from works_on;
++-----------+-----+-------+
+| Essn      | Pno | Hours |
++-----------+-----+-------+
+| 123456789 |  24 |   7.5 |
+| 333445555 |  20 |   4.5 |
+| 453453453 |  24 |   2.5 |
+| 666884444 |  20 |   7.5 |
+| 987987987 |   2 |   3.0 |
+| 999887777 |   1 |   6.3 |
++-----------+-----+-------+
+6 rows in set (0.02 sec)
+
+mysql> select * from dependent;
++-----------+----------------+------+------------+--------------+
+| Essn      | Dependent_name | Sex  | Bdate      | Relationship |
++-----------+----------------+------+------------+--------------+
+| 123456789 | Joy            | F    | 1958-07-26 | Spouse       |
+| 333445555 | Alice          | F    | 1986-04-05 | Daughter     |
+| 345678912 | Abner          | M    | 1958-08-12 | Spouse       |
+| 987654321 | Theodone       | M    | 1983-03-25 | Son          |
++-----------+----------------+------+------------+--------------+
+4 rows in set (0.02 sec)
+
+mysql> select pname,Dnum,Lname,Address,Bdate from employee,department,project where Dnum=Dnumber and Mgr_Ssn=Ssn and ploction='Stafford';
+ERROR 1054 (42S22): Unknown column 'ploction' in 'where clause'
+mysql> select pname,Dnum,Lname,Address,Bdate from employee,department,project where Dnum=Dnumber and Mgr_Ssn=Ssn and plocation='Stafford';
++-----------------+------+---------+-----------------------+------------+
+| pname           | Dnum | Lname   | Address               | Bdate      |
++-----------------+------+---------+-----------------------+------------+
+| Computerization |    5 | Wallace | 182 Berry,Houseton,TX | 1941-06-20 |
++-----------------+------+---------+-----------------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select Fname,Lname,Address from employee,department where Dname='Research' and Dnumber=Dno;
++----------+--------+-------------------------+
+| Fname    | Lname  | Address                 |
++----------+--------+-------------------------+
+| John     | Smith  | 731 Fondren,Houseton,TX |
+| Franklin | Wong   | 678 Voss,Houseton,TX    |
+| Ahmed    | Jabbar | 980 Dallas,Houseton,TX  |
+| Alicia   | Zelaya | 897 Castle,Houseton,TX  |
++----------+--------+-------------------------+
+4 rows in set (0.02 sec)
+
+mysql> select Fname,employeeName,Address from employee,department where department.Dname='Research' and department.Dnumber=employee.Dnumber;
+ERROR 1054 (42S22): Unknown column 'employeeName' in 'field list'
+mysql> select Fname,employee.name,Address from employee,department where department.Dname='Research' and department.Dnumber=employee.Dnumber;
+ERROR 1054 (42S22): Unknown column 'employee.name' in 'field list'
+mysql> select Fname,employee.Lname,Address from employee,department where department.Dname='Research' and department.Dnumber=employee.Dnumber;
+ERROR 1054 (42S22): Unknown column 'employee.Dnumber' in 'where clause'
+mysql> select Fname,employee.Lname,Address from employee,department where department.Dname='Research' and department.Dnumber=employee.Dno;
++----------+--------+-------------------------+
+| Fname    | Lname  | Address                 |
++----------+--------+-------------------------+
+| John     | Smith  | 731 Fondren,Houseton,TX |
+| Franklin | Wong   | 678 Voss,Houseton,TX    |
+| Ahmed    | Jabbar | 980 Dallas,Houseton,TX  |
+| Alicia   | Zelaya | 897 Castle,Houseton,TX  |
++----------+--------+-------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select employee.Fname,employee.Lname,employee.Address from employee,department where department.Dname='Research' and department.Dnumber=employee.Dno;
++----------+--------+-------------------------+
+| Fname    | Lname  | Address                 |
++----------+--------+-------------------------+
+| John     | Smith  | 731 Fondren,Houseton,TX |
+| Franklin | Wong   | 678 Voss,Houseton,TX    |
+| Ahmed    | Jabbar | 980 Dallas,Houseton,TX  |
+| Alicia   | Zelaya | 897 Castle,Houseton,TX  |
++----------+--------+-------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select E.Fname,E.Lname,S.Fname,S.Lname from employee as E,employee as S where E.Super_Ssn=S.Ssn;
++----------+-----------+----------+---------+
+| Fname    | Lname     | Fname    | Lname   |
++----------+-----------+----------+---------+
+| John     | Smith     | Franklin | Wong    |
+| Franklin | Wong      | James    | Bong    |
+| Cecilia  | Kolonsky  | Franklin | Wong    |
+| Joyce    | English   | Franklin | Wong    |
+| Arun     | Narayanan | Franklin | Wong    |
+| Jennifer | Wallace   | James    | Bong    |
+| Ahmed    | Jabbar    | Jennifer | Wallace |
+| Alicia   | Zelaya    | Jennifer | Wallace |
++----------+-----------+----------+---------+
+8 rows in set (0.00 sec)
+
+mysql> select e.Fname,e.Lname,e.Address from employee e,department d where d.Dname='Research' and d.Dnumber=e.Dno;
++----------+--------+-------------------------+
+| Fname    | Lname  | Address                 |
++----------+--------+-------------------------+
+| John     | Smith  | 731 Fondren,Houseton,TX |
+| Franklin | Wong   | 678 Voss,Houseton,TX    |
+| Ahmed    | Jabbar | 980 Dallas,Houseton,TX  |
+| Alicia   | Zelaya | 897 Castle,Houseton,TX  |
++----------+--------+-------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select Ssn from employee;
++-----------+
+| Ssn       |
++-----------+
+| 345678912 |
+| 453453453 |
+| 755016802 |
+| 666884444 |
+| 888665555 |
+| 987654321 |
+| 123456789 |
+| 333445555 |
+| 987987987 |
+| 999887777 |
++-----------+
+10 rows in set (0.01 sec)
+
+mysql> select Ssn,Dname from employee,department;
++-----------+----------------+
+| Ssn       | Dname          |
++-----------+----------------+
+| 345678912 | Administration |
+| 345678912 | Headquarters   |
+| 345678912 | Research       |
+| 453453453 | Administration |
+| 453453453 | Headquarters   |
+| 453453453 | Research       |
+| 755016802 | Administration |
+| 755016802 | Headquarters   |
+| 755016802 | Research       |
+| 666884444 | Administration |
+| 666884444 | Headquarters   |
+| 666884444 | Research       |
+| 888665555 | Administration |
+| 888665555 | Headquarters   |
+| 888665555 | Research       |
+| 987654321 | Administration |
+| 987654321 | Headquarters   |
+| 987654321 | Research       |
+| 123456789 | Administration |
+| 123456789 | Headquarters   |
+| 123456789 | Research       |
+| 333445555 | Administration |
+| 333445555 | Headquarters   |
+| 333445555 | Research       |
+| 987987987 | Administration |
+| 987987987 | Headquarters   |
+| 987987987 | Research       |
+| 999887777 | Administration |
+| 999887777 | Headquarters   |
+| 999887777 | Research       |
++-----------+----------------+
+30 rows in set (0.01 sec)
+
+mysql> select * from employee where Dno=5;
++----------+-------+-----------+-----------+------------+--------------------------+------+----------+-----------+-----+
+| Fname    | Minit | Lname     | Ssn       | Bdate      | Address                  | Sex  | Salary   | Super_Ssn | Dno |
++----------+-------+-----------+-----------+------------+--------------------------+------+----------+-----------+-----+
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX | M    | 38000.00 | 333445555 |   5 |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX    | M    | 55000.00 | NULL      |   5 |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX    | F    | 43000.00 | 888665555 |   5 |
++----------+-------+-----------+-----------+------------+--------------------------+------+----------+-----------+-----+
+3 rows in set (0.00 sec)
+
+mysql> select * from employee,department where Dname='Research' and Dno=Dnumber;
++----------+-------+--------+-----------+------------+-------------------------+------+----------+-----------+-----+----------+---------+-----------+----------------+
+| Fname    | Minit | Lname  | Ssn       | Bdate      | Address                 | Sex  | Salary   | Super_Ssn | Dno | Dname    | Dnumber | Mgr_ssn   | Mgr_start_date |
++----------+-------+--------+-----------+------------+-------------------------+------+----------+-----------+-----+----------+---------+-----------+----------------+
+| John     | B     | Smith  | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX | M    | 30000.00 | 333445555 |   6 | Research |       6 | 333445555 | 1980-05-22     |
+| Franklin | T     | Wong   | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX    | M    | 40000.00 | 888665555 |   6 | Research |       6 | 333445555 | 1980-05-22     |
+| Ahmed    | V     | Jabbar | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX  | M    | 25000.00 | 987654321 |   6 | Research |       6 | 333445555 | 1980-05-22     |
+| Alicia   | J     | Zelaya | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX  | F    | 25000.00 | 987654321 |   6 | Research |       6 | 333445555 | 1980-05-22     |
++----------+-------+--------+-----------+------------+-------------------------+------+----------+-----------+-----+----------+---------+-----------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employee,department;
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+----------------+---------+-----------+----------------+
+| Fname    | Minit | Lname     | Ssn       | Bdate      | Address                     | Sex  | Salary   | Super_Ssn | Dno | Dname          | Dnumber | Mgr_ssn   | Mgr_start_date |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+----------------+---------+-----------+----------------+
+| John     | B     | Smith     | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX     | M    | 30000.00 | 333445555 |   6 | Headquarters   |       2 | 888665555 | 1989-02-19     |
+| John     | B     | Smith     | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX     | M    | 30000.00 | 333445555 |   6 | Administration |       5 | 987654321 | 1976-03-12     |
+| John     | B     | Smith     | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX     | M    | 30000.00 | 333445555 |   6 | Research       |       6 | 333445555 | 1980-05-22     |
+| Franklin | T     | Wong      | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX        | M    | 40000.00 | 888665555 |   6 | Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Franklin | T     | Wong      | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX        | M    | 40000.00 | 888665555 |   6 | Administration |       5 | 987654321 | 1976-03-12     |
+| Franklin | T     | Wong      | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX        | M    | 40000.00 | 888665555 |   6 | Research       |       6 | 333445555 | 1980-05-22     |
+| Cecilia  | F     | Kolonsky  | 345678912 | 1960-04-05 | 1978 Windy lane,Houseton,TX | F    | 43000.00 | 333445555 |   2 | Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Cecilia  | F     | Kolonsky  | 345678912 | 1960-04-05 | 1978 Windy lane,Houseton,TX | F    | 43000.00 | 333445555 |   2 | Administration |       5 | 987654321 | 1976-03-12     |
+| Cecilia  | F     | Kolonsky  | 345678912 | 1960-04-05 | 1978 Windy lane,Houseton,TX | F    | 43000.00 | 333445555 |   2 | Research       |       6 | 333445555 | 1980-05-22     |
+| Joyce    | A     | English   | 453453453 | 1972-12-31 | 6448 Rice,Houseton,TX       | M    | 25000.00 | 333445555 |   2 | Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Joyce    | A     | English   | 453453453 | 1972-12-31 | 6448 Rice,Houseton,TX       | M    | 25000.00 | 333445555 |   2 | Administration |       5 | 987654321 | 1976-03-12     |
+| Joyce    | A     | English   | 453453453 | 1972-12-31 | 6448 Rice,Houseton,TX       | M    | 25000.00 | 333445555 |   2 | Research       |       6 | 333445555 | 1980-05-22     |
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX    | M    | 38000.00 | 333445555 |   5 | Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX    | M    | 38000.00 | 333445555 |   5 | Administration |       5 | 987654321 | 1976-03-12     |
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX    | M    | 38000.00 | 333445555 |   5 | Research       |       6 | 333445555 | 1980-05-22     |
+| Deva     | D     | Sushmitha | 755016802 | 1975-01-09 | 197 Berry,Houseton,TX       | F    | 75000.00 | NULL      |   2 | Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Deva     | D     | Sushmitha | 755016802 | 1975-01-09 | 197 Berry,Houseton,TX       | F    | 75000.00 | NULL      |   2 | Administration |       5 | 987654321 | 1976-03-12     |
+| Deva     | D     | Sushmitha | 755016802 | 1975-01-09 | 197 Berry,Houseton,TX       | F    | 75000.00 | NULL      |   2 | Research       |       6 | 333445555 | 1980-05-22     |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX       | M    | 55000.00 | NULL      |   5 | Headquarters   |       2 | 888665555 | 1989-02-19     |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX       | M    | 55000.00 | NULL      |   5 | Administration |       5 | 987654321 | 1976-03-12     |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX       | M    | 55000.00 | NULL      |   5 | Research       |       6 | 333445555 | 1980-05-22     |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX       | F    | 43000.00 | 888665555 |   5 | Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX       | F    | 43000.00 | 888665555 |   5 | Administration |       5 | 987654321 | 1976-03-12     |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX       | F    | 43000.00 | 888665555 |   5 | Research       |       6 | 333445555 | 1980-05-22     |
+| Ahmed    | V     | Jabbar    | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX      | M    | 25000.00 | 987654321 |   6 | Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Ahmed    | V     | Jabbar    | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX      | M    | 25000.00 | 987654321 |   6 | Administration |       5 | 987654321 | 1976-03-12     |
+| Ahmed    | V     | Jabbar    | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX      | M    | 25000.00 | 987654321 |   6 | Research       |       6 | 333445555 | 1980-05-22     |
+| Alicia   | J     | Zelaya    | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX      | F    | 25000.00 | 987654321 |   6 | Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Alicia   | J     | Zelaya    | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX      | F    | 25000.00 | 987654321 |   6 | Administration |       5 | 987654321 | 1976-03-12     |
+| Alicia   | J     | Zelaya    | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX      | F    | 25000.00 | 987654321 |   6 | Research       |       6 | 333445555 | 1980-05-22     |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+----------------+---------+-----------+----------------+
+30 rows in set (0.01 sec)
+
+mysql> ^C
+mysql> select all salary from employee;
++----------+
+| salary   |
++----------+
+| 30000.00 |
+| 40000.00 |
+| 43000.00 |
+| 25000.00 |
+| 38000.00 |
+| 75000.00 |
+| 55000.00 |
+| 43000.00 |
+| 25000.00 |
+| 25000.00 |
++----------+
+10 rows in set (0.00 sec)
+
+mysql> select distinct salary from employee;
++----------+
+| salary   |
++----------+
+| 30000.00 |
+| 40000.00 |
+| 43000.00 |
+| 25000.00 |
+| 38000.00 |
+| 75000.00 |
+| 55000.00 |
++----------+
+7 rows in set (0.01 sec)
+
+mysql> select distinct pnumber from project,department,employee where Dnum=Dnumber and Mgr_Ssn=Ssn and Lname='Smith';
+Empty set (0.01 sec)
+
+mysql> select distinct pnumber from project,department,employee where Dnum=Dnumber and Mgr_Ssn=Ssn and Lname='Smith' union select distinct pnumber from project,works_on,employee where pnumber=pno and Essn=Ssn and Lname='Smith';
++---------+
+| pnumber |
++---------+
+|      24 |
++---------+
+1 row in set (0.01 sec)
+
+mysql> select Fname,Lname from employee where Address like '%Houston,TX%';
+Empty set (0.01 sec)
+
+mysql> select Fname,Lname from employee where Address like '%Houseton,TX%';
++----------+-----------+
+| Fname    | Lname     |
++----------+-----------+
+| John     | Smith     |
+| Franklin | Wong      |
+| Cecilia  | Kolonsky  |
+| Joyce    | English   |
+| Arun     | Narayanan |
+| Deva     | Sushmitha |
+| James    | Bong      |
+| Jennifer | Wallace   |
+| Ahmed    | Jabbar    |
+| Alicia   | Zelaya    |
++----------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select Fname,Lname from employee where Bdate like'__6_______'
+    -> ^C
+mysql> select Fname,Lname from employee where Bdate like'__6_______';
++---------+-----------+
+| Fname   | Lname     |
++---------+-----------+
+| John    | Smith     |
+| Cecilia | Kolonsky  |
+| Arun    | Narayanan |
+| Alicia  | Zelaya    |
++---------+-----------+
+4 rows in set, 1 warning (0.00 sec)
+
+mysql> select E.Fname,E.Lname,1.1*E.Salary as increased_sal from employee as E,works_on as W,project as P where E.Ssn=W.Essn and W.Pno=P.pnumber and P.name='Product X';
+ERROR 1054 (42S22): Unknown column 'P.name' in 'where clause'
+mysql> select E.Fname,E.Lname,1.1*E.Salary as increased_sal from employee as E,works_on as W,project as P where E.Ssn=W.Essn and W.Pno=P.pnumber and P.pname='Product X';
++--------+--------+---------------+
+| Fname  | Lname  | increased_sal |
++--------+--------+---------------+
+| Alicia | Zelaya |     27500.000 |
++--------+--------+---------------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee where (Salary between 30000 and 40000)and Dno=5;
++-------+-------+-----------+-----------+------------+--------------------------+------+----------+-----------+-----+
+| Fname | Minit | Lname     | Ssn       | Bdate      | Address                  | Sex  | Salary   | Super_Ssn | Dno |
++-------+-------+-----------+-----------+------------+--------------------------+------+----------+-----------+-----+
+| Arun  | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX | M    | 38000.00 | 333445555 |   5 |
++-------+-------+-----------+-----------+------------+--------------------------+------+----------+-----------+-----+
+1 row in set (0.00 sec)
+
+mysql> quit
+mysql> select * from dept_locations;
++---------+-----------+
+| Dnumber | Dlocation |
++---------+-----------+
+|       2 | Houston   |
+|       5 | Stafford  |
+|       6 | Bellaine  |
+|       6 | Sugarland |
++---------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> insert into dept_locations values(1,'Grand');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> insert into dept_locations values(3,'Canyon');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into dept_locations values(4,'Walt');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into dept_locations values(7,'Francisco');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into dept_locations values(8,'Los');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into dept_locations values(9,'Angels');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into dept_locations values(10,'Chicago');
+Query OK, 1 row affected (0.30 sec)
+
+mysql> select * from dept_locations;
++---------+-----------+
+| Dnumber | Dlocation |
++---------+-----------+
+|       1 | Grand     |
+|       2 | Houston   |
+|       3 | Canyon    |
+|       4 | Walt      |
+|       5 | Stafford  |
+|       6 | Bellaine  |
+|       6 | Sugarland |
+|       7 | Francisco |
+|       8 | Los       |
+|       9 | Angels    |
+|      10 | Chicago   |
++---------+-----------+
+11 rows in set (0.00 sec)
+
+mysql> mysql> select distinct Pnumber from project,department,employee where Dnum=Dnumber and Mgr_Ssn=Ssn and Lname='Smith'union select distinct Pnumber=Pno and Essn=Ssn and Lname='Smith"
+    '> select distinct Pnumber from project,department,employee where Dnum=Dnumber and Mgr_Ssn=Ssn and Lname='Smith'union select distinct Pnumber=Pno and Essn=Ssn and Lname='Smith';
+    '> ^C
+mysql> select distinct Pnumber from project,department,employee where Dnum=Dnumber and Mgr_Ssn=Ssn and Lname='Smith'union select distinct Pnumber=Pno and Essn=Ssn and Lname='Smith';
+ERROR 1054 (42S22): Unknown column 'Pnumber' in 'field list'
+mysql> select distinct pnumber from project,department,employee where Dnum=Dnumber and Mgr_Ssn=Ssn and Lname='Smith'union select distinct pnumber=Pno and Essn=Ssn and Lname='Smith';
+ERROR 1054 (42S22): Unknown column 'pnumber' in 'field list'
+mysql> desc project;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| pname     | varchar(15) | NO   | UNI | NULL    |       |
+| pnumber   | int(11)     | NO   | PRI | NULL    |       |
+| plocation | varchar(15) | YES  |     | NULL    |       |
+| Dnum      | int(11)     | NO   | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select distinct pnumber from project,department,employee where Dnum=Dnumber and Mgr_Ssn=Ssn and Lname='Smith'union select distinct pnumber from project,works_on,employee where pnumber=Pno and Essn=Ssn and Lname='Smith';
++---------+
+| pnumber |
++---------+
+|      24 |
++---------+
+1 row in set (0.30 sec)
+
+mysql> select distin  from project,department,employee where Dnum=Dnumber and Mgr_Ssn=Ssn and Lname='Smith'union select pnumber from project,works_on,employee where pnumber=Pno and Essn=Ssn and Lname='Smith';
+ERROR 1054 (42S22): Unknown column 'distin' in 'field list'
+mysql> select pnumber from project,department,employee where Dnum=Dnumber and Mgr_Ssn=Ssn and Lname='Smith'union select pnumber from project,works_on,employee where pnumber=Pno and Essn=Ssn and Lname='Smith';
++---------+
+| pnumber |
++---------+
+|      24 |
++---------+
+1 row in set (0.01 sec)
+
+mysql> select Fname,Lname from employee where Address like '%hHouseton,TX%';
+Empty set (0.01 sec)
+
+mysql> select Fname,Lname from employee where Address like '%Houseton,TX%';
++----------+-----------+
+| Fname    | Lname     |
++----------+-----------+
+| John     | Smith     |
+| Franklin | Wong      |
+| Cecilia  | Kolonsky  |
+| Joyce    | English   |
+| Arun     | Narayanan |
+| Deva     | Sushmitha |
+| James    | Bong      |
+| Jennifer | Wallace   |
+| Ahmed    | Jabbar    |
+| Alicia   | Zelaya    |
++----------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select * from project;
++-----------------+---------+-----------+------+
+| pname           | pnumber | plocation | Dnum |
++-----------------+---------+-----------+------+
+| Product X       |       1 | Bellaire  |    6 |
+| Product Y       |       2 | Sugarland |    6 |
+| Product Z       |      20 | Houston   |    2 |
+| Computerization |      24 | Stafford  |    5 |
++-----------------+---------+-----------+------+
+4 rows in set (0.00 sec)
+
+mysql> select Fname,Lname,1.1*Salary from employee,project,works_on where Essn=Ssn and Pno=pnumber and pname=computerization;
+ERROR 1054 (42S22): Unknown column 'computerization' in 'where clause'
+mysql> select Fname,Lname,1.1*Salary from employee,project,works_on where Essn=Ssn and Pno=pnumber and pname='computerization';
++-------+---------+------------+
+| Fname | Lname   | 1.1*Salary |
++-------+---------+------------+
+| John  | Smith   |  33000.000 |
+| Joyce | English |  27500.000 |
++-------+---------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from works_on;
++-----------+-----+-------+
+| Essn      | Pno | Hours |
++-----------+-----+-------+
+| 123456789 |  24 |   7.5 |
+| 333445555 |  20 |   4.5 |
+| 453453453 |  24 |   2.5 |
+| 666884444 |  20 |   7.5 |
+| 987987987 |   2 |   3.0 |
+| 999887777 |   1 |   6.3 |
++-----------+-----+-------+
+6 rows in set (0.00 sec)
+
+mysql> select distinct Essn from works_on where (Pno,Hours) in (select Pno,Hours where Essn='453453453');
++-----------+
+| Essn      |
++-----------+
+| 453453453 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select distinct Essn from works_on where (Pno,Hours) in (select Pno,Hours where Essn='123456789');
++-----------+
+| Essn      |
++-----------+
+| 123456789 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee;
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| Fname    | Minit | Lname     | Ssn       | Bdate      | Address                     | Sex  | Salary   | Super_Ssn | Dno |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| John     | B     | Smith     | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX     | M    | 30000.00 | 333445555 |   6 |
+| Franklin | T     | Wong      | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX        | M    | 40000.00 | 888665555 |   6 |
+| Cecilia  | F     | Kolonsky  | 345678912 | 1960-04-05 | 1978 Windy lane,Houseton,TX | F    | 43000.00 | 333445555 |   2 |
+| Joyce    | A     | English   | 453453453 | 1972-12-31 | 6448 Rice,Houseton,TX       | M    | 25000.00 | 333445555 |   2 |
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX    | M    | 38000.00 | 333445555 |   5 |
+| Deva     | D     | Sushmitha | 755016802 | 1975-01-09 | 197 Berry,Houseton,TX       | F    | 75000.00 | NULL      |   2 |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX       | M    | 55000.00 | NULL      |   5 |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX       | F    | 43000.00 | 888665555 |   5 |
+| Ahmed    | V     | Jabbar    | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX      | M    | 25000.00 | 987654321 |   6 |
+| Alicia   | J     | Zelaya    | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX      | F    | 25000.00 | 987654321 |   6 |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+10 rows in set (0.00 sec)
+
+mysql> select Dname,count(*) 
+    -> ^C
+mysql> select Dname,count(*) from employee,department where avg(Salary)>30,000 and Dno=Dnumber;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '000 and Dno=Dnumber' at line 1
+mysql> desc department;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| Dname          | varchar(15) | YES  | UNI | NULL    |       |
+| Dnumber        | int(11)     | NO   | PRI | NULL    |       |
+| Mgr_ssn        | char(9)     | NO   | MUL | NULL    |       |
+| Mgr_start_date | date        | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select Dname from employee,department where avg(Salary)>30,000 and Dno=Dnumber;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '000 and Dno=Dnumber' at line 1
+mysql> select max(Salary),min(Salary),avg(Salary),count(*) from employee,department where Dno=Dnumber and Dname='Research';
++-------------+-------------+--------------+----------+
+| max(Salary) | min(Salary) | avg(Salary)  | count(*) |
++-------------+-------------+--------------+----------+
+|    40000.00 |    25000.00 | 30000.000000 |        4 |
++-------------+-------------+--------------+----------+
+1 row in set (0.01 sec)
+
+mysql> ^C
+mysql> select * from department;
++----------------+---------+-----------+----------------+
+| Dname          | Dnumber | Mgr_ssn   | Mgr_start_date |
++----------------+---------+-----------+----------------+
+| Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Administration |       5 | 987654321 | 1976-03-12     |
+| Research       |       6 | 333445555 | 1980-05-22     |
++----------------+---------+-----------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select Dname,count(*) from department,employee where Salary>30000 and Dno=Dnumber; 
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'COMPANY.department.Dname'; this is incompatible with sql_mode=only_full_group_by
+mysql> select Dname from department,employee where Salary>30000 and Dno=Dnumber;
++----------------+
+| Dname          |
++----------------+
+| Research       |
+| Headquarters   |
+| Administration |
+| Headquarters   |
+| Administration |
+| Administration |
++----------------+
+6 rows in set (0.02 sec)
+
+mysql> select distinct Dname from department,employee where Salary>30000 and Dno=Dnumber;
++----------------+
+| Dname          |
++----------------+
+| Research       |
+| Headquarters   |
+| Administration |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> select Dname,count(Dno) from department,employee where Salary>30000 and Dno=Dnumber;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'COMPANY.department.Dname'; this is incompatible with sql_mode=only_full_group_by
+mysql> ^C
+mysql> select * from dependent;
++-----------+----------------+------+------------+--------------+
+| Essn      | Dependent_name | Sex  | Bdate      | Relationship |
++-----------+----------------+------+------------+--------------+
+| 123456789 | Joy            | F    | 1958-07-26 | Spouse       |
+| 333445555 | Alice          | F    | 1986-04-05 | Daughter     |
+| 345678912 | Abner          | M    | 1958-08-12 | Spouse       |
+| 987654321 | Theodone       | M    | 1983-03-25 | Son          |
++-----------+----------------+------+------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> update dependent set Dependent_name='Alicia' where Dependent_name='Alice'; 
+Query OK, 1 row affected (0.35 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select Fname from employee e  where Ssn in (select Essn from dependent d where Fname=Dependent_name and e.Sex=d.Sex);
+Empty set (0.00 sec)
+
+mysql> select * from dependent;
++-----------+----------------+------+------------+--------------+
+| Essn      | Dependent_name | Sex  | Bdate      | Relationship |
++-----------+----------------+------+------------+--------------+
+| 123456789 | Joy            | F    | 1958-07-26 | Spouse       |
+| 333445555 | Alicia         | F    | 1986-04-05 | Daughter     |
+| 345678912 | Abner          | M    | 1958-08-12 | Spouse       |
+| 987654321 | Theodone       | M    | 1983-03-25 | Son          |
++-----------+----------------+------+------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> select Fname from employee e,department d where Fname=Dependent_name and e.Sex=d.Sex;
+ERROR 1054 (42S22): Unknown column 'Dependent_name' in 'where clause'
+mysql> select Fname from employee e,department d where e.Fname=d.Dependent_name and e.Sex=d.Sex;
+ERROR 1054 (42S22): Unknown column 'd.Dependent_name' in 'where clause'
+mysql> select Fname from employee e,dependent d where e.Fname=d.Dependent_name and e.Sex=d.Sex;
++--------+
+| Fname  |
++--------+
+| Alicia |
++--------+
+1 row in set (0.01 sec)
+
+mysql> select Fname from employee where exists (select Ssn from department where Mgr_Ssn=Ssn) and exists(select *from dependent where Essn=Ssn); 
++----------+
+| Fname    |
++----------+
+| Franklin |
+| Jennifer |
++----------+
+2 rows in set (0.00 sec)
+
+mysql> select Fname from employee where exists (select Ssn from employee, department where Mgr_Ssn=Ssn) and exists(select *from employee,dependent where Essn=Ssn);
++----------+
+| Fname    |
++----------+
+| John     |
+| Franklin |
+| Cecilia  |
+| Joyce    |
+| Arun     |
+| Deva     |
+| James    |
+| Jennifer |
+| Ahmed    |
+| Alicia   |
++----------+
+10 rows in set (0.00 sec)
+
+mysql> select Fname from employee where exists (select * from employee, department where Mgr_Ssn=Ssn) and exists(select *from employee,dependent where Essn=Ssn);
++----------+
+| Fname    |
++----------+
+| John     |
+| Franklin |
+| Cecilia  |
+| Joyce    |
+| Arun     |
+| Deva     |
+| James    |
+| Jennifer |
+| Ahmed    |
+| Alicia   |
++----------+
+10 rows in set (0.00 sec)
+
+mysql> select Fname from employee where exists (select Ssn  from department where Mgr_Ssn=Ssn) and exists(select Essn from employee where Essn=Ssn);
+ERROR 1054 (42S22): Unknown column 'Essn' in 'field list'
+mysql> select Fname from employee where exists (select Ssn  from department where Mgr_Ssn=Ssn) and exists(select Essn from dependent where Essn=Ssn);
++----------+
+| Fname    |
++----------+
+| Franklin |
+| Jennifer |
++----------+
+2 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> select Ssn from employee where exists(select * from dependent where Essn=Ssn and Fname=Dependent_name);
+Empty set (0.01 sec)
+
+mysql> ^C
+mysql> select Fname from employee where exists (select Essn  from department where Mgr_Ssn=Ssn) and exists(select Essn from dependent where Essn=Ssn);
+ERROR 1054 (42S22): Unknown column 'Essn' in 'field list'
+mysql> select Fname from employee where exists (select Mgr_Ssn  from department where Mgr_Ssn=Ssn) and exists(select Essn from dependent where Essn=Ssn);
++----------+
+| Fname    |
++----------+
+| Franklin |
+| Jennifer |
++----------+
+2 rows in set (0.00 sec)
+
+mysql> select Ssn from employee where exists (select Mgr_Ssn  from department where Mgr_Ssn=Ssn) and exists(select Essn from dependent where Essn=Ssn);
++-----------+
+| Ssn       |
++-----------+
+| 987654321 |
+| 333445555 |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select Ssn from employee where exists (select * from employee, department where Mgr_Ssn=Ssn) and exists(select *from employee,dependent where Essn=Ssn);
++-----------+
+| Ssn       |
++-----------+
+| 345678912 |
+| 453453453 |
+| 755016802 |
+| 666884444 |
+| 888665555 |
+| 987654321 |
+| 123456789 |
+| 333445555 |
+| 987987987 |
+| 999887777 |
++-----------+
+10 rows in set (0.00 sec)
+
+mysql> select * from depndent;
+ERROR 1146 (42S02): Table 'COMPANY.depndent' doesn't exist
+mysql> select * from dependent;
++-----------+----------------+------+------------+--------------+
+| Essn      | Dependent_name | Sex  | Bdate      | Relationship |
++-----------+----------------+------+------------+--------------+
+| 123456789 | Joy            | F    | 1958-07-26 | Spouse       |
+| 333445555 | Alicia         | F    | 1986-04-05 | Daughter     |
+| 345678912 | Abner          | M    | 1958-08-12 | Spouse       |
+| 987654321 | Theodone       | M    | 1983-03-25 | Son          |
++-----------+----------------+------+------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employee;
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| Fname    | Minit | Lname     | Ssn       | Bdate      | Address                     | Sex  | Salary   | Super_Ssn | Dno |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| John     | B     | Smith     | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX     | M    | 30000.00 | 333445555 |   6 |
+| Franklin | T     | Wong      | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX        | M    | 40000.00 | 888665555 |   6 |
+| Cecilia  | F     | Kolonsky  | 345678912 | 1960-04-05 | 1978 Windy lane,Houseton,TX | F    | 43000.00 | 333445555 |   2 |
+| Joyce    | A     | English   | 453453453 | 1972-12-31 | 6448 Rice,Houseton,TX       | M    | 25000.00 | 333445555 |   2 |
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX    | M    | 38000.00 | 333445555 |   5 |
+| Deva     | D     | Sushmitha | 755016802 | 1975-01-09 | 197 Berry,Houseton,TX       | F    | 75000.00 | NULL      |   2 |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX       | M    | 55000.00 | NULL      |   5 |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX       | F    | 43000.00 | 888665555 |   5 |
+| Ahmed    | V     | Jabbar    | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX      | M    | 25000.00 | 987654321 |   6 |
+| Alicia   | J     | Zelaya    | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX      | F    | 25000.00 | 987654321 |   6 |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+10 rows in set (0.00 sec)
+
+mysql> select * from department;
++----------------+---------+-----------+----------------+
+| Dname          | Dnumber | Mgr_ssn   | Mgr_start_date |
++----------------+---------+-----------+----------------+
+| Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Administration |       5 | 987654321 | 1976-03-12     |
+| Research       |       6 | 333445555 | 1980-05-22     |
++----------------+---------+-----------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select Ssn from employee where Ssn in (select Mgr_Ssn  from department where Mgr_Ssn=Ssn) and exists(select Essn from dependent where Essn=Ssn);
++-----------+
+| Ssn       |
++-----------+
+| 333445555 |
+| 987654321 |
++-----------+
+2 rows in set (0.01 sec)
+
+mysql> select Ssn from employee where Ssn in (select * from employee, department where Mgr_Ssn=Ssn) and exists(select *from employee,dependent where Essn=Ssn);
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> select Ssn from employee where exists (select * from  department where Mgr_Ssn=Ssn) and exists(select *from dependent where Essn=Ssn);
++-----------+
+| Ssn       |
++-----------+
+| 987654321 |
+| 333445555 |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select Ssn from employee where exists (select * from  department where Mgr_Ssn=Ssn);
++-----------+
+| Ssn       |
++-----------+
+| 888665555 |
+| 987654321 |
+| 333445555 |
++-----------+
+3 rows in set (0.00 sec)
+
+mysql>  (select * from  department where Mgr_Ssn=Ssn);
+ERROR 1054 (42S22): Unknown column 'Ssn' in 'where clause'
+mysql>  select * from employee, department where Mgr_Ssn=Ssn;
++----------+-------+---------+-----------+------------+-----------------------+------+----------+-----------+-----+----------------+---------+-----------+----------------+
+| Fname    | Minit | Lname   | Ssn       | Bdate      | Address               | Sex  | Salary   | Super_Ssn | Dno | Dname          | Dnumber | Mgr_ssn   | Mgr_start_date |
++----------+-------+---------+-----------+------------+-----------------------+------+----------+-----------+-----+----------------+---------+-----------+----------------+
+| James    | E     | Bong    | 888665555 | 1937-11-10 | 450 stone,Houseton,TX | M    | 55000.00 | NULL      |   5 | Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Jennifer | S     | Wallace | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX | F    | 43000.00 | 888665555 |   5 | Administration |       5 | 987654321 | 1976-03-12     |
+| Franklin | T     | Wong    | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX  | M    | 40000.00 | 888665555 |   6 | Research       |       6 | 333445555 | 1980-05-22     |
++----------+-------+---------+-----------+------------+-----------------------+------+----------+-----------+-----+----------------+---------+-----------+----------------+
+3 rows in set (0.00 sec)
+
+mysql>  select * from  department where Mgr_Ssn=Ssn;
+ERROR 1054 (42S22): Unknown column 'Ssn' in 'where clause'
+mysql> mysql> select * from department;
++----------------+---------+-----------+----------------+
+| Dname          | Dnumber | Mgr_ssn   | Mgr_start_date |
++----------------+---------+-----------+----------------+
+| Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Administration |       5 | 987654321 | 1976-03-12     |
+| Research       |       6 | 333445555 | 1980-05-22     |
++----------------+---------+-----------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from employee;
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| Fname    | Minit | Lname     | Ssn       | Bdate      | Address                     | Sex  | Salary   | Super_Ssn | Dno |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| John     | B     | Smith     | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX     | M    | 30000.00 | 333445555 |   6 |
+| Franklin | T     | Wong      | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX        | M    | 40000.00 | 888665555 |   6 |
+| Cecilia  | F     | Kolonsky  | 345678912 | 1960-04-05 | 1978 Windy lane,Houseton,TX | F    | 43000.00 | 333445555 |   2 |
+| Joyce    | A     | English   | 453453453 | 1972-12-31 | 6448 Rice,Houseton,TX       | M    | 25000.00 | 333445555 |   2 |
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX    | M    | 38000.00 | 333445555 |   5 |
+| Deva     | D     | Sushmitha | 755016802 | 1975-01-09 | 197 Berry,Houseton,TX       | F    | 75000.00 | NULL      |   2 |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX       | M    | 55000.00 | NULL      |   5 |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX       | F    | 43000.00 | 888665555 |   5 |
+| Ahmed    | V     | Jabbar    | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX      | M    | 25000.00 | 987654321 |   6 |
+| Alicia   | J     | Zelaya    | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX      | F    | 25000.00 | 987654321 |   6 |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+10 rows in set (0.00 sec)
+
+mysql> select Dname,count(*) from employee,department group by Dnumber;
++----------------+----------+
+| Dname          | count(*) |
++----------------+----------+
+| Headquarters   |       10 |
+| Administration |       10 |
+| Research       |       10 |
++----------------+----------+
+3 rows in set (0.29 sec)
+
+mysql> select Dname,count(*) from employee,department group by Dno where avg(Salary)>30000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where avg(Salary)>30000' at line 1
+mysql> select Dname,count(*) from employee,department where avg(Salary)>30000 group by Dno;
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select Dname,count(*) from employee,department where avg(Salary)>30000 groupby Dno;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groupby Dno' at line 1
+mysql> select Dname,count(*) from employee,department where Dno=Dnumber groupby Dno having avg(Salary)>30000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groupby Dno having avg(Salary)>30000' at line 1
+mysql> select Dname,count(*) from employee,department where Dno=Dnumber groupby Dname having avg(Salary)>30000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groupby Dname having avg(Salary)>30000' at line 1
+mysql> select Dname,count(*) from employee,department where Dno=Dnumber group by Dname having avg(Salary)>30000;
++----------------+----------+
+| Dname          | count(*) |
++----------------+----------+
+| Administration |        3 |
+| Headquarters   |        3 |
++----------------+----------+
+2 rows in set (0.30 sec)
+
+mysql> select Dname,count(*) from employee,department where Dno=Dnumber and Sex='M' group by Dname having avg(Salary)>30000;
++----------------+----------+
+| Dname          | count(*) |
++----------------+----------+
+| Administration |        2 |
+| Research       |        3 |
++----------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select Dname,avg(Salary),count(*) from employee,department where Dno=Dnumber and Sex='M' group by Dname having avg(Salary)>30000;
++----------------+--------------+----------+
+| Dname          | avg(Salary)  | count(*) |
++----------------+--------------+----------+
+| Administration | 46500.000000 |        2 |
+| Research       | 31666.666667 |        3 |
++----------------+--------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> select Dno,Salary,count(*) from employee group by Dno where Sex='m';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where Sex='m'' at line 1
+mysql> select Dno,Salary,count(*) from employee group by Dno where Sex='M';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where Sex='M'' at line 1
+mysql> select Dno,Salary,count(*) from employee  where Sex='M' group by Dno;
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'COMPANY.employee.Salary' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select Dno,Salary,count(*) from employee  where Sex='M'and Salary>30000 group by Dno;
+ERROR 1055 (42000): Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'COMPANY.employee.Salary' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select Dno,count(*) from employee  where Sex='M'and Salary>30000 group by Dno;
++-----+----------+
+| Dno | count(*) |
++-----+----------+
+|   5 |        2 |
+|   6 |        1 |
++-----+----------+
+2 rows in set (0.00 sec)
+
+mysql> select Fname from employee where Dno in (select Dno from employee where Salary=(select max(Salary) from employee));
++---------+
+| Fname   |
++---------+
+| Cecilia |
+| Joyce   |
+| Deva    |
++---------+
+3 rows in set (0.00 sec)
+
+mysql> select Fname,Dno from employee where Dno in (select Dno from employee where Salary=(select max(Salary) from employee));
++---------+-----+
+| Fname   | Dno |
++---------+-----+
+| Cecilia |   2 |
+| Joyce   |   2 |
+| Deva    |   2 |
++---------+-----+
+3 rows in set (0.00 sec)
+
+mysql> select Fname from employee where  where Super_Ssn=(select Super_Ssn from employee where Super_Ssn='123456789');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where Super_Ssn=(select Super_Ssn from employee where Super_Ssn='123456789')' at line 1
+mysql> select Fname from employee where Super_Ssn=(select Ssn from employee where Super_Ssn='123456789');
+Empty set (0.00 sec)
+
+mysql> select Fname from employee where Salary>=(select min(Salary)+10000 from employee);
++----------+
+| Fname    |
++----------+
+| Franklin |
+| Cecilia  |
+| Arun     |
+| Deva     |
+| James    |
+| Jennifer |
++----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from project;
++-----------------+---------+-----------+------+
+| pname           | pnumber | plocation | Dnum |
++-----------------+---------+-----------+------+
+| Product X       |       1 | Bellaire  |    6 |
+| Product Y       |       2 | Sugarland |    6 |
+| Product Z       |      20 | Houston   |    2 |
+| Computerization |      24 | Stafford  |    5 |
++-----------------+---------+-----------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from works_on;
++-----------+-----+-------+
+| Essn      | Pno | Hours |
++-----------+-----+-------+
+| 123456789 |  24 |   7.5 |
+| 333445555 |  20 |   4.5 |
+| 453453453 |  24 |   2.5 |
+| 666884444 |  20 |   7.5 |
+| 987987987 |   2 |   3.0 |
+| 999887777 |   1 |   6.3 |
++-----------+-----+-------+
+6 rows in set (0.00 sec)
+
+mysql> select Fname,Ssn from employee,works_on,project where Dno=6 and Hours=5 and Pno=pnumber and pname='Product X'; 
+Empty set (0.00 sec)
+
+mysql> select Fname,Ssn from employee,works_on,project where Dno=6 and Hours>=5 and Pno=pnumber and pname='Product X';
++----------+-----------+
+| Fname    | Ssn       |
++----------+-----------+
+| John     | 123456789 |
+| Franklin | 333445555 |
+| Ahmed    | 987987987 |
+| Alicia   | 999887777 |
++----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select Fname,Ssn from employee,works_on,project where Dno=6 and Hours>=5 and Pno=pnumber and pname='Product X'and Ssn=Essn;
++--------+-----------+
+| Fname  | Ssn       |
++--------+-----------+
+| Alicia | 999887777 |
++--------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select Fname from employee,dependent where Essn=Ssn and Fname=Dependents_name; 
+ERROR 1054 (42S22): Unknown column 'Dependents_name' in 'where clause'
+mysql> select Fname from employee,dependent where Essn=Ssn and Fname=Dependent_name;
+Empty set (0.00 sec)
+
+mysql> select Fname,Ssn from employee where Super_Ssn=(select Ssn from employee from Fname='Franklin');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from Fname='Franklin')' at line 1
+mysql> select Fname,Ssn from employee where Super_Ssn=(select Ssn from employee where Fname='Franklin');
++---------+-----------+
+| Fname   | Ssn       |
++---------+-----------+
+| John    | 123456789 |
+| Cecilia | 345678912 |
+| Joyce   | 453453453 |
+| Arun    | 666884444 |
++---------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select Fname,Ssn,Super_Ssn from employee where Super_Ssn=(select Ssn from employee where Fname='Franklin');
++---------+-----------+-----------+
+| Fname   | Ssn       | Super_Ssn |
++---------+-----------+-----------+
+| John    | 123456789 | 333445555 |
+| Cecilia | 345678912 | 333445555 |
+| Joyce   | 453453453 | 333445555 |
+| Arun    | 666884444 | 333445555 |
++---------+-----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> insert into employee_backup values(select * from employee);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from employee)' at line 1
+mysql> select Fname,Ssn from employee,works_on,project where exists(select * from works_on,project where Dnum=6 and pnumber=Pno and Essn=Ssn);  
++--------+-----------+
+| Fname  | Ssn       |
++--------+-----------+
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Ahmed  | 987987987 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
+| Alicia | 999887777 |
++--------+-----------+
+48 rows in set (0.00 sec)
+
+mysql> select Fname,Ssn from employee where exists(select * from works_on,project where Dnum=6 and pnumber=Pno and Essn=Ssn); 
++--------+-----------+
+| Fname  | Ssn       |
++--------+-----------+
+| Ahmed  | 987987987 |
+| Alicia | 999887777 |
++--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> mysql> select pname,sum(Hours) from works_on,project where Pno=pnumber group by pname;
++-----------------+------------+
+| pname           | sum(Hours) |
++-----------------+------------+
+| Computerization |       10.0 |
+| Product X       |        6.3 |
+| Product Y       |        3.0 |
+| Product Z       |       12.0 |
++-----------------+------------+
+4 rows in set (0.01 sec)
+
+mysql> select * from project;
++-----------------+---------+-----------+------+
+| pname           | pnumber | plocation | Dnum |
++-----------------+---------+-----------+------+
+| Product X       |       1 | Bellaire  |    6 |
+| Product Y       |       2 | Sugarland |    6 |
+| Product Z       |      20 | Houston   |    2 |
+| Computerization |      24 | Stafford  |    5 |
++-----------------+---------+-----------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from works_on;
++-----------+-----+-------+
+| Essn      | Pno | Hours |
++-----------+-----+-------+
+| 123456789 |  24 |   7.5 |
+| 333445555 |  20 |   4.5 |
+| 453453453 |  24 |   2.5 |
+| 666884444 |  20 |   7.5 |
+| 987987987 |   2 |   3.0 |
+| 999887777 |   1 |   6.3 |
++-----------+-----+-------+
+6 rows in set (0.00 sec)
+
+mysql> select Essn,count(*) from works_on group by Essn;
++-----------+----------+
+| Essn      | count(*) |
++-----------+----------+
+| 123456789 |        1 |
+| 333445555 |        1 |
+| 453453453 |        1 |
+| 666884444 |        1 |
+| 987987987 |        1 |
+| 999887777 |        1 |
++-----------+----------+
+6 rows in set (0.01 sec)
+
+mysql> select Fname from employee,works_on where Essn=Ssn group by Pno having count(*)=5; 
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'COMPANY.employee.Fname' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select Fname,ESsn from employee,works_on where Essn=Ssn group by Essn having count(*)=5;
+Empty set (0.00 sec)
+
+mysql> select Fname,ESsn from employee,works_on where Essn=Ssn group by Essn having count(*)=0;
+Empty set (0.01 sec)
+
+mysql> select Fname,Essn from employee,works_on group by Essn having count(*)=0;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'COMPANY.employee.Fname' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select Fname,Essn,count(*) from employee,works_on group by Essn having count(*)=0;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'COMPANY.employee.Fname' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select Fname,Essn,count(*) from employee,works_on group by Essn,Fname having count(*)=0;
+Empty set (0.02 sec)
+
+mysql> select Count(*) from works_on;
++----------+
+| Count(*) |
++----------+
+|        6 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select Fname from employee where not exists (select * from works_on where Essn=Ssn);
++----------+
+| Fname    |
++----------+
+| Cecilia  |
+| Deva     |
+| James    |
+| Jennifer |
++----------+
+4 rows in set (0.00 sec)
+
+mysql> select avg(Salary) from employee where Sex='F';
++--------------+
+| avg(Salary)  |
++--------------+
+| 46500.000000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select * from department;
++----------------+---------+-----------+----------------+
+| Dname          | Dnumber | Mgr_ssn   | Mgr_start_date |
++----------------+---------+-----------+----------------+
+| Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Administration |       5 | 987654321 | 1976-03-12     |
+| Research       |       6 | 333445555 | 1980-05-22     |
++----------------+---------+-----------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from dept_location;
+ERROR 1146 (42S02): Table 'COMPANY.dept_location' doesn't exist
+mysql> show tables;
++-------------------+
+| Tables_in_COMPANY |
++-------------------+
+| department        |
+| dependent         |
+| dept_locations    |
+| employee          |
+| project           |
+| works_on          |
++-------------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from dept_locations;
++---------+-----------+
+| Dnumber | Dlocation |
++---------+-----------+
+|       2 | Houston   |
+|       5 | Stafford  |
+|       6 | Bellaine  |
+|       6 | Sugarland |
++---------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select Fname,Address from employee where exists(select * from project where plocation='Stafford') and not exists (select * from dept_locations where Dlocation='Stafford'); 
+Empty set (0.00 sec)
+
+mysql> select Fname,Address from employee where exists(select * from project where plocation='Stafford') and not exists (select * from dept_locations where Dlocation='Stafford' and Dno=Dnumber);
++----------+-----------------------------+
+| Fname    | Address                     |
++----------+-----------------------------+
+| John     | 731 Fondren,Houseton,TX     |
+| Franklin | 678 Voss,Houseton,TX        |
+| Cecilia  | 1978 Windy lane,Houseton,TX |
+| Joyce    | 6448 Rice,Houseton,TX       |
+| Deva     | 197 Berry,Houseton,TX       |
+| Ahmed    | 980 Dallas,Houseton,TX      |
+| Alicia   | 897 Castle,Houseton,TX      |
++----------+-----------------------------+
+7 rows in set (0.00 sec)
+
+mysql> select Fname,Address,Dno from employee where exists(select * from project where plocation='Stafford') and not exists (select * from dept_locations where Dlocation='Stafford' and Dno=Dnumber);
++----------+-----------------------------+-----+
+| Fname    | Address                     | Dno |
++----------+-----------------------------+-----+
+| John     | 731 Fondren,Houseton,TX     |   6 |
+| Franklin | 678 Voss,Houseton,TX        |   6 |
+| Cecilia  | 1978 Windy lane,Houseton,TX |   2 |
+| Joyce    | 6448 Rice,Houseton,TX       |   2 |
+| Deva     | 197 Berry,Houseton,TX       |   2 |
+| Ahmed    | 980 Dallas,Houseton,TX      |   6 |
+| Alicia   | 897 Castle,Houseton,TX      |   6 |
++----------+-----------------------------+-----+
+7 rows in set (0.00 sec)
+
+mysql> select * from project;
++-----------------+---------+-----------+------+
+| pname           | pnumber | plocation | Dnum |
++-----------------+---------+-----------+------+
+| Product X       |       1 | Bellaire  |    6 |
+| Product Y       |       2 | Sugarland |    6 |
+| Product Z       |      20 | Houston   |    2 |
+| Computerization |      24 | Stafford  |    5 |
++-----------------+---------+-----------+------+
+4 rows in set (0.00 sec)
+
+mysql> select Fname,Address,Dno from employee where exists(select * from project where plocation='Stafford' and Dnum=Dno) and not exists (select * from dept_locations where Dlocation='Stafford' and Dno=Dnumber);
+Empty set (0.00 sec)
+
+mysql> select Fname,Address,Dno from employee where exists(select * from project,works_on where plocation='Stafford' and Essn=Ssn) and not exists (select * from dept_locations where Dlocation='Stafford' and Dno=Dnumber);
++----------+-------------------------+-----+
+| Fname    | Address                 | Dno |
++----------+-------------------------+-----+
+| John     | 731 Fondren,Houseton,TX |   6 |
+| Franklin | 678 Voss,Houseton,TX    |   6 |
+| Joyce    | 6448 Rice,Houseton,TX   |   2 |
+| Ahmed    | 980 Dallas,Houseton,TX  |   6 |
+| Alicia   | 897 Castle,Houseton,TX  |   6 |
++----------+-------------------------+-----+
+5 rows in set (0.00 sec)
+
+mysql> select Fname from employee where exists (selct * from department where Mgr_Ssn=Ssn) and not exists (select * from dependent where Essn=Ssn);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selct * from department where Mgr_Ssn=Ssn) and not exists (select * from depende' at line 1
+mysql> select Fname from employee where exists (select * from department where Mgr_Ssn=Ssn) and not exists (select * from dependent where Essn=Ssn);
++-------+
+| Fname |
++-------+
+| James |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select Fname,Ssn from employee where exists (select * from department where Mgr_Ssn=Ssn) and not exists (select * from dependent where Essn=Ssn);
++-------+-----------+
+| Fname | Ssn       |
++-------+-----------+
+| James | 888665555 |
++-------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select Ssn,Fname from employee where Super_Ssn=(select Ssn from employee where Super_Ssn in(select Ssn from employee where Lname='Wong'));
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> select Ssn,Fname from employee where Super_Ssn in (select Ssn from employee where Super_Ssn in(select Ssn from employee where Lname='Wong'));
+Empty set (0.00 sec)
+
+mysql> select Ssn,Fname from employee where Super_Ssn in (select Ssn from employee where Super_Ssn in(select Ssn from employee where Lname='Bong'));
++-----------+---------+
+| Ssn       | Fname   |
++-----------+---------+
+| 123456789 | John    |
+| 345678912 | Cecilia |
+| 453453453 | Joyce   |
+| 666884444 | Arun    |
+| 987987987 | Ahmed   |
+| 999887777 | Alicia  |
++-----------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select Fname,Ssn from employee,works_on,project where Dnum=5 and Pno=pnumber and Essn=Ssn; 
++-------+-----------+
+| Fname | Ssn       |
++-------+-----------+
+| John  | 123456789 |
+| Joyce | 453453453 |
++-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from Works_on;
+ERROR 1146 (42S02): Table 'COMPANY.Works_on' doesn't exist
+mysql> select * from works_on;
++-----------+-----+-------+
+| Essn      | Pno | Hours |
++-----------+-----+-------+
+| 123456789 |  24 |   7.5 |
+| 333445555 |  20 |   4.5 |
+| 453453453 |  24 |   2.5 |
+| 666884444 |  20 |   7.5 |
+| 987987987 |   2 |   3.0 |
+| 999887777 |   1 |   6.3 |
++-----------+-----+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from project;
++-----------------+---------+-----------+------+
+| pname           | pnumber | plocation | Dnum |
++-----------------+---------+-----------+------+
+| Product X       |       1 | Bellaire  |    6 |
+| Product Y       |       2 | Sugarland |    6 |
+| Product Z       |      20 | Houston   |    2 |
+| Computerization |      24 | Stafford  |    5 |
++-----------------+---------+-----------+------+
+4 rows in set (0.00 sec)
+
+mysql> select Fname,Dependent_name from employee,dependent where Sex='F' and exists(select * from dependent where Essn=Ssn); 
+ERROR 1052 (23000): Column 'Sex' in where clause is ambiguous
+mysql> select * from dependent;
++-----------+----------------+------+------------+--------------+
+| Essn      | Dependent_name | Sex  | Bdate      | Relationship |
++-----------+----------------+------+------------+--------------+
+| 123456789 | Joy            | F    | 1958-07-26 | Spouse       |
+| 333445555 | Alicia         | F    | 1986-04-05 | Daughter     |
+| 345678912 | Abner          | M    | 1958-08-12 | Spouse       |
+| 987654321 | Theodone       | M    | 1983-03-25 | Son          |
++-----------+----------------+------+------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> select Fname,Dependent_name from employee e,dependent d where e.Sex='F' and exists(select * from dependent where Essn=Ssn);
++----------+----------------+
+| Fname    | Dependent_name |
++----------+----------------+
+| Cecilia  | Joy            |
+| Jennifer | Joy            |
+| Cecilia  | Alicia         |
+| Jennifer | Alicia         |
+| Cecilia  | Abner          |
+| Jennifer | Abner          |
+| Cecilia  | Theodone       |
+| Jennifer | Theodone       |
++----------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> select Fname,Dependent_name from employee e where e.Sex='F' and exists(select * from dependent where Essn=Ssn);
+ERROR 1054 (42S22): Unknown column 'Dependent_name' in 'field list'
+mysql> select Fname,Dependent_name from employee e,dependent d where e.Sex='F' and Essn=Ssn;
++----------+----------------+
+| Fname    | Dependent_name |
++----------+----------------+
+| Cecilia  | Abner          |
+| Jennifer | Theodone       |
++----------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employee;
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| Fname    | Minit | Lname     | Ssn       | Bdate      | Address                     | Sex  | Salary   | Super_Ssn | Dno |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| John     | B     | Smith     | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX     | M    | 30000.00 | 333445555 |   6 |
+| Franklin | T     | Wong      | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX        | M    | 40000.00 | 888665555 |   6 |
+| Cecilia  | F     | Kolonsky  | 345678912 | 1960-04-05 | 1978 Windy lane,Houseton,TX | F    | 43000.00 | 333445555 |   2 |
+| Joyce    | A     | English   | 453453453 | 1972-12-31 | 6448 Rice,Houseton,TX       | M    | 25000.00 | 333445555 |   2 |
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX    | M    | 38000.00 | 333445555 |   5 |
+| Deva     | D     | Sushmitha | 755016802 | 1975-01-09 | 197 Berry,Houseton,TX       | F    | 75000.00 | NULL      |   2 |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX       | M    | 55000.00 | NULL      |   5 |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX       | F    | 43000.00 | 888665555 |   5 |
+| Ahmed    | V     | Jabbar    | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX      | M    | 25000.00 | 987654321 |   6 |
+| Alicia   | J     | Zelaya    | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX      | F    | 25000.00 | 987654321 |   6 |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+10 rows in set (0.00 sec)
+
+mysql> select * from dependent;
++-----------+----------------+------+------------+--------------+
+| Essn      | Dependent_name | Sex  | Bdate      | Relationship |
++-----------+----------------+------+------------+--------------+
+| 123456789 | Joy            | F    | 1958-07-26 | Spouse       |
+| 333445555 | Alicia         | F    | 1986-04-05 | Daughter     |
+| 345678912 | Abner          | M    | 1958-08-12 | Spouse       |
+| 987654321 | Theodone       | M    | 1983-03-25 | Son          |
++-----------+----------------+------+------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> select Fname
+    -> quit
+    -> ^C
+mysql> quit
+mysql> select Ssn,Dno,Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn)) and Ssn=Essn;
++-----------+-----+-----+
+| Ssn       | Dno | Pno |
++-----------+-----+-----+
+| 987987987 |   6 |   2 |
++-----------+-----+-----+
+1 row in set (0.00 sec)
+
+mysql> select Essn,Dnum,Pno from works_on,project where Pno=pnumber;
++-----------+------+-----+
+| Essn      | Dnum | Pno |
++-----------+------+-----+
+| 123456789 |    5 |  24 |
+| 333445555 |    2 |  20 |
+| 345678912 |    6 |   1 |
+| 345678912 |    6 |   2 |
+| 453453453 |    5 |  24 |
+| 666884444 |    2 |  20 |
+| 987987987 |    6 |   2 |
+| 999887777 |    6 |   1 |
+| 999887777 |    6 |   2 |
++-----------+------+-----+
+9 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> select Ssn from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn)) and Ssn=Essn) ;
++-----------+
+| Ssn       |
++-----------+
+| 345678912 |
+| 987987987 |
+| 999887777 |
++-----------+
+3 rows in set (0.00 sec)
+
+mysql> select Ssn from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Pno=pnumber  group by Essn,Dnum having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber group by Essn,Dnum)) and Ssn=Essn) ;
++-----------+
+| Ssn       |
++-----------+
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
++-----------+
+7 rows in set (0.00 sec)
+
+mysql> select Ssn,Dno,Pno from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Pno=pnumber  group by Essn,Dnum having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber group by Essn,Dnum)) and Ssn=Essn) ;
++-----------+-----+-----+
+| Ssn       | Dno | Pno |
++-----------+-----+-----+
+| 123456789 |   6 |  24 |
+| 333445555 |   6 |  20 |
+| 345678912 |   2 |   2 |
+| 453453453 |   2 |  24 |
+| 666884444 |   5 |  20 |
+| 987987987 |   6 |   2 |
+| 999887777 |   6 |   2 |
++-----------+-----+-----+
+7 rows in set (0.01 sec)
+
+mysql> select Ssn from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn)) and Ssn=Essn) ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pn' at line 1
+mysql> select Ssn from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn)) and Ssn=Essn) ;
++-----------+
+| Ssn       |
++-----------+
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
++-----------+
+9 rows in set (0.00 sec)
+
+mysql> select Ssn from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn)) and Ssn=Essn) ;
++-----------+
+| Ssn       |
++-----------+
+| 345678912 |
+| 987987987 |
+| 999887777 |
++-----------+
+3 rows in set (0.00 sec)
+
+mysql> select Ssn from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 and Essn=Ssn group by Essn)) and Ssn=Essn) ;
++-----------+
+| Ssn       |
++-----------+
+| 345678912 |
+| 345678912 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
++-----------+
+5 rows in set (0.00 sec)
+
+mysql> select Essn from employee,works_on where Pno in (select Pno from works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn))) ;
++-----------+
+| Essn      |
++-----------+
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
++-----------+
+90 rows in set (0.01 sec)
+
+mysql> select Essn from works_on where Pno in (select Pno from works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn))) ;
++-----------+
+| Essn      |
++-----------+
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
++-----------+
+9 rows in set (0.00 sec)
+
+mysql> select Essn,Pno,Dnum from works_on where Pno in (select Pno from works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn))) ;
+ERROR 1054 (42S22): Unknown column 'Dnum' in 'field list'
+mysql> select Essn,Pno,Dnum from works_on,project where Pno=pnumber and Pno in (select Pno from works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn))) ;
++-----------+-----+------+
+| Essn      | Pno | Dnum |
++-----------+-----+------+
+| 123456789 |  24 |    5 |
+| 333445555 |  20 |    2 |
+| 345678912 |   1 |    6 |
+| 345678912 |   2 |    6 |
+| 453453453 |  24 |    5 |
+| 666884444 |  20 |    2 |
+| 987987987 |   2 |    6 |
+| 999887777 |   1 |    6 |
+| 999887777 |   2 |    6 |
++-----------+-----+------+
+9 rows in set (0.00 sec)
+
+mysql> select Essn,distinct Pno,Dnum from works_on,project where Pno=pnumber and Pno in (select Pno from works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn))) ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'distinct Pno,Dnum from works_on,project where Pno=pnumber and Pno in (select Pno' at line 1
+mysql> select Essn,Distinct Pno,Dnum from works_on,project where Pno=pnumber and Pno in (select Pno from works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn))) ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Distinct Pno,Dnum from works_on,project where Pno=pnumber and Pno in (select Pno' at line 1
+mysql> ^C
+mysql>  select Ssn from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn)) and Ssn=Essn) ;
++-----------+
+| Ssn       |
++-----------+
+| 345678912 |
+| 987987987 |
+| 999887777 |
++-----------+
+3 rows in set (0.00 sec)
+
+mysql>  select Essn from works_on where Pno in (select Pno from works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn))) ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pn' at line 1
+mysql>  select Essn from works_on where Pno in (select Pno from works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn))) ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pn' at line 1
+mysql>  select Essn from works_on where Pno in (select Pno from works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where  Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn))) ;
++-----------+
+| Essn      |
++-----------+
+| 123456789 |
+| 333445555 |
+| 345678912 |
+| 345678912 |
+| 453453453 |
+| 666884444 |
+| 987987987 |
+| 999887777 |
+| 999887777 |
++-----------+
+9 rows in set (0.00 sec)
+
+mysql>  select Ssn from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn)) and Ssn=Essn);
++-----------+
+| Ssn       |
++-----------+
+| 345678912 |
+| 987987987 |
+| 999887777 |
++-----------+
+3 rows in set (0.01 sec)
+
+mysql> Terminal close -- exit!
+Aborted
+mysql> select * from employee_backup;
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| Fname    | Minit | Lname     | Ssn       | Bdate      | Address                     | Sex  | Salary   | Super_Ssn | Dno |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+| John     | B     | Smith     | 123456789 | 1965-03-09 | 731 Fondren,Houseton,TX     | M    | 30000.00 | 333445555 |   6 |
+| Franklin | T     | Wong      | 333445555 | 1955-12-08 | 678 Voss,Houseton,TX        | M    | 40000.00 | 888665555 |   6 |
+| Cecilia  | F     | Kolonsky  | 345678912 | 1960-04-05 | 1978 Windy lane,Houseton,TX | F    | 43000.00 | 333445555 |   2 |
+| Joyce    | A     | English   | 453453453 | 1972-12-31 | 6448 Rice,Houseton,TX       | M    | 25000.00 | 333445555 |   2 |
+| Arun     | K     | Narayanan | 666884444 | 1962-01-15 | 112 Fire oak,Houseton,TX    | M    | 38000.00 | 333445555 |   5 |
+| Deva     | D     | Sushmitha | 755016802 | 1975-01-09 | 197 Berry,Houseton,TX       | F    | 75000.00 | NULL      |   2 |
+| James    | E     | Bong      | 888665555 | 1937-11-10 | 450 stone,Houseton,TX       | M    | 55000.00 | NULL      |   5 |
+| Jennifer | S     | Wallace   | 987654321 | 1941-06-20 | 182 Berry,Houseton,TX       | F    | 43000.00 | 888665555 |   5 |
+| Ahmed    | V     | Jabbar    | 987987987 | 1937-03-10 | 980 Dallas,Houseton,TX      | M    | 25000.00 | 987654321 |   6 |
+| Alicia   | J     | Zelaya    | 999887777 | 1968-01-19 | 897 Castle,Houseton,TX      | F    | 27500.00 | 987654321 |   6 |
++----------+-------+-----------+-----------+------------+-----------------------------+------+----------+-----------+-----+
+10 rows in set (0.00 sec)
+
+mysql> select * from works_on;
++-----------+-----+-------+
+| Essn      | Pno | Hours |
++-----------+-----+-------+
+| 123456789 |  24 |   7.5 |
+| 333445555 |  20 |   4.5 |
+| 345678912 |   1 |   4.0 |
+| 345678912 |   2 |   4.0 |
+| 453453453 |  24 |   2.5 |
+| 666884444 |  20 |   7.5 |
+| 987987987 |   2 |   3.0 |
+| 999887777 |   1 |   6.3 |
+| 999887777 |   2 |   5.0 |
++-----------+-----+-------+
+9 rows in set (0.00 sec)
+
+mysql> select * from project;
++-----------------+---------+-----------+------+
+| pname           | pnumber | plocation | Dnum |
++-----------------+---------+-----------+------+
+| Product X       |       1 | Bellaire  |    6 |
+| Product Y       |       2 | Sugarland |    6 |
+| Product Z       |      20 | Houston   |    2 |
+| Computerization |      24 | Stafford  |    5 |
++-----------------+---------+-----------+------+
+4 rows in set (0.00 sec)
+
+mysql>  select Ssn from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn)) and Ssn=Essn) ;
++-----------+
+| Ssn       |
++-----------+
+| 345678912 |
+| 987987987 |
+| 999887777 |
++-----------+
+3 rows in set (0.04 sec)
+
+mysql>  select Ssn,Pno from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Dum=Dno and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=Dno group by Essn)) and Ssn=Essn) ;
+ERROR 1054 (42S22): Unknown column 'Dum' in 'where clause'
+mysql>  select Ssn,Pno from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Dnum=Dno and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=Dno group by Essn)) and Ssn=Essn) ;
++-----------+-----+
+| Ssn       | Pno |
++-----------+-----+
+| 345678912 |   2 |
+| 987987987 |   2 |
+| 999887777 |   2 |
++-----------+-----+
+3 rows in set (0.00 sec)
+
+mysql> select Essn,Pno,Dnum from project,works_on where Pno=pnumber;
++-----------+-----+------+
+| Essn      | Pno | Dnum |
++-----------+-----+------+
+| 123456789 |  24 |    5 |
+| 333445555 |  20 |    2 |
+| 345678912 |   1 |    6 |
+| 345678912 |   2 |    6 |
+| 453453453 |  24 |    5 |
+| 666884444 |  20 |    2 |
+| 987987987 |   2 |    6 |
+| 999887777 |   1 |    6 |
+| 999887777 |   2 |    6 |
++-----------+-----+------+
+9 rows in set (0.00 sec)
+
+mysql> select Ssn,Pno,Dno from employee,works_on,project where Essn=Ssn and Pno=pnumber and Pno in (select Pno from works_on,employee where Essn in (select Essn from works_on group by Essn having count(*)<=all(select count(*) from employee,works_on where Dnum=Dno group by Essn)));
++-----------+-----+-----+
+| Ssn       | Pno | Dno |
++-----------+-----+-----+
+| 123456789 |  24 |   6 |
+| 333445555 |  20 |   6 |
+| 345678912 |   1 |   2 |
+| 345678912 |   2 |   2 |
+| 453453453 |  24 |   2 |
+| 666884444 |  20 |   5 |
+| 987987987 |   2 |   6 |
+| 999887777 |   1 |   6 |
+| 999887777 |   2 |   6 |
++-----------+-----+-----+
+9 rows in set (0.00 sec)
+
+mysql> select distinct Ssn,Pno,Dno from employee,works_on,project where Essn=Ssn and Pno=pnumber and Pno in (select Pno from works_on,employee where Essn in (select Essn from works_on group by Essn having count(*)<=all(select count(*) from employee,works_on where Dnum=Dno group by Essn)));
++-----------+-----+-----+
+| Ssn       | Pno | Dno |
++-----------+-----+-----+
+| 123456789 |  24 |   6 |
+| 333445555 |  20 |   6 |
+| 345678912 |   1 |   2 |
+| 345678912 |   2 |   2 |
+| 453453453 |  24 |   2 |
+| 666884444 |  20 |   5 |
+| 987987987 |   2 |   6 |
+| 999887777 |   1 |   6 |
+| 999887777 |   2 |   6 |
++-----------+-----+-----+
+9 rows in set (0.01 sec)
+
+mysql> select distinct Ssn,Pno,Dno from employee,works_on,project where Essn=Ssn and Pno=pnumber and Pno in (select Pno from works_on,employee where Essn in (select Essn from works_on group by Essn having count(*)<=all(select count(*) from employee,works_on where Dnum=Dno group by Essn)));
++-----------+-----+-----+
+| Ssn       | Pno | Dno |
++-----------+-----+-----+
+| 123456789 |  24 |   6 |
+| 333445555 |  20 |   6 |
+| 345678912 |   1 |   2 |
+| 345678912 |   2 |   2 |
+| 453453453 |  24 |   2 |
+| 666884444 |  20 |   5 |
+| 987987987 |   2 |   6 |
+| 999887777 |   1 |   6 |
+| 999887777 |   2 |   6 |
++-----------+-----+-----+
+9 rows in set (0.01 sec)
+
+mysql> select count(Essn) from works_on;
++-------------+
+| count(Essn) |
++-------------+
+|           9 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> select count(*) from works_on;
++----------+
+| count(*) |
++----------+
+|        9 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select count(Essn) from works_on,employee where Ssn=Essn;
++-------------+
+| count(Essn) |
++-------------+
+|           9 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select count(*) from works_on,employee where Ssn=Essn;
++----------+
+| count(*) |
++----------+
+|        9 |
++----------+
+1 row in set (0.00 sec)
+
+mysql>     Select Fname from employee where (select count(Essn) from works_on where Ssn=Essn)=(select count * from project);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from project)' at line 1
+mysql>     Select Fname from employee where (select count(Essn) from works_on where Ssn=Essn)=(select count(8) from project);
+Empty set (0.00 sec)
+
+mysql>     Select Fname from employee where (select count(Essn) from works_on where Ssn=Essn)=(select count(*) from project);
+Empty set (0.01 sec)
+
+mysql> quit
+mysql> select e.Lname,s.Lname from employee e left outer join employee s on e.Super_Ssn=S.Ssn;
+ERROR 1054 (42S22): Unknown column 'S.Ssn' in 'on clause'
+mysql> select e.Lname,s.Lname from employee e left outer join employee s on e.Super_Ssn=s.Ssn;
++-----------+---------+
+| Lname     | Lname   |
++-----------+---------+
+| Smith     | Wong    |
+| Wong      | Bong    |
+| Kolonsky  | Wong    |
+| English   | Wong    |
+| Narayanan | Wong    |
+| Sushmitha | NULL    |
+| Bong      | NULL    |
+| Wallace   | Bong    |
+| Jabbar    | Wallace |
+| Zelaya    | Wallace |
++-----------+---------+
+10 rows in set (0.00 sec)
+
+mysql> select Fname from employee natural join department as dept(Dname,Dno,Mssn,Msdate;)
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(Dname,Dno,Mssn,Msdate' at line 1
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> use university;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> use COMPANY;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select Fname from employee natural join department as dept(Dname,Dno,Mssn,Msdate) where Dname='Research';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(Dname,Dno,Mssn,Msdate) where Dname='Research'' at line 1
+mysql> select * from department;
++----------------+---------+-----------+----------------+
+| Dname          | Dnumber | Mgr_ssn   | Mgr_start_date |
++----------------+---------+-----------+----------------+
+| Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Administration |       5 | 987654321 | 1976-03-12     |
+| Research       |       6 | 333445555 | 1980-05-22     |
++----------------+---------+-----------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select e.Lname,s.Lname from employee e join employee s on e.Super_Ssn=s.Ssn;
++-----------+---------+
+| Lname     | Lname   |
++-----------+---------+
+| Smith     | Wong    |
+| Wong      | Bong    |
+| Kolonsky  | Wong    |
+| English   | Wong    |
+| Narayanan | Wong    |
+| Wallace   | Bong    |
+| Jabbar    | Wallace |
+| Zelaya    | Wallace |
++-----------+---------+
+8 rows in set (0.00 sec)
+
+mysql> select e.Lname,s.Lname from employee e right outer join employee s on e.Super_Ssn=s.Ssn;
++-----------+-----------+
+| Lname     | Lname     |
++-----------+-----------+
+| Smith     | Wong      |
+| Wong      | Bong      |
+| Kolonsky  | Wong      |
+| English   | Wong      |
+| Narayanan | Wong      |
+| Wallace   | Bong      |
+| Jabbar    | Wallace   |
+| Zelaya    | Wallace   |
+| NULL      | Smith     |
+| NULL      | Kolonsky  |
+| NULL      | English   |
+| NULL      | Narayanan |
+| NULL      | Sushmitha |
+| NULL      | Jabbar    |
+| NULL      | Zelaya    |
++-----------+-----------+
+15 rows in set (0.00 sec)
+
+mysql> select e.Lname,s.Lname from employee e right outer join employee s on s.Super_Ssn=e.Ssn;
++---------+-----------+
+| Lname   | Lname     |
++---------+-----------+
+| Wong    | Smith     |
+| Bong    | Wong      |
+| Wong    | Kolonsky  |
+| Wong    | English   |
+| Wong    | Narayanan |
+| NULL    | Sushmitha |
+| NULL    | Bong      |
+| Bong    | Wallace   |
+| Wallace | Jabbar    |
+| Wallace | Zelaya    |
++---------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select * from project;
++-----------------+---------+-----------+------+
+| pname           | pnumber | plocation | Dnum |
++-----------------+---------+-----------+------+
+| Product X       |       1 | Bellaire  |    6 |
+| Product Y       |       2 | Sugarland |    6 |
+| Product Z       |      20 | Houston   |    2 |
+| Computerization |      24 | Stafford  |    5 |
++-----------------+---------+-----------+------+
+4 rows in set (0.00 sec)
+
+mysql> select pnumber,Dnum,Lname from ((employee join department on Mgr_Ssn=Ssn)join project on Dnum=Dno) where plocation='Stafford';
++---------+------+---------+
+| pnumber | Dnum | Lname   |
++---------+------+---------+
+|      24 |    5 | Bong    |
+|      24 |    5 | Wallace |
++---------+------+---------+
+2 rows in set (0.01 sec)
+
+mysql> select pnumber,Dnum,Lname from (project join department on Dnum=Dnumber)join employee Mgr_Ssn=Ssn where plocation='Stafford';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=Ssn where plocation='Stafford'' at line 1
+mysql> select pnumber,Dnum,Lname from (project join department on Dnum=Dnumber)join employee on Mgr_Ssn=Ssn where plocation='Stafford';
++---------+------+---------+
+| pnumber | Dnum | Lname   |
++---------+------+---------+
+|      24 |    5 | Wallace |
++---------+------+---------+
+1 row in set (0.00 sec)
+
+mysql> select pnumber,Dnum,Lname from project,department,employee where Dnum=Dnumber and Mgr_Ssn=Ssn and plocation='Stafford';
++---------+------+---------+
+| pnumber | Dnum | Lname   |
++---------+------+---------+
+|      24 |    5 | Wallace |
++---------+------+---------+
+1 row in set (0.00 sec)
+
+mysql> select e.Lname,s.Lname from employee e,employee s where e.Super_Ssn+=s.Ssn;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=s.Ssn' at line 1
+mysql> select * from advisor;
+ERROR 1146 (42S02): Table 'COMPANY.advisor' doesn't exist
+mysql> use university;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select * from advisor;
++-------+-------+
+| s_ID  | i_ID  |
++-------+-------+
+| 12345 | 10101 |
+| 44553 | 22222 |
+| 45678 | 22222 |
+| 19991 | 45565 |
+| 76543 | 45565 |
+| 23121 | 76543 |
+| 98988 | 76766 |
+| 76653 | 98345 |
+| 98765 | 98345 |
++-------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select * from teaches;
++-------+-----------+--------+----------+------+
+| ID    | course_id | sec_id | semester | year |
++-------+-----------+--------+----------+------+
+| 76766 | BIO-101   | 1      | Summer   | 2009 |
+| 76766 | BIO-301   | 1      | Summer   | 2010 |
+| 10101 | CS-101    | 1      | Fall     | 2009 |
+| 45565 | CS-101    | 1      | Spring   | 2010 |
+| 83821 | CS-190    | 1      | Spring   | 2009 |
+| 83821 | CS-190    | 2      | Spring   | 2009 |
+| 10101 | CS-315    | 1      | Spring   | 2010 |
+| 45565 | CS-319    | 1      | Spring   | 2010 |
+| 83821 | CS-319    | 2      | Spring   | 2010 |
+| 10101 | CS-347    | 1      | Fall     | 2009 |
+| 98345 | EE-181    | 1      | Spring   | 2009 |
+| 12121 | FIN-201   | 1      | Spring   | 2010 |
+| 32343 | HIS-351   | 1      | Spring   | 2010 |
+| 15151 | MU-199    | 1      | Spring   | 2010 |
+| 22222 | PHY-101   | 1      | Fall     | 2009 |
++-------+-----------+--------+----------+------+
+15 rows in set (0.00 sec)
+
+mysql> select t.ID from takes t,teaches s where t.course_id=s.course_id and s.ID=(select ID from instructor where name='Einstein');
++-------+
+| ID    |
++-------+
+| 44553 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> ^C
+mysql> use COMPANY;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select * from works_on;
++-----------+-----+-------+
+| Essn      | Pno | Hours |
++-----------+-----+-------+
+| 123456789 |  24 |   7.5 |
+| 333445555 |  20 |   4.5 |
+| 345678912 |   1 |   4.0 |
+| 345678912 |   2 |   4.0 |
+| 453453453 |  24 |   2.5 |
+| 666884444 |  20 |   7.5 |
+| 987987987 |   2 |   3.0 |
+| 999887777 |   1 |   6.3 |
+| 999887777 |   2 |   5.0 |
++-----------+-----+-------+
+9 rows in set (0.00 sec)
+
+mysql> select pnumber,Dnum,Ssn from (project join department on Dnum=Dnumber)join employee on Mgr_Ssn=Ssn where plocation='Stafford';
++---------+------+-----------+
+| pnumber | Dnum | Ssn       |
++---------+------+-----------+
+|      24 |    5 | 987654321 |
++---------+------+-----------+
+1 row in set (0.01 sec)
+
+mysql> select * from department;
++----------------+---------+-----------+----------------+
+| Dname          | Dnumber | Mgr_ssn   | Mgr_start_date |
++----------------+---------+-----------+----------------+
+| Headquarters   |       2 | 888665555 | 1989-02-19     |
+| Administration |       5 | 987654321 | 1976-03-12     |
+| Research       |       6 | 333445555 | 1980-05-22     |
++----------------+---------+-----------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select pnumber,Dnum,Ssn from ((employee join department on Mgr_Ssn=Ssn)join project on Dnum=Dno) where plocation='Stafford';
++---------+------+-----------+
+| pnumber | Dnum | Ssn       |
++---------+------+-----------+
+|      24 |    5 | 888665555 |
+|      24 |    5 | 987654321 |
++---------+------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from project;
++-----------------+---------+-----------+------+
+| pname           | pnumber | plocation | Dnum |
++-----------------+---------+-----------+------+
+| Product X       |       1 | Bellaire  |    6 |
+| Product Y       |       2 | Sugarland |    6 |
+| Product Z       |      20 | Houston   |    2 |
+| Computerization |      24 | Stafford  |    5 |
++-----------------+---------+-----------+------+
+4 rows in set (0.00 sec)
+
+mysql> quit

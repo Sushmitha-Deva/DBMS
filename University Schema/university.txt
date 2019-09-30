@@ -1,0 +1,2953 @@
+mysql> select * from section;
++-----------+--------+----------+------+----------+-------------+--------------+
+| course_id | sec_id | semester | year | building | room_number | time_slot_id |
++-----------+--------+----------+------+----------+-------------+--------------+
+| BIO-101   | 1      | Summer   | 2009 | Painter  | 514         | B            |
+| BIO-301   | 1      | Summer   | 2010 | Painter  | 514         | A            |
+| CS-101    | 1      | Fall     | 2009 | Packard  | 101         | H            |
+| CS-101    | 1      | Spring   | 2010 | Packard  | 101         | F            |
+| CS-190    | 1      | Spring   | 2009 | Taylor   | 3128        | E            |
+| CS-190    | 2      | Spring   | 2009 | Taylor   | 3128        | A            |
+| CS-315    | 1      | Spring   | 2010 | Watson   | 120         | D            |
+| CS-319    | 1      | Spring   | 2010 | Watson   | 100         | B            |
+| CS-319    | 2      | Spring   | 2010 | Taylor   | 3128        | C            |
+| CS-347    | 1      | Fall     | 2009 | Taylor   | 3128        | A            |
+| EE-181    | 1      | Spring   | 2009 | Taylor   | 3128        | C            |
+| FIN-201   | 1      | Spring   | 2010 | Packard  | 101         | B            |
+| HIS-351   | 1      | Spring   | 2010 | Painter  | 514         | C            |
+| MU-199    | 1      | Spring   | 2010 | Packard  | 101         | D            |
+| PHY-101   | 1      | Fall     | 2009 | Watson   | 100         | A            |
++-----------+--------+----------+------+----------+-------------+--------------+
+15 rows in set (0.00 sec)
+
+mysql> select title,start_hr,start_min,end_hr,end_min from section s,course c,time_slot t where s.course_id=c.course_id and s.time_slot_id=t.time_slot_id; 
++----------------------------+----------+-----------+--------+---------+
+| title                      | start_hr | start_min | end_hr | end_min |
++----------------------------+----------+-----------+--------+---------+
+| Intro. to Biology          |        9 |         0 |      9 |      50 |
+| Intro. to Biology          |        9 |         0 |      9 |      50 |
+| Intro. to Biology          |        9 |         0 |      9 |      50 |
+| Genetics                   |        8 |         0 |      8 |      50 |
+| Genetics                   |        8 |         0 |      8 |      50 |
+| Genetics                   |        8 |         0 |      8 |      50 |
+| Intro. to Computer Science |       10 |         0 |     12 |      30 |
+| Intro. to Computer Science |       14 |        30 |     15 |      45 |
+| Intro. to Computer Science |       14 |        30 |     15 |      45 |
+| Game Design                |       10 |        30 |     11 |      45 |
+| Game Design                |       10 |        30 |     11 |      45 |
+| Game Design                |        8 |         0 |      8 |      50 |
+| Game Design                |        8 |         0 |      8 |      50 |
+| Game Design                |        8 |         0 |      8 |      50 |
+| Robotics                   |       13 |         0 |     13 |      50 |
+| Robotics                   |       13 |         0 |     13 |      50 |
+| Robotics                   |       13 |         0 |     13 |      50 |
+| Image Processing           |        9 |         0 |      9 |      50 |
+| Image Processing           |        9 |         0 |      9 |      50 |
+| Image Processing           |        9 |         0 |      9 |      50 |
+| Image Processing           |       11 |         0 |     11 |      50 |
+| Image Processing           |       11 |         0 |     11 |      50 |
+| Image Processing           |       11 |         0 |     11 |      50 |
+| Database System Concepts   |        8 |         0 |      8 |      50 |
+| Database System Concepts   |        8 |         0 |      8 |      50 |
+| Database System Concepts   |        8 |         0 |      8 |      50 |
+| Intro. to Digital Systems  |       11 |         0 |     11 |      50 |
+| Intro. to Digital Systems  |       11 |         0 |     11 |      50 |
+| Intro. to Digital Systems  |       11 |         0 |     11 |      50 |
+| Investment Banking         |        9 |         0 |      9 |      50 |
+| Investment Banking         |        9 |         0 |      9 |      50 |
+| Investment Banking         |        9 |         0 |      9 |      50 |
+| World History              |       11 |         0 |     11 |      50 |
+| World History              |       11 |         0 |     11 |      50 |
+| World History              |       11 |         0 |     11 |      50 |
+| Music Video Production     |       13 |         0 |     13 |      50 |
+| Music Video Production     |       13 |         0 |     13 |      50 |
+| Music Video Production     |       13 |         0 |     13 |      50 |
+| Physical Principles        |        8 |         0 |      8 |      50 |
+| Physical Principles        |        8 |         0 |      8 |      50 |
+| Physical Principles        |        8 |         0 |      8 |      50 |
++----------------------------+----------+-----------+--------+---------+
+41 rows in set (0.02 sec)
+
+mysql> select dept_name,count(*) from students s,instructor i where s.dept_name=i.dept_name group by dept_name;
+ERROR 1146 (42S02): Table 'university.students' doesn't exist
+mysql> select dept_name,count(*) from student s,instructor i where s.dept_name=i.dept_name group by dept_name;
+ERROR 1052 (23000): Column 'dept_name' in field list is ambiguous
+mysql> select s.dept_name,count(*) from student s,instructor i where s.dept_name=i.dept_name group by dept_name;
++------------+----------+
+| dept_name  | count(*) |
++------------+----------+
+| Biology    |        1 |
+| Comp. Sci. |       12 |
+| Elec. Eng. |        2 |
+| Finance    |        2 |
+| History    |        2 |
+| Music      |        1 |
+| Physics    |        6 |
++------------+----------+
+7 rows in set (0.03 sec)
+
+mysql> select iID,s.dept_name,count(*) from student s,instructor i where s.dept_name=i.dept_name group by dept_name;
+ERROR 1054 (42S22): Unknown column 'iID' in 'field list'
+mysql> desc instructor;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| ID        | varchar(5)   | NO   | PRI | NULL    |       |
+| name      | varchar(20)  | NO   |     | NULL    |       |
+| dept_name | varchar(20)  | YES  | MUL | NULL    |       |
+| salary    | decimal(8,2) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select i.ID,s.dept_name,count(*) from student s,instructor i where s.dept_name=i.dept_name group by dept_name;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'university.i.ID' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select * from student;
++-------+----------+------------+----------+
+| ID    | name     | dept_name  | tot_cred |
++-------+----------+------------+----------+
+| 00128 | Zhang    | Comp. Sci. |      102 |
+| 12345 | Shankar  | Comp. Sci. |       32 |
+| 19991 | Brandt   | History    |       80 |
+| 23121 | Chavez   | Finance    |      110 |
+| 44553 | Peltier  | Physics    |       56 |
+| 45678 | Levy     | Physics    |       46 |
+| 54321 | Williams | Comp. Sci. |       54 |
+| 55739 | Sanchez  | Music      |       38 |
+| 70557 | Snow     | Physics    |        0 |
+| 76543 | Brown    | Comp. Sci. |       58 |
+| 76653 | Aoi      | Elec. Eng. |       60 |
+| 98765 | Bourikas | Elec. Eng. |       98 |
+| 98988 | Tanaka   | Biology    |      120 |
++-------+----------+------------+----------+
+13 rows in set (0.00 sec)
+
+mysql> select * from instructor;
++-------+------------+------------+----------+
+| ID    | name       | dept_name  | salary   |
++-------+------------+------------+----------+
+| 10101 | Srinivasan | Comp. Sci. | 65000.00 |
+| 12121 | Wu         | Finance    | 90000.00 |
+| 15151 | Mozart     | Music      | 40000.00 |
+| 22222 | Einstein   | Physics    | 95000.00 |
+| 32343 | El Said    | History    | 60000.00 |
+| 33456 | Gold       | Physics    | 87000.00 |
+| 45565 | Katz       | Comp. Sci. | 75000.00 |
+| 58583 | Califieri  | History    | 62000.00 |
+| 76543 | Singh      | Finance    | 80000.00 |
+| 76766 | Crick      | Biology    | 72000.00 |
+| 83821 | Brandt     | Comp. Sci. | 92000.00 |
+| 98345 | Kim        | Elec. Eng. | 80000.00 |
++-------+------------+------------+----------+
+12 rows in set (0.00 sec)
+
+mysql> select * from advisor;
++-------+-------+
+| s_ID  | i_ID  |
++-------+-------+
+| 12345 | 10101 |
+| 44553 | 22222 |
+| 45678 | 22222 |
+| 00128 | 45565 |
+| 76543 | 45565 |
+| 23121 | 76543 |
+| 98988 | 76766 |
+| 76653 | 98345 |
+| 98765 | 98345 |
++-------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select i_ID,count(*) from advisor a,instructor i,student s where s.ID=a.s_ID and i.ID=a.i_ID and i.dept_name=s.dept_name group by i_ID;
++-------+----------+
+| i_ID  | count(*) |
++-------+----------+
+| 10101 |        1 |
+| 22222 |        2 |
+| 45565 |        2 |
+| 76543 |        1 |
+| 76766 |        1 |
+| 98345 |        2 |
++-------+----------+
+6 rows in set (0.00 sec)
+
+mysql> update advisor set s_ID=19991 where s_ID=00128;
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select i_ID,count(*) from advisor a,instructor i,student s where s.ID=a.s_ID and i.ID=a.i_ID and i.dept_name=s.dept_name group by i_ID;
++-------+----------+
+| i_ID  | count(*) |
++-------+----------+
+| 10101 |        1 |
+| 22222 |        2 |
+| 45565 |        1 |
+| 76543 |        1 |
+| 76766 |        1 |
+| 98345 |        2 |
++-------+----------+
+6 rows in set (0.01 sec)
+
+mysql> ^C
+mysql> select s_ID,c.course_id,dept_name,year from course c,takes t where t.course_id=c.course_id; 
+ERROR 1054 (42S22): Unknown column 's_ID' in 'field list'
+mysql> select * from takes;
++-------+-----------+--------+----------+------+-------+
+| ID    | course_id | sec_id | semester | year | grade |
++-------+-----------+--------+----------+------+-------+
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  |
++-------+-----------+--------+----------+------+-------+
+22 rows in set (0.00 sec)
+
+mysql> select ID,c.course_id,dept_name,year from course c,takes t where t.course_id=c.course_id;
++-------+-----------+------------+------+
+| ID    | course_id | dept_name  | year |
++-------+-----------+------------+------+
+| 98988 | BIO-101   | Biology    | 2009 |
+| 98988 | BIO-301   | Biology    | 2010 |
+| 00128 | CS-101    | Comp. Sci. | 2009 |
+| 12345 | CS-101    | Comp. Sci. | 2009 |
+| 45678 | CS-101    | Comp. Sci. | 2009 |
+| 54321 | CS-101    | Comp. Sci. | 2009 |
+| 76543 | CS-101    | Comp. Sci. | 2009 |
+| 98765 | CS-101    | Comp. Sci. | 2009 |
+| 45678 | CS-101    | Comp. Sci. | 2010 |
+| 12345 | CS-190    | Comp. Sci. | 2009 |
+| 54321 | CS-190    | Comp. Sci. | 2009 |
+| 12345 | CS-315    | Comp. Sci. | 2010 |
+| 98765 | CS-315    | Comp. Sci. | 2010 |
+| 45678 | CS-319    | Comp. Sci. | 2010 |
+| 76543 | CS-319    | Comp. Sci. | 2010 |
+| 00128 | CS-347    | Comp. Sci. | 2009 |
+| 12345 | CS-347    | Comp. Sci. | 2009 |
+| 76653 | EE-181    | Elec. Eng. | 2009 |
+| 23121 | FIN-201   | Finance    | 2010 |
+| 19991 | HIS-351   | History    | 2010 |
+| 55739 | MU-199    | Music      | 2010 |
+| 44553 | PHY-101   | Physics    | 2009 |
++-------+-----------+------------+------+
+22 rows in set (0.00 sec)
+
+mysql> Terminal close -- exit!
+Aborted
+mysql> select t.course_id from takes t where exists(select course_id,count(ID) from takes k where k.course_id=t.course_id group by k.course_id having count(ID)>=all(select count(ID) from takes group by k.course_id) ));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> select t.course_id from takes t where exists(select course_id,count(ID) from takes k where k.course_id=t.course_id group by k.course_id having count(ID)>=all(select count(ID) from takes group by k.course_id) ));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> select t.course_id from takes t where exists(select k.course_id,count(ID) from takes k where k.course_id=t.course_id group by k.course_id having count(ID)>=all(select count(ID) from takes group by k.course_id) ));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> select capacity,course_id,building from classroom c where exists(select s.building,s.course_id from section s where c.building=s.building and exists (select k.course_id,count(ID) from takes k where k.course_id=s.course_id group by k.course_id having count(ID)>=all(select count(ID) from takes group by k.course_id) ))
+    -> ;
+ERROR 1054 (42S22): Unknown column 'course_id' in 'field list'
+mysql> select capacity,course_id,building from classroom c where exists(select s.building,s.course_id from section s where c.building=s.building and exists (select k.course_id,count(ID) from takes k where k.course_id=s.course_id group by k.course_id having count(ID)>=all(select count(ID) from takes group by k.course_id) ));
+ERROR 1054 (42S22): Unknown column 'course_id' in 'field list'
+mysql> select capacity,s.course_id,c.building from classroom c where exists(select s.building,s.course_id from section s where c.building=s.building and exists (select k.course_id,count(ID) from takes k where k.course_id=s.course_id group by k.course_id having count(ID)>=all(select count(ID) from takes group by k.course_id) ));
+ERROR 1054 (42S22): Unknown column 's.course_id' in 'field list'
+mysql> ^C
+mysql> quit
+mysql> select ID from instructor where salary>=ALL(select salary from instructor);
++-------+
+| ID    |
++-------+
+| 22222 |
++-------+
+1 row in set (0.01 sec)
+
+mysql> select distinct i.name,t.course_id from teaches t,instructor i where i.ID= (select ID from instructor where salary>=ALL(select salary from instructor));
++----------+-----------+
+| name     | course_id |
++----------+-----------+
+| Einstein | BIO-101   |
+| Einstein | BIO-301   |
+| Einstein | CS-101    |
+| Einstein | CS-190    |
+| Einstein | CS-315    |
+| Einstein | CS-319    |
+| Einstein | CS-347    |
+| Einstein | EE-181    |
+| Einstein | FIN-201   |
+| Einstein | HIS-351   |
+| Einstein | MU-199    |
+| Einstein | PHY-101   |
++----------+-----------+
+12 rows in set (0.00 sec)
+
+mysql> select distinct name,course_id from teaches ,instructor  where ID= (select ID from instructor where salary>=ALL(select salary from instructor));
+ERROR 1052 (23000): Column 'ID' in where clause is ambiguous
+mysql> select i.ID,d.dept_name from instructor i,department d where i.salary<=ALL(select salary from instructor where dept_name=d.dept_name);
++-------+------------+
+| ID    | dept_name  |
++-------+------------+
+| 10101 | Biology    |
+| 10101 | Comp. Sci. |
+| 10101 | Elec. Eng. |
+| 10101 | Finance    |
+| 10101 | Physics    |
+| 15151 | Biology    |
+| 15151 | Comp. Sci. |
+| 15151 | Elec. Eng. |
+| 15151 | Finance    |
+| 15151 | History    |
+| 15151 | Music      |
+| 15151 | Physics    |
+| 32343 | Biology    |
+| 32343 | Comp. Sci. |
+| 32343 | Elec. Eng. |
+| 32343 | Finance    |
+| 32343 | History    |
+| 32343 | Physics    |
+| 33456 | Physics    |
+| 45565 | Elec. Eng. |
+| 45565 | Finance    |
+| 45565 | Physics    |
+| 58583 | Biology    |
+| 58583 | Comp. Sci. |
+| 58583 | Elec. Eng. |
+| 58583 | Finance    |
+| 58583 | Physics    |
+| 76543 | Elec. Eng. |
+| 76543 | Finance    |
+| 76543 | Physics    |
+| 76766 | Biology    |
+| 76766 | Elec. Eng. |
+| 76766 | Finance    |
+| 76766 | Physics    |
+| 98345 | Elec. Eng. |
+| 98345 | Finance    |
+| 98345 | Physics    |
++-------+------------+
+37 rows in set (0.04 sec)
+
+mysql> select distinct i.ID,d.dept_name from instructor i,department d where i.salary<=ALL(select salary from instructor where dept_name=d.dept_name);
++-------+------------+
+| ID    | dept_name  |
++-------+------------+
+| 10101 | Biology    |
+| 10101 | Comp. Sci. |
+| 10101 | Elec. Eng. |
+| 10101 | Finance    |
+| 10101 | Physics    |
+| 15151 | Biology    |
+| 15151 | Comp. Sci. |
+| 15151 | Elec. Eng. |
+| 15151 | Finance    |
+| 15151 | History    |
+| 15151 | Music      |
+| 15151 | Physics    |
+| 32343 | Biology    |
+| 32343 | Comp. Sci. |
+| 32343 | Elec. Eng. |
+| 32343 | Finance    |
+| 32343 | History    |
+| 32343 | Physics    |
+| 33456 | Physics    |
+| 45565 | Elec. Eng. |
+| 45565 | Finance    |
+| 45565 | Physics    |
+| 58583 | Biology    |
+| 58583 | Comp. Sci. |
+| 58583 | Elec. Eng. |
+| 58583 | Finance    |
+| 58583 | Physics    |
+| 76543 | Elec. Eng. |
+| 76543 | Finance    |
+| 76543 | Physics    |
+| 76766 | Biology    |
+| 76766 | Elec. Eng. |
+| 76766 | Finance    |
+| 76766 | Physics    |
+| 98345 | Elec. Eng. |
+| 98345 | Finance    |
+| 98345 | Physics    |
++-------+------------+
+37 rows in set (0.00 sec)
+
+mysql> select distinct (i.ID,d.dept_name) from instructor i,department d where i.salary<=ALL(select salary from instructor where dept_name=d.dept_name);
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> select distinct (i.ID,d.dept_name) from instructor i,department d where i.dept_name=d.dept_name and i.salary<=ALL(select salary from instructor where dept_name=d.dept_name);
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> select distinct i.ID,d.dept_name from instructor i,department d where i.dept_name=d.dept_name and i.salary<=ALL(select salary from instructor where dept_name=d.dept_name);
++-------+------------+
+| ID    | dept_name  |
++-------+------------+
+| 76766 | Biology    |
+| 10101 | Comp. Sci. |
+| 98345 | Elec. Eng. |
+| 76543 | Finance    |
+| 32343 | History    |
+| 15151 | Music      |
+| 33456 | Physics    |
++-------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from department;
++------------+----------+-----------+
+| dept_name  | building | budget    |
++------------+----------+-----------+
+| Biology    | Watson   |  90000.00 |
+| Comp. Sci. | Taylor   | 100000.00 |
+| Elec. Eng. | Taylor   |  85000.00 |
+| Finance    | Painter  | 120000.00 |
+| History    | Painter  |  50000.00 |
+| Music      | Packard  |  80000.00 |
+| Physics    | Watson   |  70000.00 |
++------------+----------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select distinct i.ID,d.dept_name from instructor i,department d where i.dept_name=d.dept_name and i.salary<=ALL(select salary from instructor);
++-------+-----------+
+| ID    | dept_name |
++-------+-----------+
+| 15151 | Music     |
++-------+-----------+
+1 row in set (0.01 sec)
+
+mysql> select distinct i.ID,d.dept_name from instructor i,department d where i.dept_name=d.dept_name and i.salary<=ALL(select salary from instructor where dept_name=d.dept_name);
++-------+------------+
+| ID    | dept_name  |
++-------+------------+
+| 76766 | Biology    |
+| 10101 | Comp. Sci. |
+| 98345 | Elec. Eng. |
+| 76543 | Finance    |
+| 32343 | History    |
+| 15151 | Music      |
+| 33456 | Physics    |
++-------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select distinct i.ID,d.dept_name from instructor i,department d where i.dept_name=d.dept_name and i.salary<=ALL(select salary from instructor where dept_name=d.dept_name);
++-------+------------+
+| ID    | dept_name  |
++-------+------------+
+| 76766 | Biology    |
+| 10101 | Comp. Sci. |
+| 98345 | Elec. Eng. |
+| 76543 | Finance    |
+| 32343 | History    |
+| 15151 | Music      |
+| 33456 | Physics    |
++-------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from department;
++------------+----------+-----------+
+| dept_name  | building | budget    |
++------------+----------+-----------+
+| Biology    | Watson   |  90000.00 |
+| Comp. Sci. | Taylor   | 100000.00 |
+| Elec. Eng. | Taylor   |  85000.00 |
+| Finance    | Painter  | 120000.00 |
+| History    | Painter  |  50000.00 |
+| Music      | Packard  |  80000.00 |
+| Physics    | Watson   |  70000.00 |
++------------+----------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select dept_name,budget*1.1 as new budget from department;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'budget from department' at line 1
+mysql> select dept_name,(budget*1.1) as new budget from department;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'budget from department' at line 1
+mysql> select dept_name,(budget*1.1) as new_budget from department;
++------------+------------+
+| dept_name  | new_budget |
++------------+------------+
+| Biology    |  99000.000 |
+| Comp. Sci. | 110000.000 |
+| Elec. Eng. |  93500.000 |
+| Finance    | 132000.000 |
+| History    |  55000.000 |
+| Music      |  88000.000 |
+| Physics    |  77000.000 |
++------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select dept_name,(budget*1.1) as new_budget from department;
++------------+------------+
+| dept_name  | new_budget |
++------------+------------+
+| Biology    |  99000.000 |
+| Comp. Sci. | 110000.000 |
+| Elec. Eng. |  93500.000 |
+| Finance    | 132000.000 |
+| History    |  55000.000 |
+| Music      |  88000.000 |
+| Physics    |  77000.000 |
++------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select dept_name,((budget*1.1)-(budget)) as expenditure from department;
++------------+-------------+
+| dept_name  | expenditure |
++------------+-------------+
+| Biology    |    9000.000 |
+| Comp. Sci. |   10000.000 |
+| Elec. Eng. |    8500.000 |
+| Finance    |   12000.000 |
+| History    |    5000.000 |
+| Music      |    8000.000 |
+| Physics    |    7000.000 |
++------------+-------------+
+7 rows in set (0.01 sec)
+
+mysql> select dept_name,((budget*1.1)-(budget)) as expenditure from department where expenditure=max(expenditure);
+ERROR 1054 (42S22): Unknown column 'expenditure' in 'where clause'
+mysql> ^C
+mysql> select dept_name,((budget*1.1)-(budget)) as expenditure from department where expenditure=max( select dept_name,((budget*1.1)-(budget)) as expenditure from department);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select dept_name,((budget*1.1)-(budget)) as expenditure from department)' at line 1
+mysql> select dept_name,((budget*1.1)-(budget)) as expenditure from department where expenditure=max( select max(((budget*1.1)-(budget))) from department);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select max(((budget*1.1)-(budget))) from department)' at line 1
+mysql> select dept_name,((budget*1.1)-(budget)) as expenditure from department where expenditure=( select max(((budget*1.1)-(budget))) from department);
+ERROR 1054 (42S22): Unknown column 'expenditure' in 'where clause'
+mysql> select dept_name,((budget*1.1)-(budget)) as expenditure from department where ((budget*1.1)-(budget))=( select max(((budget*1.1)-(budget))) from department);
++-----------+-------------+
+| dept_name | expenditure |
++-----------+-------------+
+| Finance   |   12000.000 |
++-----------+-------------+
+1 row in set (0.00 sec)
+
+mysql> exit
+mysql> select * from takes;
++-------+-----------+--------+----------+------+-------+
+| ID    | course_id | sec_id | semester | year | grade |
++-------+-----------+--------+----------+------+-------+
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  |
++-------+-----------+--------+----------+------+-------+
+22 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> select * from department;
++------------+----------+-----------+
+| dept_name  | building | budget    |
++------------+----------+-----------+
+| Biology    | Watson   |  90000.00 |
+| Comp. Sci. | Taylor   | 100000.00 |
+| Elec. Eng. | Taylor   |  85000.00 |
+| Finance    | Painter  | 120000.00 |
+| History    | Painter  |  50000.00 |
+| Music      | Packard  |  80000.00 |
+| Physics    | Watson   |  70000.00 |
++------------+----------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select i.name from instructor i,department d where i.dept_name=d.dept_name and building='Taylor';
++------------+
+| name       |
++------------+
+| Srinivasan |
+| Katz       |
+| Brandt     |
+| Kim        |
++------------+
+4 rows in set (0.03 sec)
+
+mysql> select * from instructor;
++-------+------------+------------+----------+
+| ID    | name       | dept_name  | salary   |
++-------+------------+------------+----------+
+| 10101 | Srinivasan | Comp. Sci. | 65000.00 |
+| 12121 | Wu         | Finance    | 90000.00 |
+| 15151 | Mozart     | Music      | 40000.00 |
+| 22222 | Einstein   | Physics    | 95000.00 |
+| 32343 | El Said    | History    | 60000.00 |
+| 33456 | Gold       | Physics    | 87000.00 |
+| 45565 | Katz       | Comp. Sci. | 75000.00 |
+| 58583 | Califieri  | History    | 62000.00 |
+| 76543 | Singh      | Finance    | 80000.00 |
+| 76766 | Crick      | Biology    | 72000.00 |
+| 83821 | Brandt     | Comp. Sci. | 92000.00 |
+| 98345 | Kim        | Elec. Eng. | 80000.00 |
++-------+------------+------------+----------+
+12 rows in set (0.00 sec)
+
+mysql> select c.title from course c where c.course_id in(select course_id from teaches where course_id=c.course_id and year=2016 and (semester='Fall' or semester='Spring' );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select c.title from course c where c.course_id in(select course_id from teaches where course_id=c.course_id and year=2016 and (semester='Fall' or semester='Spring') );
+Empty set (0.00 sec)
+
+mysql> select c.title from course c where c.course_id in(select course_id from teaches where course_id=c.course_id and year=2009 and (semester='Fall' or semester='Spring') );
++----------------------------+
+| title                      |
++----------------------------+
+| Intro. to Computer Science |
+| Game Design                |
+| Database System Concepts   |
+| Intro. to Digital Systems  |
+| Physical Principles        |
++----------------------------+
+5 rows in set (0.00 sec)
+
+mysql> select i.name,t.course_id from instructor i,teaches t where i.ID=t.ID and dept_name='History'; 
++---------+-----------+
+| name    | course_id |
++---------+-----------+
+| El Said | HIS-351   |
++---------+-----------+
+1 row in set (0.30 sec)
+
+mysql> select i.name,t.course_id from instructor i,teaches t where i.ID=t.ID and dept_name='Comp. Sci.';
++------------+-----------+
+| name       | course_id |
++------------+-----------+
+| Srinivasan | CS-101    |
+| Srinivasan | CS-315    |
+| Srinivasan | CS-347    |
+| Katz       | CS-101    |
+| Katz       | CS-319    |
+| Brandt     | CS-190    |
+| Brandt     | CS-190    |
+| Brandt     | CS-319    |
++------------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> select count(ID) from takes group by year; 
++-----------+
+| count(ID) |
++-----------+
+|        13 |
+|         9 |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from takes;
++-------+-----------+--------+----------+------+-------+
+| ID    | course_id | sec_id | semester | year | grade |
++-------+-----------+--------+----------+------+-------+
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  |
++-------+-----------+--------+----------+------+-------+
+22 rows in set (0.00 sec)
+
+mysql> select count(ID) from takes group by year;
++-----------+
+| count(ID) |
++-----------+
+|        13 |
+|         9 |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select t.year from takes group by year having count(ID)<=ALL(select count(ID) from takes group by year;) 
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+    -> select t.year from takes group by year having count(ID)<=ALL(select count(ID) from takes group by year);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ') 
+select t.year from takes group by year having count(ID)<=ALL(select count(ID)' at line 1
+mysql>  select t.year from takes group by year having count(ID)<=ALL(select count(ID) from takes group by year);
+ERROR 1054 (42S22): Unknown column 't.year' in 'field list'
+mysql>  select year from takes group by year having count(ID)<=ALL(select count(ID) from takes group by year);
++------+
+| year |
++------+
+| 2010 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select ID,grade from takes where year=(select year from takes group by year having count(ID)<=ALL(select count(ID) from takes group by year));
++-------+-------+
+| ID    | grade |
++-------+-------+
+| 12345 | A     |
+| 19991 | B     |
+| 23121 | C+    |
+| 45678 | B+    |
+| 45678 | B     |
+| 55739 | A-    |
+| 76543 | A     |
+| 98765 | B     |
+| 98988 | NULL  |
++-------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select ID,grade from takes where year=(select year from takes group by year having count(ID)<=ALL(select count(ID) from takes group by year)) order by grade;
++-------+-------+
+| ID    | grade |
++-------+-------+
+| 98988 | NULL  |
+| 12345 | A     |
+| 76543 | A     |
+| 55739 | A-    |
+| 19991 | B     |
+| 45678 | B     |
+| 98765 | B     |
+| 45678 | B+    |
+| 23121 | C+    |
++-------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select ID,grade from takes where year=(select year from takes group by year having count(ID)<=ALL(select count(ID) from takes group by year)) ;
++-------+-------+
+| ID    | grade |
++-------+-------+
+| 12345 | A     |
+| 19991 | B     |
+| 23121 | C+    |
+| 45678 | B+    |
+| 45678 | B     |
+| 55739 | A-    |
+| 76543 | A     |
+| 98765 | B     |
+| 98988 | NULL  |
++-------+-------+
+9 rows in set (0.01 sec)
+
+mysql> select t.ID,s.name,t.grade from takes t,student s where s.ID=t.ID and t.year=(select year from takes group by year having count(ID)<=ALL(select count(ID) from takes group by year)) order by s.name ;
++-------+----------+-------+
+| ID    | name     | grade |
++-------+----------+-------+
+| 98765 | Bourikas | B     |
+| 19991 | Brandt   | B     |
+| 76543 | Brown    | A     |
+| 23121 | Chavez   | C+    |
+| 45678 | Levy     | B+    |
+| 45678 | Levy     | B     |
+| 55739 | Sanchez  | A-    |
+| 12345 | Shankar  | A     |
+| 98988 | Tanaka   | NULL  |
++-------+----------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select * from student;
++-------+----------+------------+----------+
+| ID    | name     | dept_name  | tot_cred |
++-------+----------+------------+----------+
+| 00128 | Zhang    | Comp. Sci. |      102 |
+| 12345 | Shankar  | Comp. Sci. |       32 |
+| 19991 | Brandt   | History    |       80 |
+| 23121 | Chavez   | Finance    |      110 |
+| 44553 | Peltier  | Physics    |       56 |
+| 45678 | Levy     | Physics    |       46 |
+| 54321 | Williams | Comp. Sci. |       54 |
+| 55739 | Sanchez  | Music      |       38 |
+| 70557 | Snow     | Physics    |        0 |
+| 76543 | Brown    | Comp. Sci. |       58 |
+| 76653 | Aoi      | Elec. Eng. |       60 |
+| 98765 | Bourikas | Elec. Eng. |       98 |
+| 98988 | Tanaka   | Biology    |      120 |
++-------+----------+------------+----------+
+13 rows in set (0.00 sec)
+
+mysql> select * from takes;;
++-------+-----------+--------+----------+------+-------+
+| ID    | course_id | sec_id | semester | year | grade |
++-------+-----------+--------+----------+------+-------+
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  |
++-------+-----------+--------+----------+------+-------+
+22 rows in set (0.00 sec)
+
+ERROR: 
+No query specified
+
+mysql> select c.title from course c,teaches t where c.course_id=t.course_id and c.course_id in(select course_id from teaches where year=2009 and semester='Fall') and c.course_id not in(select course_id from teaches where year=2010 and semester='Spring'); 
++--------------------------+
+| title                    |
++--------------------------+
+| Database System Concepts |
+| Physical Principles      |
++--------------------------+
+2 rows in set (0.00 sec)
+
+mysql> select c.title,c.course_id from course c,teaches t where c.course_id=t.course_id and c.course_id in(select course_id from teaches where year=2009 and semester='Fall') and c.course_id not in(select course_id from teaches where year=2010 and semester='Spring');
++--------------------------+-----------+
+| title                    | course_id |
++--------------------------+-----------+
+| Database System Concepts | CS-347    |
+| Physical Principles      | PHY-101   |
++--------------------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select c.title,c.course_id from course c,teaches t where c.course_id=t.course_id and c.course_id in(select course_id from teaches where year=2009 and semester='Fall') and c.course_id not in(select course_id from teaches where year=2010 and semester='Spring');
++--------------------------+-----------+
+| title                    | course_id |
++--------------------------+-----------+
+| Database System Concepts | CS-347    |
+| Physical Principles      | PHY-101   |
++--------------------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from advisor;
++-------+-------+
+| s_ID  | i_ID  |
++-------+-------+
+| 12345 | 10101 |
+| 44553 | 22222 |
+| 45678 | 22222 |
+| 19991 | 45565 |
+| 76543 | 45565 |
+| 23121 | 76543 |
+| 98988 | 76766 |
+| 76653 | 98345 |
+| 98765 | 98345 |
++-------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select s_ID from advisor,instructor where ID=i_ID and ID.name='Shankar';
+ERROR 1054 (42S22): Unknown column 'ID.name' in 'where clause'
+mysql> select s_ID from advisor,instructor where ID=i_ID and name='Shankar';
+Empty set (0.00 sec)
+
+mysql> select * from instrutor;
+ERROR 1146 (42S02): Table 'university.instrutor' doesn't exist
+mysql> select * from instructor;
++-------+------------+------------+----------+
+| ID    | name       | dept_name  | salary   |
++-------+------------+------------+----------+
+| 10101 | Srinivasan | Comp. Sci. | 65000.00 |
+| 12121 | Wu         | Finance    | 90000.00 |
+| 15151 | Mozart     | Music      | 40000.00 |
+| 22222 | Einstein   | Physics    | 95000.00 |
+| 32343 | El Said    | History    | 60000.00 |
+| 33456 | Gold       | Physics    | 87000.00 |
+| 45565 | Katz       | Comp. Sci. | 75000.00 |
+| 58583 | Califieri  | History    | 62000.00 |
+| 76543 | Singh      | Finance    | 80000.00 |
+| 76766 | Crick      | Biology    | 72000.00 |
+| 83821 | Brandt     | Comp. Sci. | 92000.00 |
+| 98345 | Kim        | Elec. Eng. | 80000.00 |
++-------+------------+------------+----------+
+12 rows in set (0.00 sec)
+
+mysql> select s_ID from advisor,instructor where ID=i_ID and name='Einstein';
++-------+
+| s_ID  |
++-------+
+| 44553 |
+| 45678 |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select distinct s_ID from advisor,instructor where ID=i_ID and name='Einstein';
++-------+
+| s_ID  |
++-------+
+| 44553 |
+| 45678 |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select distinct s_ID from advisor,instructor where ID=i_ID and name='Einstein';
++-------+
+| s_ID  |
++-------+
+| 44553 |
+| 45678 |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select s.name from student s,takes t,course c where s.ID=t.ID and t.course_id=c.course_id and c.dept_name='Comp. Sci.'; 
++----------+
+| name     |
++----------+
+| Zhang    |
+| Shankar  |
+| Levy     |
+| Williams |
+| Brown    |
+| Bourikas |
+| Levy     |
+| Shankar  |
+| Williams |
+| Shankar  |
+| Bourikas |
+| Levy     |
+| Brown    |
+| Zhang    |
+| Shankar  |
++----------+
+15 rows in set (0.00 sec)
+
+mysql> select distinct s.name from student s,takes t,course c where s.ID=t.ID and t.course_id=c.course_id and c.dept_name='Comp. Sci.';
++----------+
+| name     |
++----------+
+| Zhang    |
+| Shankar  |
+| Levy     |
+| Williams |
+| Brown    |
+| Bourikas |
++----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student s,takes t,course c where s.ID=t.ID and t.course_id=c.course_id and c.dept_name='Comp. Sci.';
++-------+----------+------------+----------+-------+-----------+--------+----------+------+-------+-----------+----------------------------+------------+---------+
+| ID    | name     | dept_name  | tot_cred | ID    | course_id | sec_id | semester | year | grade | course_id | title                      | dept_name  | credits |
++-------+----------+------------+----------+-------+-----------+--------+----------+------+-------+-----------+----------------------------+------------+---------+
+| 00128 | Zhang    | Comp. Sci. |      102 | 00128 | CS-101    | 1      | Fall     | 2009 | A     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 12345 | Shankar  | Comp. Sci. |       32 | 12345 | CS-101    | 1      | Fall     | 2009 | C     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 45678 | Levy     | Physics    |       46 | 45678 | CS-101    | 1      | Fall     | 2009 | F     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 54321 | Williams | Comp. Sci. |       54 | 54321 | CS-101    | 1      | Fall     | 2009 | A-    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 76543 | Brown    | Comp. Sci. |       58 | 76543 | CS-101    | 1      | Fall     | 2009 | A     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 98765 | Bourikas | Elec. Eng. |       98 | 98765 | CS-101    | 1      | Fall     | 2009 | C-    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 45678 | Levy     | Physics    |       46 | 45678 | CS-101    | 1      | Spring   | 2010 | B+    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 12345 | Shankar  | Comp. Sci. |       32 | 12345 | CS-190    | 2      | Spring   | 2009 | A     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 54321 | Williams | Comp. Sci. |       54 | 54321 | CS-190    | 2      | Spring   | 2009 | B+    | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 12345 | Shankar  | Comp. Sci. |       32 | 12345 | CS-315    | 1      | Spring   | 2010 | A     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 98765 | Bourikas | Elec. Eng. |       98 | 98765 | CS-315    | 1      | Spring   | 2010 | B     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 45678 | Levy     | Physics    |       46 | 45678 | CS-319    | 1      | Spring   | 2010 | B     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 76543 | Brown    | Comp. Sci. |       58 | 76543 | CS-319    | 2      | Spring   | 2010 | A     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 00128 | Zhang    | Comp. Sci. |      102 | 00128 | CS-347    | 1      | Fall     | 2009 | A-    | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 12345 | Shankar  | Comp. Sci. |       32 | 12345 | CS-347    | 1      | Fall     | 2009 | A     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
++-------+----------+------------+----------+-------+-----------+--------+----------+------+-------+-----------+----------------------------+------------+---------+
+15 rows in set (0.00 sec)
+
+mysql> select distinct s.name from student s,takes t,course c where s.ID=t.ID and t.course_id=c.course_id and c.dept_name='Comp. Sci.';
++----------+
+| name     |
++----------+
+| Zhang    |
+| Shankar  |
+| Levy     |
+| Williams |
+| Brown    |
+| Bourikas |
++----------+
+6 rows in set (0.00 sec)
+
+mysql> select dept_name,max(salary) from instructor group by dept_name;
++------------+-------------+
+| dept_name  | max(salary) |
++------------+-------------+
+| Biology    |    72000.00 |
+| Comp. Sci. |    92000.00 |
+| Elec. Eng. |    80000.00 |
+| Finance    |    90000.00 |
+| History    |    62000.00 |
+| Music      |    40000.00 |
+| Physics    |    95000.00 |
++------------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> select count(*) from course where title='Biology';
++----------+
+| count(*) |
++----------+
+|        0 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select * from course;
++-----------+----------------------------+------------+---------+
+| course_id | title                      | dept_name  | credits |
++-----------+----------------------------+------------+---------+
+| BIO-101   | Intro. to Biology          | Biology    |       4 |
+| BIO-301   | Genetics                   | Biology    |       4 |
+| BIO-399   | Computational Biology      | Biology    |       3 |
+| CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| CS-190    | Game Design                | Comp. Sci. |       4 |
+| CS-315    | Robotics                   | Comp. Sci. |       3 |
+| CS-319    | Image Processing           | Comp. Sci. |       3 |
+| CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| FIN-201   | Investment Banking         | Finance    |       3 |
+| HIS-351   | World History              | History    |       3 |
+| MU-199    | Music Video Production     | Music      |       3 |
+| PHY-101   | Physical Principles        | Physics    |       4 |
++-----------+----------------------------+------------+---------+
+13 rows in set (0.00 sec)
+
+mysql> select count(*) from course where dept_name='Biology';
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select t.ID,t.couse_id from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and (select ID,count(course_id) from takes where dept_name='Biology' group by ID);
+ERROR 1054 (42S22): Unknown column 't.couse_id' in 'field list'
+mysql> select t.ID,t.couse_id from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and (select ID,count(course_id) from takes where dept_name='Biology' group by ID)=(seselect count(*) from course where dept_name='Biology';);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'count(*) from course where dept_name='Biology'' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> select t.ID,t.couse_id from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and (select ID,count(course_id) from takes where dept_name='Biology' group by ID)=(select count(*) from course where dept_name='Biology');
+ERROR 1054 (42S22): Unknown column 't.couse_id' in 'field list'
+mysql> select t.ID,t.course_id from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and (select ID,count(course_id) from takes where dept_name='Biology' group by ID)=(select count(*) from course where dept_name='Biology');
+ERROR 1241 (21000): Operand should contain 2 column(s)
+mysql> select t.ID,t.course_id from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and (select count(course_id) from takes where dept_name='Biology' group by ID)=(select count(*) from course where dept_name='Biology');
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> select t.ID,t.course_id from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and (select count(course_id) from takes where dept_name='Biology' group by ID)in(select count(*) from course where dept_name='Biology');
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> select t.ID,t.course_id from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and (select count(course_id) from takes where dept_name='Biology' group by ID)=(select count(*) from course where dept_name='Biology');
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> select count(*) from course where dept_name='Biology';
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select count(course_id) from takes group by dept_name;
+ERROR 1054 (42S22): Unknown column 'dept_name' in 'group statement'
+mysql> select count(t.course_id) from takes t,course c where c.course_id=t.course_id  group by dept_name;
++--------------------+
+| count(t.course_id) |
++--------------------+
+|                  2 |
+|                 15 |
+|                  1 |
+|                  1 |
+|                  1 |
+|                  1 |
+|                  1 |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> select count(t.course_id),dept_name from takes t,course c where c.course_id=t.course_id  group by dept_name;
++--------------------+------------+
+| count(t.course_id) | dept_name  |
++--------------------+------------+
+|                  2 | Biology    |
+|                 15 | Comp. Sci. |
+|                  1 | Elec. Eng. |
+|                  1 | Finance    |
+|                  1 | History    |
+|                  1 | Music      |
+|                  1 | Physics    |
++--------------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select count(distinct t.course_id),dept_name from takes t,course c where c.course_id=t.course_id  group by dept_name;
++-----------------------------+------------+
+| count(distinct t.course_id) | dept_name  |
++-----------------------------+------------+
+|                           2 | Biology    |
+|                           5 | Comp. Sci. |
+|                           1 | Elec. Eng. |
+|                           1 | Finance    |
+|                           1 | History    |
+|                           1 | Music      |
+|                           1 | Physics    |
++-----------------------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from takes t,course c where t.course_id=t.course_id;
++-------+-----------+--------+----------+------+-------+-----------+----------------------------+------------+---------+
+| ID    | course_id | sec_id | semester | year | grade | course_id | title                      | dept_name  | credits |
++-------+-----------+--------+----------+------+-------+-----------+----------------------------+------------+---------+
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | BIO-301   | Genetics                   | Biology    |       4 |
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | HIS-351   | World History              | History    |       3 |
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | MU-199    | Music Video Production     | Music      |       3 |
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | BIO-301   | Genetics                   | Biology    |       4 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | BIO-399   | Computational Biology      | Biology    |       3 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | FIN-201   | Investment Banking         | Finance    |       3 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | HIS-351   | World History              | History    |       3 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | MU-199    | Music Video Production     | Music      |       3 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | PHY-101   | Physical Principles        | Physics    |       4 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | BIO-301   | Genetics                   | Biology    |       4 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | HIS-351   | World History              | History    |       3 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | MU-199    | Music Video Production     | Music      |       3 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | BIO-301   | Genetics                   | Biology    |       4 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | HIS-351   | World History              | History    |       3 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | MU-199    | Music Video Production     | Music      |       3 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | BIO-301   | Genetics                   | Biology    |       4 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | HIS-351   | World History              | History    |       3 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | MU-199    | Music Video Production     | Music      |       3 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | BIO-301   | Genetics                   | Biology    |       4 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | HIS-351   | World History              | History    |       3 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | MU-199    | Music Video Production     | Music      |       3 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | BIO-301   | Genetics                   | Biology    |       4 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | HIS-351   | World History              | History    |       3 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | MU-199    | Music Video Production     | Music      |       3 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | BIO-301   | Genetics                   | Biology    |       4 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | BIO-399   | Computational Biology      | Biology    |       3 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | FIN-201   | Investment Banking         | Finance    |       3 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | HIS-351   | World History              | History    |       3 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | MU-199    | Music Video Production     | Music      |       3 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | PHY-101   | Physical Principles        | Physics    |       4 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | BIO-301   | Genetics                   | Biology    |       4 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | BIO-399   | Computational Biology      | Biology    |       3 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | FIN-201   | Investment Banking         | Finance    |       3 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | HIS-351   | World History              | History    |       3 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | MU-199    | Music Video Production     | Music      |       3 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | PHY-101   | Physical Principles        | Physics    |       4 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | BIO-301   | Genetics                   | Biology    |       4 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | HIS-351   | World History              | History    |       3 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | MU-199    | Music Video Production     | Music      |       3 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | BIO-301   | Genetics                   | Biology    |       4 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | BIO-399   | Computational Biology      | Biology    |       3 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | FIN-201   | Investment Banking         | Finance    |       3 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | HIS-351   | World History              | History    |       3 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | MU-199    | Music Video Production     | Music      |       3 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | PHY-101   | Physical Principles        | Physics    |       4 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | BIO-301   | Genetics                   | Biology    |       4 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | HIS-351   | World History              | History    |       3 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | MU-199    | Music Video Production     | Music      |       3 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | BIO-301   | Genetics                   | Biology    |       4 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | BIO-399   | Computational Biology      | Biology    |       3 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | FIN-201   | Investment Banking         | Finance    |       3 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | HIS-351   | World History              | History    |       3 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | MU-199    | Music Video Production     | Music      |       3 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | PHY-101   | Physical Principles        | Physics    |       4 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | BIO-301   | Genetics                   | Biology    |       4 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | BIO-399   | Computational Biology      | Biology    |       3 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | FIN-201   | Investment Banking         | Finance    |       3 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | HIS-351   | World History              | History    |       3 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | MU-199    | Music Video Production     | Music      |       3 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | PHY-101   | Physical Principles        | Physics    |       4 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | BIO-301   | Genetics                   | Biology    |       4 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | BIO-399   | Computational Biology      | Biology    |       3 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | FIN-201   | Investment Banking         | Finance    |       3 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | HIS-351   | World History              | History    |       3 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | MU-199    | Music Video Production     | Music      |       3 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | PHY-101   | Physical Principles        | Physics    |       4 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | BIO-301   | Genetics                   | Biology    |       4 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | HIS-351   | World History              | History    |       3 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | MU-199    | Music Video Production     | Music      |       3 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | BIO-301   | Genetics                   | Biology    |       4 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | HIS-351   | World History              | History    |       3 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | MU-199    | Music Video Production     | Music      |       3 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | BIO-301   | Genetics                   | Biology    |       4 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | HIS-351   | World History              | History    |       3 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | MU-199    | Music Video Production     | Music      |       3 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | BIO-301   | Genetics                   | Biology    |       4 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | BIO-399   | Computational Biology      | Biology    |       3 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | FIN-201   | Investment Banking         | Finance    |       3 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | HIS-351   | World History              | History    |       3 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | MU-199    | Music Video Production     | Music      |       3 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | PHY-101   | Physical Principles        | Physics    |       4 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | BIO-301   | Genetics                   | Biology    |       4 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | HIS-351   | World History              | History    |       3 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | MU-199    | Music Video Production     | Music      |       3 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | BIO-301   | Genetics                   | Biology    |       4 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | BIO-399   | Computational Biology      | Biology    |       3 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | FIN-201   | Investment Banking         | Finance    |       3 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | HIS-351   | World History              | History    |       3 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | MU-199    | Music Video Production     | Music      |       3 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | PHY-101   | Physical Principles        | Physics    |       4 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | BIO-301   | Genetics                   | Biology    |       4 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | BIO-399   | Computational Biology      | Biology    |       3 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | FIN-201   | Investment Banking         | Finance    |       3 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | HIS-351   | World History              | History    |       3 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | MU-199    | Music Video Production     | Music      |       3 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | PHY-101   | Physical Principles        | Physics    |       4 |
++-------+-----------+--------+----------+------+-------+-----------+----------------------------+------------+---------+
+286 rows in set (0.03 sec)
+
+mysql> select * from takes t,course c where t.course_id=c.course_id;
++-------+-----------+--------+----------+------+-------+-----------+----------------------------+------------+---------+
+| ID    | course_id | sec_id | semester | year | grade | course_id | title                      | dept_name  | credits |
++-------+-----------+--------+----------+------+-------+-----------+----------------------------+------------+---------+
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     | CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     | HIS-351   | World History              | History    |       3 |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    | FIN-201   | Investment Banking         | Finance    |       3 |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    | PHY-101   | Physical Principles        | Physics    |       4 |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    | CS-190    | Game Design                | Comp. Sci. |       4 |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    | MU-199    | Music Video Production     | Music      |       3 |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     | CS-319    | Image Processing           | Comp. Sci. |       3 |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     | EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    | CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     | CS-315    | Robotics                   | Comp. Sci. |       3 |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     | BIO-101   | Intro. to Biology          | Biology    |       4 |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  | BIO-301   | Genetics                   | Biology    |       4 |
++-------+-----------+--------+----------+------+-------+-----------+----------------------------+------------+---------+
+22 rows in set (0.00 sec)
+
+mysql> select count(distinct t.course_id),dept_name from takes t,course c where c.course_id=t.course_id  group by dept_name;
++-----------------------------+------------+
+| count(distinct t.course_id) | dept_name  |
++-----------------------------+------------+
+|                           2 | Biology    |
+|                           5 | Comp. Sci. |
+|                           1 | Elec. Eng. |
+|                           1 | Finance    |
+|                           1 | History    |
+|                           1 | Music      |
+|                           1 | Physics    |
++-----------------------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select count(*) from course where dept_name='Biology';
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select * from course;
++-----------+----------------------------+------------+---------+
+| course_id | title                      | dept_name  | credits |
++-----------+----------------------------+------------+---------+
+| BIO-101   | Intro. to Biology          | Biology    |       4 |
+| BIO-301   | Genetics                   | Biology    |       4 |
+| BIO-399   | Computational Biology      | Biology    |       3 |
+| CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| CS-190    | Game Design                | Comp. Sci. |       4 |
+| CS-315    | Robotics                   | Comp. Sci. |       3 |
+| CS-319    | Image Processing           | Comp. Sci. |       3 |
+| CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| FIN-201   | Investment Banking         | Finance    |       3 |
+| HIS-351   | World History              | History    |       3 |
+| MU-199    | Music Video Production     | Music      |       3 |
+| PHY-101   | Physical Principles        | Physics    |       4 |
++-----------+----------------------------+------------+---------+
+13 rows in set (0.00 sec)
+
+mysql> select count(distinct t.course_id),dept_name from takes t,course c where c.course_id=t.course_id and dept_name='Biology' group by dept_name;
++-----------------------------+-----------+
+| count(distinct t.course_id) | dept_name |
++-----------------------------+-----------+
+|                           2 | Biology   |
++-----------------------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select count(distinct t.course_id),dept_name from takes t,course c where c.course_id=t.course_id and dept_name='Biology';
++-----------------------------+-----------+
+| count(distinct t.course_id) | dept_name |
++-----------------------------+-----------+
+|                           2 | Biology   |
++-----------------------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select count(*) from course where dept_name='Biology';
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select count(distinct t.course_id),dept_name from takes t,course c where c.course_id=t.course_id and dept_name='Biology';
++-----------------------------+-----------+
+| count(distinct t.course_id) | dept_name |
++-----------------------------+-----------+
+|                           2 | Biology   |
++-----------------------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select T.ID from takes T where (select count(distinct t.course_id),dept_name from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and T.ID=t.ID)==3; 
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '==3' at line 1
+mysql> select T.ID from takes T where (select count(distinct t.course_id),dept_name from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and T.ID=t.ID)=3;
+ERROR 1241 (21000): Operand should contain 2 column(s)
+mysql> select T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and T.ID=t.ID)=3;
+Empty set (0.00 sec)
+
+mysql> select T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and T.ID=t.ID)=2;
++-------+
+| ID    |
++-------+
+| 98988 |
+| 98988 |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and T.ID=t.ID)=2;
++-------+
+| ID    |
++-------+
+| 98988 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Comp. Sci.' and T.ID=t.ID)=2;
++-------+
+| ID    |
++-------+
+| 00128 |
+| 45678 |
+| 54321 |
+| 76543 |
+| 98765 |
++-------+
+5 rows in set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Comp. Sci.' and T.ID=t.ID)=(select count(*) from course where dept_name='Comp. Sci');
++-------+
+| ID    |
++-------+
+| 19991 |
+| 23121 |
+| 44553 |
+| 55739 |
+| 76653 |
+| 98988 |
++-------+
+6 rows in set (0.01 sec)
+
+mysql> select * from course order by dept_name;
++-----------+----------------------------+------------+---------+
+| course_id | title                      | dept_name  | credits |
++-----------+----------------------------+------------+---------+
+| BIO-101   | Intro. to Biology          | Biology    |       4 |
+| BIO-301   | Genetics                   | Biology    |       4 |
+| BIO-399   | Computational Biology      | Biology    |       3 |
+| CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| CS-190    | Game Design                | Comp. Sci. |       4 |
+| CS-315    | Robotics                   | Comp. Sci. |       3 |
+| CS-319    | Image Processing           | Comp. Sci. |       3 |
+| CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| FIN-201   | Investment Banking         | Finance    |       3 |
+| HIS-351   | World History              | History    |       3 |
+| MU-199    | Music Video Production     | Music      |       3 |
+| PHY-101   | Physical Principles        | Physics    |       4 |
++-----------+----------------------------+------------+---------+
+13 rows in set (0.00 sec)
+
+mysql> select * from takes;
++-------+-----------+--------+----------+------+-------+
+| ID    | course_id | sec_id | semester | year | grade |
++-------+-----------+--------+----------+------+-------+
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  |
++-------+-----------+--------+----------+------+-------+
+22 rows in set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Comp. Sci.' and T.ID=t.ID)=2;
++-------+
+| ID    |
++-------+
+| 00128 |
+| 45678 |
+| 54321 |
+| 76543 |
+| 98765 |
++-------+
+5 rows in set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Comp. Sci.' and T.ID=t.ID)=5;
+Empty set (0.01 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and T.ID=t.ID)=2;
++-------+
+| ID    |
++-------+
+| 98988 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='History' and T.ID=t.ID)=2;
+Empty set (0.01 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='History' and T.ID=t.ID)=1;
++-------+
+| ID    |
++-------+
+| 19991 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='History' and T.ID=t.ID)=(select count(*) from course where dept_name='History');
++-------+
+| ID    |
++-------+
+| 19991 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Comp. Sci' and T.ID=t.ID)=(select count(*) from course where dept_name='Comp. Sci');
++-------+
+| ID    |
++-------+
+| 00128 |
+| 12345 |
+| 19991 |
+| 23121 |
+| 44553 |
+| 45678 |
+| 54321 |
+| 55739 |
+| 76543 |
+| 76653 |
+| 98765 |
+| 98988 |
++-------+
+12 rows in set (0.01 sec)
+
+mysql> (select count(*) from course where dept_name='Comp. Sci');
++----------+
+| count(*) |
++----------+
+|        0 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Comp. Sci' and T.ID=t.ID)=(select count(*) from course where dept_name='Comp. Sci.');
+Empty set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Comp. Sci.' and T.ID=t.ID)=(select count(*) from course where dept_name='Comp. Sci.');
+Empty set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Comp. Sci.' and T.ID=t.ID)=(select count(*)-3 from course where dept_name='Comp. Sci.');
++-------+
+| ID    |
++-------+
+| 00128 |
+| 45678 |
+| 54321 |
+| 76543 |
+| 98765 |
++-------+
+5 rows in set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and T.ID=t.ID)=(select count(*) from course where dept_name='Biology');
+Empty set (0.00 sec)
+
+mysql> select distinct T.ID from takes T where (select count(distinct t.course_id) from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and T.ID=t.ID)=(select count(*)-1 from course where dept_name='Biology');
++-------+
+| ID    |
++-------+
+| 98988 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select t.ID,t.course_id from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and (select count(course_id) from takes where dept_name='Biology' group by ID)=(select count(*) from course where dept_name='Biology');
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> select t.ID,t.course_id from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and (select count(distinct course_id) from takes where dept_name='Biology' group by ID)=(select count(*) from course where dept_name='Biology');
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> select t.ID,t.course_id from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and (select count(distinct course_id) from takes where dept_name='Biology' group by ID having count(distinct course_id)>=select count(*) from course where dept_name='Biology';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select count(*) from course where dept_name='Biology'' at line 1
+mysql> select t.ID,t.course_id from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and (select count(distinct course_id) from takes where dept_name='Biology' group by ID having count(distinct course_id)>=select count(*) from course where dept_name='Biology');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select count(*) from course where dept_name='Biology')' at line 1
+mysql> select t.ID,t.course_id from takes t,course c where c.course_id=t.course_id and dept_name='Biology' and (select count(distinct T.course_id) from takes T where dept_name='Biology' and T.ID=t.ID group by T.ID having count(distinct course_id)>=select count(*) from course where dept_name='Biology';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select count(*) from course where dept_name='Biology'' at line 1
+mysql> create view view1 as (select course_id from course where dept_name='Biology');
+Query OK, 0 rows affected (0.31 sec)
+
+mysql> select * from view1;
++-----------+
+| course_id |
++-----------+
+| BIO-101   |
+| BIO-301   |
+| BIO-399   |
++-----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from takes;
++-------+-----------+--------+----------+------+-------+
+| ID    | course_id | sec_id | semester | year | grade |
++-------+-----------+--------+----------+------+-------+
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  |
++-------+-----------+--------+----------+------+-------+
+22 rows in set (0.00 sec)
+
+mysql> create view view2 as(select ID,t.course_id from takes t,course c where c.dept_name='Biology');
+Query OK, 0 rows affected (0.30 sec)
+
+mysql> select * from view2;
++-------+-----------+
+| ID    | course_id |
++-------+-----------+
+| 98988 | BIO-101   |
+| 98988 | BIO-101   |
+| 98988 | BIO-101   |
+| 98988 | BIO-301   |
+| 98988 | BIO-301   |
+| 98988 | BIO-301   |
+| 00128 | CS-101    |
+| 00128 | CS-101    |
+| 00128 | CS-101    |
+| 12345 | CS-101    |
+| 12345 | CS-101    |
+| 12345 | CS-101    |
+| 45678 | CS-101    |
+| 45678 | CS-101    |
+| 45678 | CS-101    |
+| 54321 | CS-101    |
+| 54321 | CS-101    |
+| 54321 | CS-101    |
+| 76543 | CS-101    |
+| 76543 | CS-101    |
+| 76543 | CS-101    |
+| 98765 | CS-101    |
+| 98765 | CS-101    |
+| 98765 | CS-101    |
+| 45678 | CS-101    |
+| 45678 | CS-101    |
+| 45678 | CS-101    |
+| 12345 | CS-190    |
+| 12345 | CS-190    |
+| 12345 | CS-190    |
+| 54321 | CS-190    |
+| 54321 | CS-190    |
+| 54321 | CS-190    |
+| 12345 | CS-315    |
+| 12345 | CS-315    |
+| 12345 | CS-315    |
+| 98765 | CS-315    |
+| 98765 | CS-315    |
+| 98765 | CS-315    |
+| 45678 | CS-319    |
+| 45678 | CS-319    |
+| 45678 | CS-319    |
+| 76543 | CS-319    |
+| 76543 | CS-319    |
+| 76543 | CS-319    |
+| 00128 | CS-347    |
+| 00128 | CS-347    |
+| 00128 | CS-347    |
+| 12345 | CS-347    |
+| 12345 | CS-347    |
+| 12345 | CS-347    |
+| 76653 | EE-181    |
+| 76653 | EE-181    |
+| 76653 | EE-181    |
+| 23121 | FIN-201   |
+| 23121 | FIN-201   |
+| 23121 | FIN-201   |
+| 19991 | HIS-351   |
+| 19991 | HIS-351   |
+| 19991 | HIS-351   |
+| 55739 | MU-199    |
+| 55739 | MU-199    |
+| 55739 | MU-199    |
+| 44553 | PHY-101   |
+| 44553 | PHY-101   |
+| 44553 | PHY-101   |
++-------+-----------+
+66 rows in set (0.00 sec)
+
+mysql> drop view view2;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> create view view2 as(select ID,t.course_id from takes t,course c where c.dept_name='Biology' and t.course_id=c.course_id);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> select * from view2;
++-------+-----------+
+| ID    | course_id |
++-------+-----------+
+| 98988 | BIO-101   |
+| 98988 | BIO-301   |
++-------+-----------+
+2 rows in set (0.01 sec)
+
+mysql> select ID from (view1 outer join view2 on view1.course_id=view2.course_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'outer join view2 on view1.course_id=view2.course_id)' at line 1
+mysql> select ID from (view1 outer join view2) on( view1.course_id=view2.course_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'outer join view2) on( view1.course_id=view2.course_id)' at line 1
+mysql> select ID from (view1 outer_join view2) on( view1.course_id=view2.course_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'view2) on( view1.course_id=view2.course_id)' at line 1
+mysql> select ID from (view1 full outerjoin view2) on( view1.course_id=view2.course_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'outerjoin view2) on( view1.course_id=view2.course_id)' at line 1
+mysql> select ID from view1 A full outer join view2 B on( A.course_id=B.course_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full outer join view2 B on( A.course_id=B.course_id)' at line 1
+mysql> select ID from view1 A full outer join view2 B on A.course_id=B.course_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full outer join view2 B on A.course_id=B.course_id' at line 1
+mysql> select ID from view1 A inner join view2 B on A.course_id=B.course_id;
++-------+
+| ID    |
++-------+
+| 98988 |
+| 98988 |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select ID from view1 A outer join view2 B on A.course_id=B.course_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'outer join view2 B on A.course_id=B.course_id' at line 1
+mysql> select ID from view1 A full outer join view2 B on A.course_id=B.course_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full outer join view2 B on A.course_id=B.course_id' at line 1
+mysql> select ID from view1 A left join view2 B on A.course_id=B.course_id;
++-------+
+| ID    |
++-------+
+| 98988 |
+| 98988 |
+| NULL  |
++-------+
+3 rows in set (0.01 sec)
+
+mysql> select ID from view1 A right join view2 B on A.course_id=B.course_id;
++-------+
+| ID    |
++-------+
+| 98988 |
+| 98988 |
++-------+
+2 rows in set (0.01 sec)
+
+mysql> select * from view1 A right join view2 B on A.course_id=B.course_id;
++-----------+-------+-----------+
+| course_id | ID    | course_id |
++-----------+-------+-----------+
+| BIO-101   | 98988 | BIO-101   |
+| BIO-301   | 98988 | BIO-301   |
++-----------+-------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from view1 A left join view2 B on A.course_id=B.course_id;
++-----------+-------+-----------+
+| course_id | ID    | course_id |
++-----------+-------+-----------+
+| BIO-101   | 98988 | BIO-101   |
+| BIO-301   | 98988 | BIO-301   |
+| BIO-399   | NULL  | NULL      |
++-----------+-------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select name from student where tot_cred>=15;
++----------+
+| name     |
++----------+
+| Zhang    |
+| Shankar  |
+| Brandt   |
+| Chavez   |
+| Peltier  |
+| Levy     |
+| Williams |
+| Sanchez  |
+| Brown    |
+| Aoi      |
+| Bourikas |
+| Tanaka   |
++----------+
+12 rows in set (0.00 sec)
+
+mysql> select name from student where tot_cred>=15 order by name;
++----------+
+| name     |
++----------+
+| Aoi      |
+| Bourikas |
+| Brandt   |
+| Brown    |
+| Chavez   |
+| Levy     |
+| Peltier  |
+| Sanchez  |
+| Shankar  |
+| Tanaka   |
+| Williams |
+| Zhang    |
++----------+
+12 rows in set (0.00 sec)
+
+mysql> select name from student order by name;
++----------+
+| name     |
++----------+
+| Aoi      |
+| Bourikas |
+| Brandt   |
+| Brown    |
+| Chavez   |
+| Levy     |
+| Peltier  |
+| Sanchez  |
+| Shankar  |
+| Snow     |
+| Tanaka   |
+| Williams |
+| Zhang    |
++----------+
+13 rows in set (0.00 sec)
+
+mysql> select name from student where tot_cred>=30 order by name;
++----------+
+| name     |
++----------+
+| Aoi      |
+| Bourikas |
+| Brandt   |
+| Brown    |
+| Chavez   |
+| Levy     |
+| Peltier  |
+| Sanchez  |
+| Shankar  |
+| Tanaka   |
+| Williams |
+| Zhang    |
++----------+
+12 rows in set (0.00 sec)
+
+mysql> select * from student where tot_cred>=30 order by name;
++-------+----------+------------+----------+
+| ID    | name     | dept_name  | tot_cred |
++-------+----------+------------+----------+
+| 76653 | Aoi      | Elec. Eng. |       60 |
+| 98765 | Bourikas | Elec. Eng. |       98 |
+| 19991 | Brandt   | History    |       80 |
+| 76543 | Brown    | Comp. Sci. |       58 |
+| 23121 | Chavez   | Finance    |      110 |
+| 45678 | Levy     | Physics    |       46 |
+| 44553 | Peltier  | Physics    |       56 |
+| 55739 | Sanchez  | Music      |       38 |
+| 12345 | Shankar  | Comp. Sci. |       32 |
+| 98988 | Tanaka   | Biology    |      120 |
+| 54321 | Williams | Comp. Sci. |       54 |
+| 00128 | Zhang    | Comp. Sci. |      102 |
++-------+----------+------------+----------+
+12 rows in set (0.00 sec)
+
+mysql> select * from student where tot_cred>=80 order by name;
++-------+----------+------------+----------+
+| ID    | name     | dept_name  | tot_cred |
++-------+----------+------------+----------+
+| 98765 | Bourikas | Elec. Eng. |       98 |
+| 19991 | Brandt   | History    |       80 |
+| 23121 | Chavez   | Finance    |      110 |
+| 98988 | Tanaka   | Biology    |      120 |
+| 00128 | Zhang    | Comp. Sci. |      102 |
++-------+----------+------------+----------+
+5 rows in set (0.01 sec)
+
+mysql> select name from student where tot_cred>=80 order by name;
++----------+
+| name     |
++----------+
+| Bourikas |
+| Brandt   |
+| Chavez   |
+| Tanaka   |
+| Zhang    |
++----------+
+5 rows in set (0.00 sec)
+
+mysql> select name from student,takes t where tot_cred>=80 and ID=t.ID order by name;
+ERROR 1052 (23000): Column 'ID' in where clause is ambiguous
+mysql> select s.name,t.semester,t.year from student s,takes t where s.tot_cred>=80 and s.ID=t.ID order by name;
++----------+----------+------+
+| name     | semester | year |
++----------+----------+------+
+| Bourikas | Fall     | 2009 |
+| Bourikas | Spring   | 2010 |
+| Brandt   | Spring   | 2010 |
+| Chavez   | Spring   | 2010 |
+| Tanaka   | Summer   | 2009 |
+| Tanaka   | Summer   | 2010 |
+| Zhang    | Fall     | 2009 |
+| Zhang    | Fall     | 2009 |
++----------+----------+------+
+8 rows in set (0.00 sec)
+
+mysql> select t.ID,count(distinct t.course_id) from teaches t groupby t.ID
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'groupby t.ID' at line 1
+mysql> select t.ID,count(distinct t.course_id) from teaches t group by t.ID;
++-------+-----------------------------+
+| ID    | count(distinct t.course_id) |
++-------+-----------------------------+
+| 10101 |                           3 |
+| 12121 |                           1 |
+| 15151 |                           1 |
+| 22222 |                           1 |
+| 32343 |                           1 |
+| 45565 |                           2 |
+| 76766 |                           2 |
+| 83821 |                           2 |
+| 98345 |                           1 |
++-------+-----------------------------+
+9 rows in set (0.00 sec)
+
+mysql> select ID from teaches where count(distinct t.course_id)>=ALL(select t.ID,count(distinct t.course_id) from teaches t group by t.ID);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select ID from teaches where count(distinct t.course_id)>=ALL(select count(distinct t.course_id) from teaches t group by t.ID);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select ID,select t.ID,count(distinct t.course_id) from teaches t group by t.ID from teaches group by ID having count(distinct t.course_id)>=ALL(select count(distinct t.course_id) from teaches t group by t.ID);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select t.ID,count(distinct t.course_id) from teaches t group by t.ID from teache' at line 1
+mysql> select ID from takes where exists (select ID,count(distinct course_id) from takes group by ID having count(distinct course_id)>=all(select count(distinct course_id) from takes group by ID));
++-------+
+| ID    |
++-------+
+| 98988 |
+| 98988 |
+| 00128 |
+| 12345 |
+| 45678 |
+| 54321 |
+| 76543 |
+| 98765 |
+| 45678 |
+| 12345 |
+| 54321 |
+| 12345 |
+| 98765 |
+| 45678 |
+| 76543 |
+| 00128 |
+| 12345 |
+| 76653 |
+| 23121 |
+| 19991 |
+| 55739 |
+| 44553 |
++-------+
+22 rows in set (0.00 sec)
+
+mysql> select t.ID,count(distinct t.course_id) from teaches t group by t.ID;
++-------+-----------------------------+
+| ID    | count(distinct t.course_id) |
++-------+-----------------------------+
+| 10101 |                           3 |
+| 12121 |                           1 |
+| 15151 |                           1 |
+| 22222 |                           1 |
+| 32343 |                           1 |
+| 45565 |                           2 |
+| 76766 |                           2 |
+| 83821 |                           2 |
+| 98345 |                           1 |
++-------+-----------------------------+
+9 rows in set (0.00 sec)
+
+mysql> select count(distinct t.course_id) from teaches t group by t.ID;
++-----------------------------+
+| count(distinct t.course_id) |
++-----------------------------+
+|                           3 |
+|                           1 |
+|                           1 |
+|                           1 |
+|                           1 |
+|                           2 |
+|                           2 |
+|                           2 |
+|                           1 |
++-----------------------------+
+9 rows in set (0.00 sec)
+
+mysql> select ID from teaches where count(distinct t.course_id) <=(select count(distinct t.course_id) from teaches t group by t.ID);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select ID from teaches group by ID having count(distinct t.course_id) <=(select count(distinct t.course_id) from teaches t group by t.ID);
+ERROR 1054 (42S22): Unknown column 't.course_id' in 'having clause'
+mysql> select ID from teaches group by ID having count(distinct course_id) <=(select count(distinct t.course_id) from teaches t group by t.ID);
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> select ID from teaches group by ID having count(distinct course_id) <=all(select count(distinct t.course_id) from teaches t group by t.ID);
++-------+
+| ID    |
++-------+
+| 12121 |
+| 15151 |
+| 22222 |
+| 32343 |
+| 98345 |
++-------+
+5 rows in set (0.00 sec)
+
+mysql> select ID from teaches group by ID having count(distinct course_id) >=all(select count(distinct t.course_id) from teaches t group by t.ID);
++-------+
+| ID    |
++-------+
+| 10101 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select course_id,ID from teaches where ID in(select ID from teaches group by ID having count(distinct course_id) >=all(select count(distinct t.course_id) from teaches t group by t.ID));
++-----------+-------+
+| course_id | ID    |
++-----------+-------+
+| CS-101    | 10101 |
+| CS-315    | 10101 |
+| CS-347    | 10101 |
++-----------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select max(capacity) from classroom;
++---------------+
+| max(capacity) |
++---------------+
+|           500 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select building,room_number,capacity from classroom where capacity=(select max(capacity) from classroom);
++----------+-------------+----------+
+| building | room_number | capacity |
++----------+-------------+----------+
+| Packard  | 101         |      500 |
++----------+-------------+----------+
+1 row in set (0.00 sec)
+
+mysql> select T.ID from takes T where exists (select ID,count(distinct course_id) from takes  where ID=T.ID group by ID having count(distinct course_id)>=all(select count(distinct course_id) from takes group by ID));
++-------+
+| ID    |
++-------+
+| 12345 |
+| 12345 |
+| 12345 |
+| 12345 |
++-------+
+4 rows in set (0.00 sec)
+
+mysql> select 1000+2000+300+40+5;
++--------------------+
+| 1000+2000+300+40+5 |
++--------------------+
+|               3345 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select 1000+200+300+40+5;
++-------------------+
+| 1000+200+300+40+5 |
++-------------------+
+|              1545 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select 10000+200+300+40+5;
++--------------------+
+| 10000+200+300+40+5 |
++--------------------+
+|              10545 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select 10000+2000+300+40+5;
++---------------------+
+| 10000+2000+300+40+5 |
++---------------------+
+|               12345 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> select count(ID) from takes group by course_id;
++-----------+
+| count(ID) |
++-----------+
+|         1 |
+|         1 |
+|         7 |
+|         2 |
+|         2 |
+|         2 |
+|         2 |
+|         1 |
+|         1 |
+|         1 |
+|         1 |
+|         1 |
++-----------+
+12 rows in set (0.00 sec)
+
+mysql> select course_id from takes group by course_id having count(ID)>=(select count(ID) from takes group by course_id;);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> select course_id from takes group by course_id having count(ID)>=(select count(ID) from takes group by course_id);
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> select course_id from takes group by course_id having count(ID)>=all(select count(ID) from takes group by course_id);
++-----------+
+| course_id |
++-----------+
+| CS-101    |
++-----------+
+1 row in set (0.01 sec)
+
+mysql> select count(ID),course_id from takes group by course_id;
++-----------+-----------+
+| count(ID) | course_id |
++-----------+-----------+
+|         1 | BIO-101   |
+|         1 | BIO-301   |
+|         7 | CS-101    |
+|         2 | CS-190    |
+|         2 | CS-315    |
+|         2 | CS-319    |
+|         2 | CS-347    |
+|         1 | EE-181    |
+|         1 | FIN-201   |
+|         1 | HIS-351   |
+|         1 | MU-199    |
+|         1 | PHY-101   |
++-----------+-----------+
+12 rows in set (0.00 sec)
+
+mysql> select course_id from takes group by course_id having count(ID)>=all(select count(ID) from takes group by course_id);
++-----------+
+| course_id |
++-----------+
+| CS-101    |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select capacity from classroom c,section s where c.building=s.building and c.room_number=s.room_number and course_id=(); select course_id from takes group by course_id having count(ID)>=all(select count(ID) from takes group by course_id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
++-----------+
+| course_id |
++-----------+
+| CS-101    |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select capacity from classroom c,section s where c.building=s.building and c.room_number=s.room_number and course_id=( select course_id from takes group by course_id having count(ID)>=all(select count(ID) from takes group by course_id););
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> select capacity from classroom c,section s where c.building=s.building and c.room_number=s.room_number and course_id=( select course_id from takes group by course_id having count(ID)>=all(select count(ID) from takes group by course_id));
++----------+
+| capacity |
++----------+
+|      500 |
+|      500 |
++----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from classroom c,section s where c.building=s.building and c.room_number=s.room_number and course_id=( select course_id from takes group by course_id having count(ID)>=all(select count(ID) from takes group by course_id));
++----------+-------------+----------+-----------+--------+----------+------+----------+-------------+--------------+
+| building | room_number | capacity | course_id | sec_id | semester | year | building | room_number | time_slot_id |
++----------+-------------+----------+-----------+--------+----------+------+----------+-------------+--------------+
+| Packard  | 101         |      500 | CS-101    | 1      | Fall     | 2009 | Packard  | 101         | H            |
+| Packard  | 101         |      500 | CS-101    | 1      | Spring   | 2010 | Packard  | 101         | F            |
++----------+-------------+----------+-----------+--------+----------+------+----------+-------------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from instructor;
++-------+------------+------------+----------+
+| ID    | name       | dept_name  | salary   |
++-------+------------+------------+----------+
+| 10101 | Srinivasan | Comp. Sci. | 65000.00 |
+| 12121 | Wu         | Finance    | 90000.00 |
+| 15151 | Mozart     | Music      | 40000.00 |
+| 22222 | Einstein   | Physics    | 95000.00 |
+| 32343 | El Said    | History    | 60000.00 |
+| 33456 | Gold       | Physics    | 87000.00 |
+| 45565 | Katz       | Comp. Sci. | 75000.00 |
+| 58583 | Califieri  | History    | 62000.00 |
+| 76543 | Singh      | Finance    | 80000.00 |
+| 76766 | Crick      | Biology    | 72000.00 |
+| 83821 | Brandt     | Comp. Sci. | 92000.00 |
+| 98345 | Kim        | Elec. Eng. | 80000.00 |
++-------+------------+------------+----------+
+12 rows in set (0.00 sec)
+
+mysql> select dept_name,min(salary) from instructor group by dept_name;
++------------+-------------+
+| dept_name  | min(salary) |
++------------+-------------+
+| Biology    |    72000.00 |
+| Comp. Sci. |    65000.00 |
+| Elec. Eng. |    80000.00 |
+| Finance    |    80000.00 |
+| History    |    60000.00 |
+| Music      |    40000.00 |
+| Physics    |    87000.00 |
++------------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> select ID from instructor where (dept_name,salary) in( select dept_name,min(salary) from instructor group by dept_name);
++-------+
+| ID    |
++-------+
+| 10101 |
+| 15151 |
+| 32343 |
+| 33456 |
+| 76543 |
+| 76766 |
+| 98345 |
++-------+
+7 rows in set (0.00 sec)
+
+mysql> select ID,name,dept_name from instructor where (dept_name,salary) in( select dept_name,min(salary) from instructor group by dept_name);
++-------+------------+------------+
+| ID    | name       | dept_name  |
++-------+------------+------------+
+| 10101 | Srinivasan | Comp. Sci. |
+| 15151 | Mozart     | Music      |
+| 32343 | El Said    | History    |
+| 33456 | Gold       | Physics    |
+| 76543 | Singh      | Finance    |
+| 76766 | Crick      | Biology    |
+| 98345 | Kim        | Elec. Eng. |
++-------+------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from takes;
++-------+-----------+--------+----------+------+-------+
+| ID    | course_id | sec_id | semester | year | grade |
++-------+-----------+--------+----------+------+-------+
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  |
++-------+-----------+--------+----------+------+-------+
+22 rows in set (0.00 sec)
+
+mysql> select * from course;
++-----------+----------------------------+------------+---------+
+| course_id | title                      | dept_name  | credits |
++-----------+----------------------------+------------+---------+
+| BIO-101   | Intro. to Biology          | Biology    |       4 |
+| BIO-301   | Genetics                   | Biology    |       4 |
+| BIO-399   | Computational Biology      | Biology    |       3 |
+| CS-101    | Intro. to Computer Science | Comp. Sci. |       4 |
+| CS-190    | Game Design                | Comp. Sci. |       4 |
+| CS-315    | Robotics                   | Comp. Sci. |       3 |
+| CS-319    | Image Processing           | Comp. Sci. |       3 |
+| CS-347    | Database System Concepts   | Comp. Sci. |       3 |
+| EE-181    | Intro. to Digital Systems  | Elec. Eng. |       3 |
+| FIN-201   | Investment Banking         | Finance    |       3 |
+| HIS-351   | World History              | History    |       3 |
+| MU-199    | Music Video Production     | Music      |       3 |
+| PHY-101   | Physical Principles        | Physics    |       4 |
++-----------+----------------------------+------------+---------+
+13 rows in set (0.00 sec)
+
+mysql> select t.ID from takes t,course c where c.course_id=t.course_id group by ID ;
++-------+
+| ID    |
++-------+
+| 00128 |
+| 12345 |
+| 19991 |
+| 23121 |
+| 44553 |
+| 45678 |
+| 54321 |
+| 55739 |
+| 76543 |
+| 76653 |
+| 98765 |
+| 98988 |
++-------+
+12 rows in set (0.00 sec)
+
+mysql> select t.ID,sum(credits) from takes t,course c where c.course_id=t.course_id group by ID ;
++-------+--------------+
+| ID    | sum(credits) |
++-------+--------------+
+| 00128 |            7 |
+| 12345 |           14 |
+| 19991 |            3 |
+| 23121 |            3 |
+| 44553 |            4 |
+| 45678 |           11 |
+| 54321 |            8 |
+| 55739 |            3 |
+| 76543 |            7 |
+| 76653 |            3 |
+| 98765 |            7 |
+| 98988 |            8 |
++-------+--------------+
+12 rows in set (0.01 sec)
+
+mysql> select t.ID,sum(credits) from takes t,course c where c.course_id=t.course_id and semester='Fall' and year=2009 group by ID ;
++-------+--------------+
+| ID    | sum(credits) |
++-------+--------------+
+| 00128 |            7 |
+| 12345 |            7 |
+| 44553 |            4 |
+| 45678 |            4 |
+| 54321 |            4 |
+| 76543 |            4 |
+| 98765 |            4 |
++-------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> select t.ID from takes T,course C where C.course_id=T.course_id and T.semester='Fall' and T.year=2009 group by ID having sum(credits)>=ALL(select sum(credits) from takes t,course c where c.course_id=t.course_id and semester='Fall' and year=2009 group by ID) ;
+ERROR 1054 (42S22): Unknown column 't.ID' in 'field list'
+mysql> select T.ID,sum(credits) from takes T,course C where C.course_id=T.course_id and T.semester='Fall' and T.year=2009 group by ID having sum(credits)>=ALL(select sum(credits) from takes t,course c where c.course_id=t.course_id and semester='Fall' and year=2009 group by ID) ;
++-------+--------------+
+| ID    | sum(credits) |
++-------+--------------+
+| 00128 |            7 |
+| 12345 |            7 |
++-------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select T.ID from takes T,course C where C.course_id=T.course_id and T.semester='Fall' and T.year=2009 group by ID having sum(credits)>=ALL(select sum(credits) from takes t,course c where c.course_id=t.course_id and semester='Fall' and year=2009 group by ID) ;
++-------+
+| ID    |
++-------+
+| 00128 |
+| 12345 |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select name from student where ID in(select T.ID from takes T,course C where C.course_id=T.course_id and T.semester='Fall' and T.year=2009 group by ID having sum(credits)>=ALL(select sum(credits) from takes t,course c where c.course_id=t.course_id and semester='Fall' and year=2009 group by ID));
++---------+
+| name    |
++---------+
+| Zhang   |
+| Shankar |
++---------+
+2 rows in set (0.00 sec)
+
+mysql> \h
+
+For information about MySQL products and services, visit:
+   http://www.mysql.com/
+For developer information, including the MySQL Reference Manual, visit:
+   http://dev.mysql.com/
+To buy MySQL Enterprise support, training, or other products, visit:
+   https://shop.mysql.com/
+
+List of all MySQL commands:
+Note that all text commands must be first on line and end with ';'
+?         (\?) Synonym for `help'.
+clear     (\c) Clear the current input statement.
+connect   (\r) Reconnect to the server. Optional arguments are db and host.
+delimiter (\d) Set statement delimiter.
+edit      (\e) Edit command with $EDITOR.
+ego       (\G) Send command to mysql server, display result vertically.
+exit      (\q) Exit mysql. Same as quit.
+go        (\g) Send command to mysql server.
+help      (\h) Display this help.
+nopager   (\n) Disable pager, print to stdout.
+notee     (\t) Don't write into outfile.
+pager     (\P) Set PAGER [to_pager]. Print the query results via PAGER.
+print     (\p) Print current command.
+prompt    (\R) Change your mysql prompt.
+quit      (\q) Quit mysql.
+rehash    (\#) Rebuild completion hash.
+source    (\.) Execute an SQL script file. Takes a file name as an argument.
+status    (\s) Get status information from the server.
+system    (\!) Execute a system shell command.
+tee       (\T) Set outfile [to_outfile]. Append everything into given outfile.
+use       (\u) Use another database. Takes database name as argument.
+charset   (\C) Switch to another charset. Might be needed for processing binlog with multi-byte charsets.
+warnings  (\W) Show warnings after every statement.
+nowarning (\w) Don't show warnings after every statement.
+resetconnection(\x) Clean session context.
+
+For server side help, type 'help contents'
+
+mysql> end tee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'end tee' at line 1
+mysql> endtee
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'endtee' at line 1
+mysql> tee end;
+mysql> select * from time_slot;
++--------------+-----+----------+-----------+--------+---------+
+| time_slot_id | day | start_hr | start_min | end_hr | end_min |
++--------------+-----+----------+-----------+--------+---------+
+| A            | F   |        8 |         0 |      8 |      50 |
+| A            | M   |        8 |         0 |      8 |      50 |
+| A            | W   |        8 |         0 |      8 |      50 |
+| B            | F   |        9 |         0 |      9 |      50 |
+| B            | M   |        9 |         0 |      9 |      50 |
+| B            | W   |        9 |         0 |      9 |      50 |
+| C            | F   |       11 |         0 |     11 |      50 |
+| C            | M   |       11 |         0 |     11 |      50 |
+| C            | W   |       11 |         0 |     11 |      50 |
+| D            | F   |       13 |         0 |     13 |      50 |
+| D            | M   |       13 |         0 |     13 |      50 |
+| D            | W   |       13 |         0 |     13 |      50 |
+| E            | R   |       10 |        30 |     11 |      45 |
+| E            | T   |       10 |        30 |     11 |      45 |
+| F            | R   |       14 |        30 |     15 |      45 |
+| F            | T   |       14 |        30 |     15 |      45 |
+| G            | F   |       16 |         0 |     16 |      50 |
+| G            | M   |       16 |         0 |     16 |      50 |
+| G            | W   |       16 |         0 |     16 |      50 |
+| H            | W   |       10 |         0 |     12 |      30 |
++--------------+-----+----------+-----------+--------+---------+
+20 rows in set (0.00 sec)
+
+mysql> select * from section;
++-----------+--------+----------+------+----------+-------------+--------------+
+| course_id | sec_id | semester | year | building | room_number | time_slot_id |
++-----------+--------+----------+------+----------+-------------+--------------+
+| BIO-101   | 1      | Summer   | 2009 | Painter  | 514         | B            |
+| BIO-301   | 1      | Summer   | 2010 | Painter  | 514         | A            |
+| CS-101    | 1      | Fall     | 2009 | Packard  | 101         | H            |
+| CS-101    | 1      | Spring   | 2010 | Packard  | 101         | F            |
+| CS-190    | 1      | Spring   | 2009 | Taylor   | 3128        | E            |
+| CS-190    | 2      | Spring   | 2009 | Taylor   | 3128        | A            |
+| CS-315    | 1      | Spring   | 2010 | Watson   | 120         | D            |
+| CS-319    | 1      | Spring   | 2010 | Watson   | 100         | B            |
+| CS-319    | 2      | Spring   | 2010 | Taylor   | 3128        | C            |
+| CS-347    | 1      | Fall     | 2009 | Taylor   | 3128        | A            |
+| EE-181    | 1      | Spring   | 2009 | Taylor   | 3128        | C            |
+| FIN-201   | 1      | Spring   | 2010 | Packard  | 101         | B            |
+| HIS-351   | 1      | Spring   | 2010 | Painter  | 514         | C            |
+| MU-199    | 1      | Spring   | 2010 | Packard  | 101         | D            |
+| PHY-101   | 1      | Fall     | 2009 | Watson   | 100         | A            |
++-----------+--------+----------+------+----------+-------------+--------------+
+15 rows in set (0.00 sec)
+
+mysql> select * from classroom;
++----------+-------------+----------+
+| building | room_number | capacity |
++----------+-------------+----------+
+| Packard  | 101         |      500 |
+| Painter  | 514         |       10 |
+| Taylor   | 3128        |       70 |
+| Watson   | 100         |       30 |
+| Watson   | 120         |       50 |
++----------+-------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from teaches;
++-------+-----------+--------+----------+------+
+| ID    | course_id | sec_id | semester | year |
++-------+-----------+--------+----------+------+
+| 76766 | BIO-101   | 1      | Summer   | 2009 |
+| 76766 | BIO-301   | 1      | Summer   | 2010 |
+| 10101 | CS-101    | 1      | Fall     | 2009 |
+| 45565 | CS-101    | 1      | Spring   | 2010 |
+| 83821 | CS-190    | 1      | Spring   | 2009 |
+| 83821 | CS-190    | 2      | Spring   | 2009 |
+| 10101 | CS-315    | 1      | Spring   | 2010 |
+| 45565 | CS-319    | 1      | Spring   | 2010 |
+| 83821 | CS-319    | 2      | Spring   | 2010 |
+| 10101 | CS-347    | 1      | Fall     | 2009 |
+| 98345 | EE-181    | 1      | Spring   | 2009 |
+| 12121 | FIN-201   | 1      | Spring   | 2010 |
+| 32343 | HIS-351   | 1      | Spring   | 2010 |
+| 15151 | MU-199    | 1      | Spring   | 2010 |
+| 22222 | PHY-101   | 1      | Fall     | 2009 |
++-------+-----------+--------+----------+------+
+15 rows in set (0.00 sec)
+
+mysql> select time_slot_id from time_slot where start_hr=9 and start_min=0;
++--------------+
+| time_slot_id |
++--------------+
+| B            |
+| B            |
+| B            |
++--------------+
+3 rows in set (0.00 sec)
+
+mysql> select course_id from section where time_slot_id=(select time_slot_id from time_slot where start_hr=9 and start_min=0 and day='M');
++-----------+
+| course_id |
++-----------+
+| BIO-101   |
+| CS-319    |
+| FIN-201   |
++-----------+
+3 rows in set (0.00 sec)
+
+mysql> select room_number from section where not exists
+    -> ^C
+mysql> select room_number from section where not exists  (select * from section where time_slot_id=(select time_slot_id from time_slot where start_hr=9 and start_min=0 and day='M') and course_id='BIO-101'); 
+Empty set (0.02 sec)
+
+mysql> select building,room_number from section where not exists  (select * from section where time_slot_id=(select time_slot_id from time_slot where start_hr=9 and start_min=0 and day='M') and course_id='BIO-101');
+Empty set (0.00 sec)^C -- query aborted
+
+
+mysql> ^C
+mysql> select building,room_number from section where not exists  (select * from section where time_slot_id=(select time_slot_id from time_slot where start_hr=9 and start_min=0 and day='M') and course_id='BIO-101');
+Empty set (0.00 sec)
+
+mysql> select building,room_number from section where not exists  (select * from section where time_slot_id=(select time_slot_id from time_slot where start_hr=9 and start_min=0 and day='M') );
+Empty set (0.00 sec)
+
+mysql> select building,room_number from section where not exists  (select * from section where time_slot_id in(select time_slot_id from time_slot where start_hr=9 and start_min=0 and day='M') );
+Empty set (0.04 sec)
+
+mysql> select building,room_number from section where not exists  (select * from section where time_slot_id in(select time_slot_id from time_slot where start_hr=9 and start_min=0 and day='M') );
+Empty set (0.00 sec)
+
+mysql> quit
+mysql> select * from teaches;
++-------+-----------+--------+----------+------+
+| ID    | course_id | sec_id | semester | year |
++-------+-----------+--------+----------+------+
+| 76766 | BIO-101   | 1      | Summer   | 2009 |
+| 76766 | BIO-301   | 1      | Summer   | 2010 |
+| 10101 | CS-101    | 1      | Fall     | 2009 |
+| 45565 | CS-101    | 1      | Spring   | 2010 |
+| 83821 | CS-190    | 1      | Spring   | 2009 |
+| 83821 | CS-190    | 2      | Spring   | 2009 |
+| 10101 | CS-315    | 1      | Spring   | 2010 |
+| 45565 | CS-319    | 1      | Spring   | 2010 |
+| 83821 | CS-319    | 2      | Spring   | 2010 |
+| 10101 | CS-347    | 1      | Fall     | 2009 |
+| 98345 | EE-181    | 1      | Spring   | 2009 |
+| 12121 | FIN-201   | 1      | Spring   | 2010 |
+| 32343 | HIS-351   | 1      | Spring   | 2010 |
+| 15151 | MU-199    | 1      | Spring   | 2010 |
+| 22222 | PHY-101   | 1      | Fall     | 2009 |
++-------+-----------+--------+----------+------+
+15 rows in set (0.01 sec)
+
+mysql> select year,count(*) from teaches group by year;
++------+----------+
+| year | count(*) |
++------+----------+
+| 2009 |        7 |
+| 2010 |        8 |
++------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select year from teaches group by year having count(*)<=all(select count(*) from teaches group by year);
++------+
+| year |
++------+
+| 2009 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select * from takes;
++-------+-----------+--------+----------+------+-------+
+| ID    | course_id | sec_id | semester | year | grade |
++-------+-----------+--------+----------+------+-------+
+| 00128 | CS-101    | 1      | Fall     | 2009 | A     |
+| 00128 | CS-347    | 1      | Fall     | 2009 | A-    |
+| 12345 | CS-101    | 1      | Fall     | 2009 | C     |
+| 12345 | CS-190    | 2      | Spring   | 2009 | A     |
+| 12345 | CS-315    | 1      | Spring   | 2010 | A     |
+| 12345 | CS-347    | 1      | Fall     | 2009 | A     |
+| 19991 | HIS-351   | 1      | Spring   | 2010 | B     |
+| 23121 | FIN-201   | 1      | Spring   | 2010 | C+    |
+| 44553 | PHY-101   | 1      | Fall     | 2009 | B-    |
+| 45678 | CS-101    | 1      | Fall     | 2009 | F     |
+| 45678 | CS-101    | 1      | Spring   | 2010 | B+    |
+| 45678 | CS-319    | 1      | Spring   | 2010 | B     |
+| 54321 | CS-101    | 1      | Fall     | 2009 | A-    |
+| 54321 | CS-190    | 2      | Spring   | 2009 | B+    |
+| 55739 | MU-199    | 1      | Spring   | 2010 | A-    |
+| 76543 | CS-101    | 1      | Fall     | 2009 | A     |
+| 76543 | CS-319    | 2      | Spring   | 2010 | A     |
+| 76653 | EE-181    | 1      | Spring   | 2009 | C     |
+| 98765 | CS-101    | 1      | Fall     | 2009 | C-    |
+| 98765 | CS-315    | 1      | Spring   | 2010 | B     |
+| 98988 | BIO-101   | 1      | Summer   | 2009 | A     |
+| 98988 | BIO-301   | 1      | Summer   | 2010 | NULL  |
++-------+-----------+--------+----------+------+-------+
+22 rows in set (0.00 sec)
+
+mysql> select count(*) from course where dept_name='Biology';
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select t.ID from takes t,course c where c.course_id=t.course_id and dept_name='Biology' having count(ID)=select count(*) from course where dept_name='Biology';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select count(*) from course where dept_name='Biology'' at line 1
+mysql> select t.ID from takes t,course c where c.course_id=t.course_id and dept_name='Biology' having count(ID)=select count(ID) from course where dept_name='Biology';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select count(ID) from course where dept_name='Biology'' at line 1
+mysql> select t.ID from takes t,course c where c.course_id=t.course_id and dept_name='Biology' having count(*)=select count(*) from course where dept_name='Biology';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select count(*) from course where dept_name='Biology'' at line 1
+mysql> select t.ID from takes t,course c where c.course_id=t.course_id and c.dept_name='Biology' having count(*)=select count(*) from course where dept_name='Biology';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select count(*) from course where dept_name='Biology'' at line 1
+mysql> select t.ID from takes t,course c where c.course_id=t.course_id and c.dept_name='Biology' group by t.ID having count(*)=select count(*) from course where dept_name='Biology';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select count(*) from course where dept_name='Biology'' at line 1
+mysql> select t.ID from takes t,course c where c.course_id=t.course_id and c.dept_name='Biology' group by t.ID having count(*)=3;
+Empty set (0.00 sec)
+
+mysql> select t.ID from takes t,course c where c.course_id=t.course_id and c.dept_name='Biology' group by t.ID having count(*)=2;
++-------+
+| ID    |
++-------+
+| 98988 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select t.ID from takes t,course c where c.course_id=t.course_id and c.dept_name='Biology' group by t.ID having count(*)=(select count(*) from course where dept_name='Biology');
+Empty set (0.01 sec)
+
+mysql> select t.ID from takes t,course c where c.course_id=t.course_id and c.dept_name='Biology' group by t.ID having count(*)=(select count(*)-1 from course where dept_name='Biology');
++-------+
+| ID    |
++-------+
+| 98988 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select ID from takes where ID in (select t.ID from takes t,course c where c.course_id=t.course_id and c.dept_name='Biology' group by t.ID having count(*)=(select count(*)-1 from course where dept_name='Biology'));
++-------+
+| ID    |
++-------+
+| 98988 |
+| 98988 |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select ID from takes where ID in (select t.ID from takes t,course c where c.course_id=t.course_id and c.dept_name='Comp. Sci.' group by t.ID having count(*)=(select count(*)-1 from course where dept_name='Comp. Sci.'));
++-------+
+| ID    |
++-------+
+| 12345 |
+| 12345 |
+| 12345 |
+| 12345 |
++-------+
+4 rows in set (0.00 sec)
+
+mysql> select ID from takes where ID in (select t.ID from takes t,course c where c.course_id=t.course_id and c.dept_name='Biology' and ID=t.ID group by t.ID having count(*)=(select count(*)-1 from course where dept_name='Biology'));
++-------+
+| ID    |
++-------+
+| 98988 |
+| 98988 |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select distinct ID from takes where ID in (select t.ID from takes t,course c where c.course_id=t.course_id and c.dept_name='Biology' and ID=t.ID group by t.ID having count(*)=(select count(*)-1 from course where dept_name='Biology'));
++-------+
+| ID    |
++-------+
+| 98988 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select distinct ID from takes where ID in (select t.ID from takes t,course c where c.course_id=t.course_id and c.dept_name='Comp. Sci.' group by t.ID having count(*)=(select count(*)-1 from course where dept_name='Comp. Sci.'));
++-------+
+| ID    |
++-------+
+| 12345 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select course id, section id, ID ,
+    -> decode(name, NULL, ’−’, name)
+
+    -> from (section natural left outer join teaches)
+    -> natural left outer join instructor
+    -> where semester=’Spring’ and year= 2010
+
+    -> ;
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'decode'
+mysql> select course id, section id, ID , decode(name, NULL, ’−’, name)  from (section natural left outer join teaches) natural left outer join instructor where semester=’Spring’ and year= 2010;
+
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'decode'
+mysql> select course_id, section_id, ID , decode(name, NULL, ’−’, name)  from (section natural left outer join teaches) natural left outer join instructor where semester=’Spring’ and year= 2010;
+
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'decode'
+mysql> select course_id, sec_id, ID , decode(name, NULL, ’−’, name)  from (section natural left outer join teaches) natural left outer join instructor where semester=’Spring’ and year= 2010;
+
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'decode'
+mysql> select course_id, sec_id, ID , decode(name, NULL, ’−’, name)  from (section natural left outer join teaches) natural left outer join instructor where semester='Spring' and year= 2010;
+
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'decode'
+mysql> select ID , name,
+    -> count(course id, section id, year,semester) as ’Number of sections’
+
+    -> from instructor natural left outer join teaches
+    -> group by ID , name;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id, section id, year,semester) as ’Number of sections’
+
+from instructor natu' at line 2
+mysql> select ID , name, count(course_id, sec_id, year,semester) as ’Number of sections’  from instructor natural left outer join teaches group by ID , name;
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' sec_id, year,semester) as ’Number of sections’  from instructor natural lef' at line 1
+mysql> select * from teaches;
++-------+-----------+--------+----------+------+
+| ID    | course_id | sec_id | semester | year |
++-------+-----------+--------+----------+------+
+| 76766 | BIO-101   | 1      | Summer   | 2009 |
+| 76766 | BIO-301   | 1      | Summer   | 2010 |
+| 10101 | CS-101    | 1      | Fall     | 2009 |
+| 45565 | CS-101    | 1      | Spring   | 2010 |
+| 83821 | CS-190    | 1      | Spring   | 2009 |
+| 83821 | CS-190    | 2      | Spring   | 2009 |
+| 10101 | CS-315    | 1      | Spring   | 2010 |
+| 45565 | CS-319    | 1      | Spring   | 2010 |
+| 83821 | CS-319    | 2      | Spring   | 2010 |
+| 10101 | CS-347    | 1      | Fall     | 2009 |
+| 98345 | EE-181    | 1      | Spring   | 2009 |
+| 12121 | FIN-201   | 1      | Spring   | 2010 |
+| 32343 | HIS-351   | 1      | Spring   | 2010 |
+| 15151 | MU-199    | 1      | Spring   | 2010 |
+| 22222 | PHY-101   | 1      | Fall     | 2009 |
++-------+-----------+--------+----------+------+
+15 rows in set (0.00 sec)
+
+mysql> select ID , name, count(course_id, sec_id, year,semester) as ’Number of sections’  from instructor natural left outer join teaches group by ID , name;
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' sec_id, year,semester) as ’Number of sections’  from instructor natural lef' at line 1
+mysql> end tee
+    -> quit
+    -> ^C
+mysql> quit
+mysql> select i.ID,i.name,t.course_id,t.sec_id from teaches t,instructor i wheret.ID=i.ID and semester='Spring' and year=2015;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'wheret.ID=i.ID and semester='Spring' and year=2015' at line 1
+mysql> select i.ID,i.name,t.course_id,t.sec_id from teaches t,instructor i wheret.ID=i.ID and semester='Spring' and year=2009;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'wheret.ID=i.ID and semester='Spring' and year=2009' at line 1
+mysql> select i.ID,i.name,t.course_id,t.sec_id from teaches t,instructor i where t.ID=i.ID and semester='Spring' and year=2009;
++-------+--------+-----------+--------+
+| ID    | name   | course_id | sec_id |
++-------+--------+-----------+--------+
+| 83821 | Brandt | CS-190    | 1      |
+| 83821 | Brandt | CS-190    | 2      |
+| 98345 | Kim    | EE-181    | 1      |
++-------+--------+-----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from teaches;
++-------+-----------+--------+----------+------+
+| ID    | course_id | sec_id | semester | year |
++-------+-----------+--------+----------+------+
+| 76766 | BIO-101   | 1      | Summer   | 2009 |
+| 76766 | BIO-301   | 1      | Summer   | 2010 |
+| 10101 | CS-101    | 1      | Fall     | 2009 |
+| 45565 | CS-101    | 1      | Spring   | 2010 |
+| 83821 | CS-190    | 1      | Spring   | 2009 |
+| 83821 | CS-190    | 2      | Spring   | 2009 |
+| 10101 | CS-315    | 1      | Spring   | 2010 |
+| 45565 | CS-319    | 1      | Spring   | 2010 |
+| 83821 | CS-319    | 2      | Spring   | 2010 |
+| 10101 | CS-347    | 1      | Fall     | 2009 |
+| 98345 | EE-181    | 1      | Spring   | 2009 |
+| 12121 | FIN-201   | 1      | Spring   | 2010 |
+| 32343 | HIS-351   | 1      | Spring   | 2010 |
+| 15151 | MU-199    | 1      | Spring   | 2010 |
+| 22222 | PHY-101   | 1      | Fall     | 2009 |
++-------+-----------+--------+----------+------+
+15 rows in set (0.00 sec)
+
+mysql> select i.ID,i.name,t.course_id,t.sec_id coalesce(name,'-') from teaches t,instructor i where t.ID=i.ID and semester='Spring' and year=2009;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(name,'-') from teaches t,instructor i where t.ID=i.ID and semester='Spring' and' at line 1
+mysql> select i.ID,i.name,t.course_id,t.sec_id coalesce(name,'-') from teaches tjoin instructor i on i.ID=t.ID where semester='Spring' and year=2009;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(name,'-') from teaches tjoin instructor i on i.ID=t.ID where semester='Spring' ' at line 1
+mysql> select * from section;
++-----------+--------+----------+------+----------+-------------+--------------+
+| course_id | sec_id | semester | year | building | room_number | time_slot_id |
++-----------+--------+----------+------+----------+-------------+--------------+
+| BIO-101   | 1      | Summer   | 2009 | Painter  | 514         | B            |
+| BIO-301   | 1      | Summer   | 2010 | Painter  | 514         | A            |
+| CS-101    | 1      | Fall     | 2009 | Packard  | 101         | H            |
+| CS-101    | 1      | Spring   | 2010 | Packard  | 101         | F            |
+| CS-190    | 1      | Spring   | 2009 | Taylor   | 3128        | E            |
+| CS-190    | 2      | Spring   | 2009 | Taylor   | 3128        | A            |
+| CS-315    | 1      | Spring   | 2010 | Watson   | 120         | D            |
+| CS-319    | 1      | Spring   | 2010 | Watson   | 100         | B            |
+| CS-319    | 2      | Spring   | 2010 | Taylor   | 3128        | C            |
+| CS-347    | 1      | Fall     | 2009 | Taylor   | 3128        | A            |
+| EE-181    | 1      | Spring   | 2009 | Taylor   | 3128        | C            |
+| FIN-201   | 1      | Spring   | 2010 | Packard  | 101         | B            |
+| HIS-351   | 1      | Spring   | 2010 | Painter  | 514         | C            |
+| MU-199    | 1      | Spring   | 2010 | Packard  | 101         | D            |
+| PHY-101   | 1      | Fall     | 2009 | Watson   | 100         | A            |
++-----------+--------+----------+------+----------+-------------+--------------+
+15 rows in set (0.00 sec)
+
+mysql> select i.ID,i.name,t.course_id,t.sec_id coalesce(name,'-') from instructor i join teaches t on i.ID=t.ID where semester='Spring' and year=2009;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(name,'-') from instructor i join teaches t on i.ID=t.ID where semester='Spring'' at line 1
+mysql> select i.ID,i.name,t.course_id,t.sec_id coalesce(name,'-') from instructor i join teaches t on i.ID=t.ID where t.semester='Spring' and t.year=2009;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(name,'-') from instructor i join teaches t on i.ID=t.ID where t.semester='Sprin' at line 1
+mysql> ^C
+mysql> quit

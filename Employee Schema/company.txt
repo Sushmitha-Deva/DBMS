@@ -1,0 +1,14 @@
+select Dname,avg(Salary),count(*) from employee,department where Dno=Dnumber and Sex='M' group by Dname having avg(Salary)>30000
+
+ select Ssn from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Dnum=6 and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber and Dnum=6 group by Essn)) and Ssn=Essn) ;
+
+
+select Ssn,Dno,Pno from employee,works_on where Essn=Ssn and Pno in (select Pno from employee,works_on where exists (select Essn,Dnum,count(Pno) from works_on,project where Essn=Ssn and Pno=pnumber  group by Essn,Dnum having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber group by Essn,Dnum)) and Ssn=Essn) ;
+
+
+
+select distinct Ssn,Dnum from employee,works_on,project where Essn=Ssn and Pno=pnumber and Pno in (select Pno from employee,works_on where exists (select Essn,count(Pno) from works_on,project where Essn=Ssn and Pno=pnumber  group by Essn having count(Pno)<=all(select count(Pno) from works_on,project where Pno=pnumber group by Essn)) and Ssn=Essn) 
+and Dnum IN(select distinct Dnum from project,works_on where Pno=pnumber)
+order by Dnum;
+
+

@@ -1,0 +1,5 @@
+select distinct ssno,vsno from v2 V where (select count(distinct spno) from v2 v where V.vsno=v.vsno and V.ssno=v.ssno group by vsno,ssno)=(select count(distinct spno) from v2 q where q.ssno=V.ssno group by ssno) and ssno!=vsno;
+
+where v2 is spj join v1 on pno
+
+v1 is spj(sno,pno)

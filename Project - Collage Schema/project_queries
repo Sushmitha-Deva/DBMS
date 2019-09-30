@@ -1,0 +1,259 @@
+
+1. Retrieve names of faculty and their qualification who is working in computer science department. 
+
+select Cid,F_name,Phd from FACULTY where Department='Computer Science'; 
++--------+---------------------------+----------------------+ 
+| Cid    | F_name                    | Phd                  | 
++--------+---------------------------+----------------------+ 
+| 0TN001 | Dr. Masilamani V          | IIT Madras           | 
+| 0TN001 | Dr. Noor Mahammad SK      | IIT Madras           | 
+| 0TN001 | Dr. Sadagopan N           | IIT Madras           | 
+| 0TN001 | Dr. Sivaselvan B          | NIT Trichy           | 
+| 0TN001 | Dr. T.S. Narayanan (Hari) | Concordia University | 
+| 0TN001 | Dr. Umarani Jayaraman     | IIT Kanpur           | 
+| 0TN001 | Prof. Banshidhar Majhi    | NIT Rourkela         | 
++--------+---------------------------+----------------------+ 
+====================================================
+2.Retrieve the names of faculty who has done more than 3 researches.
+ 
+select F_Name from RESEARCH group by F_Name having count(*)>=4;
++------------------------+ 
+| F_Name                 | 
++------------------------+ 
+| Dr. Masilamani V       | 
+| Dr. Raja B             | 
+| Dr. Sadagopan N        | 
+| Prof. Banshidhar Majhi | 
++------------------------+ 
+====================================================
+3)Retrieve the faculty who research is in algorithms.
+
+SELECT * FROM RESEARCH WHERE LOWER(Research) like '%algorithms%';
++--------+-------------------+----------------------------------------------------+ 
+| Cid    | F_name            | Research                                           | 
++--------+-------------------+----------------------------------------------------+ 
+| 0TN001 | Dr. Masilamani V  | Algorithms and Data Structure                      | 
+| 0TN001 | Dr. Sadagopan N   | Data Structures and Algorithms                     | 
+| 0TN001 | Dr. Selvajyothi K | DSP Realization of Control Algorithms in Power Ele | 
+| 0TN001 | Dr. Shalu M A     | Algorithms                                         | 
+| 0TN001 | Dr. Vijayakumar S | Algorithms                                         | 
++--------+-------------------+----------------------------------------------------+ 
+====================================================
+4) Retrieve the names of college who can allocate seats for OBC-NCL category in CSE department for those whose opening rank is greater than 4000.
+
+select Cname from COLLEGE NATURAL JOIN CUT_OFFS WHERE Opening_Rank>'4000' AND Caste='OBC-NCL' and Branch_Name='COE'; 
++--------------------+ 
+| Cname              | 
++--------------------+ 
+| IIITDM Kancheepuram | 
++--------------------+ 
+====================================================
+5)Retrieve no. of seats avaliable for coe department.
+
+SELECT Cname,No_of_Seats FROM BRANCH natural join COLLEGE where Branch_Name='COE'; 
++--------------------+-------------+ 
+| Cname              | No_of_Seats | 
++--------------------+-------------+ 
+| IIITDM Kancheepuram |          40 | 
++--------------------+-------------+ 
+
+===================================================
+6)Retrieve the crank of IIITDM.
+
+select Crank from COLLEGE WHERE Cname='IIITDM Kancheepuram';
++-------+ 
+| Crank | 
++-------+ 
+|   151 | 
++-------+ 
+===================================================
+
+7) Name the companies who came for recruitment in last year for IIITDM.
+
+SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname='IIITDM Kancheepuram' ;
++-----------------+
+| Companies |
++-----------------+
+| Bosch |
+| IVTL |
+| Saint Gobain |
+| System Insights |
+| TCS - EIS |
+| Trimble |
+| Vassar Labs  |
++-----------------+
+
+=======================================================================
+ 8)Retrieve the details of alumni of IIITDM who are working in Tangedco. 
+
+SELECT A_Name, Contact_details from ALUMNI NATURAL JOIN COLLEGE WHERE Cname='IIITDM Kancheepuram' and Works_At='TANGEDCO'; 
+
++--------------+------------------------+ 
+| A_Name       | Contact_details        | 
++--------------+------------------------+ 
+| Jaganathan A | mds14m007@iiitdm.ac.in | 
++--------------+------------------------+ 
+
+=======================================================================
+
+
+9)Retrieve the total_fee for general category in IIITDM of current year.
+
+SELECT Total_fee from FEE_STRUCTURE natural join COLLEGE WHERE Cname='IIITDM Kancheepuram' and Year='2017' and Category='GENERAL';
+
++-----------+ 
+| Total_fee | 
++-----------+ 
+|     76500 | 
++-----------+ 
+=======================================================================
+
+10.Retrieve the no. of students got placed in companies for every branch in IIITDM.
+
+ SELECT Branch_Name,No_of_students from PLACEMENTS NATURAL JOIN COLLEGE WHERE Cname='IIITDM Kancheepuram'; 
++-------------+----------------+ 
+| Branch_Name | No_of_students | 
++-------------+----------------+ 
+| COE         |             33 | 
+| COE         |             27 | 
+| EDM         |             17 | 
+| EDM         |             32 | 
+| MDM         |             11 | 
+| MDM         |             18 | 
++-------------+----------------+ 
+====================================================
+11)Retrieve the names of faculty who had done research in Algorithms.
+ 
+ select F_Name from RESEARCH WHERE Research='Algorithms'; 
++-------------------+ 
+| F_Name            | 
++-------------------+ 
+| Dr. Shalu M A     | 
+| Dr. Vijayakumar S | 
++-------------------+ 
+====================================================
+12)Display the location and website link of IIITDM.
+
+SELECT CLocation,Clink from COLLEGE WHERE Cname='IIITDM Kancheepuram'; 
++------------------------------------------+--------------------------+ 
+| CLocation                                | Clink                    | 
++------------------------------------------+--------------------------+ 
+| Vandalur-Kelambakkam road,Chennai:600127 | http://www.iiitdm.ac.in/ | 
++------------------------------------------+--------------------------+ 
+===================================================
+13.Display the events in IIITDM.
+
+ select E_name from EVENTS natural join COLLEGE where Cname='IIITDM Kancheepuram'; 
++----------+ 
+| E_name   | 
++----------+ 
+| Clusters | 
+| Samgatha | 
++----------+ 
+===================================================
+14.Display the college name whose highest salary is maximum in last year.
+ 
+SELECT Cname from COLLEGE NATURAL JOIN PLACEMENTS WHERE Highest_Salary=(select max(Highest_Salary) from PLACEMENTS WHERE Pass_out_year='2016'); 
++--------------------+ 
+| Cname              | 
++--------------------+ 
+| IIITDM Kancheepuram | 
++--------------------+ 
+==================================================
+15.Display the names of the college whose total fee is less than 30000 for SC.
+
+select distinct Cname from COLLEGE NATURAL JOIN FEE_STRUCTURE WHERE Category='SC' AND Total_fee<30000; 
++--------------------+ 
+| Cname              | 
++--------------------+ 
+| IIITDM Kancheepuram | 
++--------------------+ 
+====================================================
+16)Display the faculty details who are working in computers department for every college.
+
+select Cname,F_Name,Email_id,Phd from FACULTY NATURAL JOIN COLLEGE WHERE Department='Computer Science'; 
++--------------------+---------------------------+--------------------------+----------------------+ 
+| Cname              | F_Name                    | Email_id                 | Phd                  | 
++--------------------+---------------------------+--------------------------+----------------------+ 
+| IIITDM Kancheepuram | Dr. Masilamani V          | masila@iiitdm.ac.in      | IIT Madras           | 
+| IIITDM Kancheepuram | Dr. Noor Mahammad SK      | noor@iiitdm.ac.in        | IIT Madras           | 
+| IIITDM Kancheepuram | Dr. Sadagopan N           | sadagopan@iiitdm.ac.in   | IIT Madras           | 
+| IIITDM Kancheepuram | Dr. Sivaselvan B          | sivaselvanb@iiitdm.ac.in | NIT Trichy           | 
+| IIITDM Kancheepuram | Dr. T.S. Narayanan (Hari) | tsnarayanan@iiitdm.ac.in | Concordia University | 
+| IIITDM Kancheepuram | Dr. Umarani Jayaraman     | umarani@iiitdm.ac.in     | IIT Kanpur           | 
+| IIITDM Kancheepuram | Prof. Banshidhar Majhi    | bm@iiitdm.ac.in          | NIT Rourkela         | 
++--------------------+---------------------------+--------------------------+----------------------+ 
+===================================================
+17.Display the no. of companies came in last year for every college.
+
+SELECT Cname,count(*) as No_of_companies from COMPANIES natural join COLLEGE WHERE Year=2017 GROUP BY Cid;
++--------------------+-----------------+
+| Cname              | No_of_companies |
++--------------------+-----------------+
+| IIITDM Kancheepuram |              10 |
++--------------------+-----------------+
+ 
+====================================================
+18.Display branches and no. of seats available in IIITDM.
+ 
+SELECT Branch_Name,No_of_seats from BRANCH NATURAL JOIN COLLEGE WHERE Cname='IIITDM Kancheepuram'; 
++-------------+-------------+ 
+| Branch_Name | No_of_seats | 
++-------------+-------------+ 
+| CED         |          40 | 
+| COE         |          40 | 
+| EDM         |          40 | 
+| ESD         |          20 | 
+| EVD         |          20 | 
+| MDM         |          40 | 
+| MFD         |          20 | 
+| MPD         |          20 | 
+| MSM         |          40 | 
++-------------+-------------+ 
+====================================================
+19.Display the total fee for SC in IIITDM of previous year.
+
+select Total_fee from COLLEGE NATURAL JOIN FEE_STRUCTURE WHERE Category='SC' and Year=(select year(curdate())-1); 
++-----------+ 
+| Total_fee | 
++-----------+ 
+|     27500 | 
++-----------+ 
+====================================================
+20.Display the no. of alumni passed in last year for every college.
+ 
+select Cid,count(*) AS  NO_OF_ALUMNI FROM ALUMNI NATURAL JOIN COLLEGE GROUP BY Cid; 
++--------+--------------+ 
+| Cid    | NO_OF_ALUMNI | 
++--------+--------------+ 
+| 0TN001 |            4 | 
++--------+--------------+ 
+====================================================
+21)Display no. of alumni who are working at CTECH LABS.
+
+SELECT COUNT(*) FROM ALUMNI WHERE Works_At='CTECH LABS'; 
++----------+ 
+| COUNT(*) | 
++----------+ 
+|        1 | 
++----------+ 
+===================================================
+22.List the colleges rankwise.
+
+ select Cname,Crank from COLLEGE ORDER BY Crank ASC; 
++--------------------+-------+ 
+| Cname              | Crank | 
++--------------------+-------+ 
+| IIITDM Kancheepuram |   151 | 
++--------------------+-------+ 
+=======================================================================
+23)Display the colleges which conducts Techno-cultural event.
+
+select Cname,E_name from EVENTS natural join COLLEGE WHERE Etype='Techno-Cultural'; 
++--------------------+----------+ 
+| Cname              | E_name   | 
++--------------------+----------+ 
+| IIITDM Kancheepuram | Samgatha | 
++--------------------+----------+ 
+
+=======================================================================

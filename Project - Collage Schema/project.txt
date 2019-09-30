@@ -1,0 +1,1735 @@
+ mysql> create table RESEARCH(Cid varchar(10),F_name varchar(25),Research varchar(50),primary key(Cid,F_name,Research));
+Query OK, 0 rows affected (0.41 sec)
+
+mysql> create table CUT_OFFS(Cid varchar(10),Branch_Name varchar(25),Caste varchar(10),Year int,Opening_Rank int,Closing_Rank int,primary key(Cid,Branch_Name,Caste,Year));
+Query OK, 0 rows affected (0.35 sec)
+
+mysql> create table FEE_STRUCTURE(Cid varchar(10),Category varchar(20),Year int,Sem_fee int,Hostel_fee int,Total_fee int,primary key(Cid,Category,Year));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> create table ALUMNI(Cid varchar(10),Year int,A_Name varchar(25),Contact_details varchar(50),Achievements varchar(100),Works_At varchar(25),primary key(Cid,Year,A_Name));
+Query OK, 0 rows affected (0.35 sec)
+
+mysql> create table PLACEMENTS(Cid varchar(10),Branch_Name varchar(25),Year int,No_of_students int,Avg_Salary int,Highest_Salary int,primary key(Cid,Branch_Name,Year));
+Query OK, 0 rows affected (0.35 sec)
+
+mysql> create table FACULTY(Cid varchar(10),F_name varchar(25),Department varchar(25),Phd varchar(30),Email_id varchar(50),primary key(Cid,Fname));
+ERROR 1072 (42000): Key column 'Fname' doesn't exist in table
+mysql> create table FACULTY(Cid varchar(10),F_name varchar(25),Department varchar(25),Phd varchar(30),Email_id varchar(50),primary key(Cid,F_name));
+Query OK, 0 rows affected (0.36 sec)
+
+mysql> create table EVENTS(Cid varchar(10),E_name varchar(20),Etype varchar(20),primary key(Cid,E_name));
+Query OK, 0 rows affected (0.33 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_PROJECT |
++-------------------+
+| ALUMNI            |
+| BRANCH            |
+| COLLEGE           |
+| COMPANIES         |
+| CUT_OFFS          |
+| EVENTS            |
+| FACULTY           |
+| FEE_STRUCTURE     |
+| PLACEMENTS        |
+| RESEARCH          |
++-------------------+
+10 rows in set (0.00 sec)
+
+mysql> DESC COLLEGE;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| Cid       | varchar(10)  | NO   | PRI |         |       |
+| Cname     | varchar(30)  | YES  |     | NULL    |       |
+| Clocation | varchar(100) | YES  |     | NULL    |       |
+| Ctype     | varchar(10)  | YES  |     | NULL    |       |
+| Crank     | int(11)      | YES  |     | NULL    |       |
+| Clink     | varchar(50)  | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO COLLEGE VALUES('0TN001','IIITDM Kancheeuram','Vandalur-Kelambakkam road,Chennai:600127','Govt','151','http://www.iiitdm.ac.in/');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> desc BRANCH;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Cid         | varchar(10) | NO   | PRI |         |       |
+| Branch_Name | varchar(25) | NO   | PRI |         |       |
+| Branch_type | varchar(8)  | YES  |     | NULL    |       |
+| No_of_Seats | int(11)     | YES  |     | NULL    |       |
+| Sections    | int(11)     | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO BRANCH VALUES('0TN001','COE','Btech','40','1');
+Query OK, 1 row affected (0.61 sec)
+
+mysql> INSERT INTO BRANCH VALUES('0TN001','EDM','Btech','40','1');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO BRANCH VALUES('0TN001','MDM','Btech','40','1');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO BRANCH VALUES('0TN001','MSM','Btech','40','1');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO BRANCH VALUES('0TN001','CED','Dual degree','40','1');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> INSERT INTO BRANCH VALUES('0TN001','ESD','Dual degree','20','1');
+Query OK, 1 row affected, 1 warning (0.06 sec)
+
+mysql> INSERT INTO BRANCH VALUES('0TN001','EVD','Dual degree','20','1');
+Query OK, 1 row affected, 1 warning (0.07 sec)
+
+mysql> INSERT INTO BRANCH VALUES('0TN001','MFD','Dual degree','20','1');
+Query OK, 1 row affected, 1 warning (0.07 sec)
+
+mysql> INSERT INTO BRANCH VALUES('0TN001','MPD','Dual degree','20','1');
+Query OK, 1 row affected, 1 warning (0.06 sec)
+
+mysql> select * from BRANCH;
++--------+-------------+-------------+-------------+----------+
+| Cid    | Branch_Name | Branch_type | No_of_Seats | Sections |
++--------+-------------+-------------+-------------+----------+
+| 0TN001 | CED         | Dual deg    |          40 |        1 |
+| 0TN001 | COE         | Btech       |          40 |        1 |
+| 0TN001 | EDM         | Btech       |          40 |        1 |
+| 0TN001 | ESD         | Dual deg    |          20 |        1 |
+| 0TN001 | EVD         | Dual deg    |          20 |        1 |
+| 0TN001 | MDM         | Btech       |          40 |        1 |
+| 0TN001 | MFD         | Dual deg    |          20 |        1 |
+| 0TN001 | MPD         | Dual deg    |          20 |        1 |
+| 0TN001 | MSM         | Btech       |          40 |        1 |
++--------+-------------+-------------+-------------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select * from COLLEGE;
++--------+--------------------+------------------------------------------+-------+-------+--------------------------+
+| Cid    | Cname              | Clocation                                | Ctype | Crank | Clink                    |
++--------+--------------------+------------------------------------------+-------+-------+--------------------------+
+| 0TN001 | IIITDM Kancheeuram | Vandalur-Kelambakkam road,Chennai:600127 | Govt  |   151 | http://www.iiitdm.ac.in/ |
++--------+--------------------+------------------------------------------+-------+-------+--------------------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','COE','GENERAL','2017','8669','15995');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','EDM','GENERAL','2017','12843','19961');
+Query OK, 1 row affected (0.30 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MDM','GENERAL','2017','14250','26086');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MSM','GENERAL','2017','21789','33350');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','CED','GENERAL','2017','16557','23128');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','ESD','GENERAL','2017','17564','28979');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','EVD','GENERAL','2017','19632','26609');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MFD','GENERAL','2017','27453','33612');
+Query OK, 1 row affected (0.41 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MPD','GENERAL','2017','13815','32333');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','COE','OBC-NCL','2017','5180','6288');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','EDM','OBC-NCL','2017','5254','7138');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MDM','OBC-NCL','2017','6212','9254');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MSM','OBC-NCL','2017','9505','11906');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','CED','OBC-NCL','2017','6869','8559');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','ESD','OBC-NCL','2017','8336','10266');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','EVD','OBC-NCL','2017','8804','9757');
+Query OK, 1 row affected (0.11 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MFD','OBC-NCL','2017','9521','11037');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MPD','OBC-NCL','2017','7746','11685');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','COE','SC','2017','2572','4136');
+Query OK, 1 row affected (0.30 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','EDM','SC','2017','3550','3938');
+Query OK, 1 row affected (0.30 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MDM','SC','2017','3854','5993');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MSM','SC','2017','6012','7924');
+Query OK, 1 row affected (0.29 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','CED','SC','2017','4228','5682');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','ESD','SC','2017','3247','5743');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','EVD','SC','2017','4098','5629');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MFD','SC','2017','5713','6235');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MPD','SC','2017','5774','6162');
+Query OK, 1 row affected (0.49 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MPD','ST','2017','4950','4950');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MFD','ST','2017','3246','4651');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','EVD','ST','2017','2882','4503');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','ESD','ST','2017','3317','3317');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','CED','ST','2017','2888','3411');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MSM','ST','2017','2713','5353');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','MDM','ST','2017','2351','3873');
+Query OK, 1 row affected (0.30 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','EDM','ST','2017','2468','3241');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO CUT_OFFS VALUES('0TN001','COE','ST','2017','857','2976');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> SELECT *FROM CUT_OFFS;
++--------+-------------+---------+------+--------------+--------------+
+| Cid    | Branch_Name | Caste   | Year | Opening_Rank | Closing_Rank |
++--------+-------------+---------+------+--------------+--------------+
+| 0TN001 | CED         | GENERAL | 2017 |        16557 |        23128 |
+| 0TN001 | CED         | OBC-NCL | 2017 |         6869 |         8559 |
+| 0TN001 | CED         | SC      | 2017 |         4228 |         5682 |
+| 0TN001 | CED         | ST      | 2017 |         2888 |         3411 |
+| 0TN001 | COE         | GENERAL | 2017 |         8669 |        15995 |
+| 0TN001 | COE         | OBC-NCL | 2017 |         5180 |         6288 |
+| 0TN001 | COE         | SC      | 2017 |         2572 |         4136 |
+| 0TN001 | COE         | ST      | 2017 |          857 |         2976 |
+| 0TN001 | EDM         | GENERAL | 2017 |        12843 |        19961 |
+| 0TN001 | EDM         | OBC-NCL | 2017 |         5254 |         7138 |
+| 0TN001 | EDM         | SC      | 2017 |         3550 |         3938 |
+| 0TN001 | EDM         | ST      | 2017 |         2468 |         3241 |
+| 0TN001 | ESD         | GENERAL | 2017 |        17564 |        28979 |
+| 0TN001 | ESD         | OBC-NCL | 2017 |         8336 |        10266 |
+| 0TN001 | ESD         | SC      | 2017 |         3247 |         5743 |
+| 0TN001 | ESD         | ST      | 2017 |         3317 |         3317 |
+| 0TN001 | EVD         | GENERAL | 2017 |        19632 |        26609 |
+| 0TN001 | EVD         | OBC-NCL | 2017 |         8804 |         9757 |
+| 0TN001 | EVD         | SC      | 2017 |         4098 |         5629 |
+| 0TN001 | EVD         | ST      | 2017 |         2882 |         4503 |
+| 0TN001 | MDM         | GENERAL | 2017 |        14250 |        26086 |
+| 0TN001 | MDM         | OBC-NCL | 2017 |         6212 |         9254 |
+| 0TN001 | MDM         | SC      | 2017 |         3854 |         5993 |
+| 0TN001 | MDM         | ST      | 2017 |         2351 |         3873 |
+| 0TN001 | MFD         | GENERAL | 2017 |        27453 |        33612 |
+| 0TN001 | MFD         | OBC-NCL | 2017 |         9521 |        11037 |
+| 0TN001 | MFD         | SC      | 2017 |         5713 |         6235 |
+| 0TN001 | MFD         | ST      | 2017 |         3246 |         4651 |
+| 0TN001 | MPD         | GENERAL | 2017 |        13815 |        32333 |
+| 0TN001 | MPD         | OBC-NCL | 2017 |         7746 |        11685 |
+| 0TN001 | MPD         | SC      | 2017 |         5774 |         6162 |
+| 0TN001 | MPD         | ST      | 2017 |         4950 |         4950 |
+| 0TN001 | MSM         | GENERAL | 2017 |        21789 |        33350 |
+| 0TN001 | MSM         | OBC-NCL | 2017 |         9505 |        11906 |
+| 0TN001 | MSM         | SC      | 2017 |         6012 |         7924 |
+| 0TN001 | MSM         | ST      | 2017 |         2713 |         5353 |
++--------+-------------+---------+------+--------------+--------------+
+36 rows in set (0.00 sec)
+
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_PROJECT |
++-------------------+
+| ALUMNI            |
+| BRANCH            |
+| COLLEGE           |
+| COMPANIES         |
+| CUT_OFFS          |
+| EVENTS            |
+| FACULTY           |
+| FEE_STRUCTURE     |
+| PLACEMENTS        |
+| RESEARCH          |
++-------------------+
+10 rows in set (0.00 sec)
+
+mysql> DESC FEE_STRUCTURE;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| Cid        | varchar(10) | NO   | PRI |         |       |
+| Category   | varchar(20) | NO   | PRI |         |       |
+| Year       | int(11)     | NO   | PRI | 0       |       |
+| Sem_fee    | int(11)     | YES  |     | NULL    |       |
+| Hostel_fee | int(11)     | YES  |     | NULL    |       |
+| Total_fee  | int(11)     | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','GENERAL','2017','53800','22700','76500');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','OBC-NCL','2017','53800','22700','76500');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','SC','2017','4800','22700','27500');
+Query OK, 1 row affected (0.33 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','ST','2017','4800','22700','27500');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','GENERAL','2016','48800','22700','71500');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','ONC-NCL','2016','48800','22700','71500');
+Query OK, 1 row affected (0.28 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','SC','2016','4800','22700','27500');
+Query OK, 1 row affected (0.30 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','ST','2016','4800','22700','27500');
+Query OK, 1 row affected (0.30 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','GENERAL','2015','44800','22700','67500');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','OBC-NCL','2015','44800','22700','67500');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','SC','2015','4800','22700','27500');
+Query OK, 1 row affected (0.30 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','ST','2015','4800','22700','27500');
+Query OK, 1 row affected (0.30 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','ST','2014','3550','22700','26250');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','SC','2014','3550','22700','26250');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from FEE_STRUCTURE;
++--------+----------+------+---------+------------+-----------+
+| Cid    | Category | Year | Sem_fee | Hostel_fee | Total_fee |
++--------+----------+------+---------+------------+-----------+
+| 0TN001 | GENERAL  | 2015 |   44800 |      22700 |     67500 |
+| 0TN001 | GENERAL  | 2016 |   48800 |      22700 |     71500 |
+| 0TN001 | GENERAL  | 2017 |   53800 |      22700 |     76500 |
+| 0TN001 | OBC-NCL  | 2015 |   44800 |      22700 |     67500 |
+| 0TN001 | OBC-NCL  | 2017 |   53800 |      22700 |     76500 |
+| 0TN001 | ONC-NCL  | 2016 |   48800 |      22700 |     71500 |
+| 0TN001 | SC       | 2014 |    3550 |      22700 |     26250 |
+| 0TN001 | SC       | 2015 |    4800 |      22700 |     27500 |
+| 0TN001 | SC       | 2016 |    4800 |      22700 |     27500 |
+| 0TN001 | SC       | 2017 |    4800 |      22700 |     27500 |
+| 0TN001 | ST       | 2014 |    3550 |      22700 |     26250 |
+| 0TN001 | ST       | 2015 |    4800 |      22700 |     27500 |
+| 0TN001 | ST       | 2016 |    4800 |      22700 |     27500 |
+| 0TN001 | ST       | 2017 |    4800 |      22700 |     27500 |
++--------+----------+------+---------+------------+-----------+
+14 rows in set (0.00 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','GENERAL','2014','28550','22700','51250');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> INSERT INTO  FEE_STRUCTURE VALUES('0TN001','OBC-NCL','2014','28550','22700','51250');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> select * from FEE_STRUCTURE;
++--------+----------+------+---------+------------+-----------+
+| Cid    | Category | Year | Sem_fee | Hostel_fee | Total_fee |
++--------+----------+------+---------+------------+-----------+
+| 0TN001 | GENERAL  | 2014 |   28550 |      22700 |     51250 |
+| 0TN001 | GENERAL  | 2015 |   44800 |      22700 |     67500 |
+| 0TN001 | GENERAL  | 2016 |   48800 |      22700 |     71500 |
+| 0TN001 | GENERAL  | 2017 |   53800 |      22700 |     76500 |
+| 0TN001 | OBC-NCL  | 2014 |   28550 |      22700 |     51250 |
+| 0TN001 | OBC-NCL  | 2015 |   44800 |      22700 |     67500 |
+| 0TN001 | OBC-NCL  | 2017 |   53800 |      22700 |     76500 |
+| 0TN001 | ONC-NCL  | 2016 |   48800 |      22700 |     71500 |
+| 0TN001 | SC       | 2014 |    3550 |      22700 |     26250 |
+| 0TN001 | SC       | 2015 |    4800 |      22700 |     27500 |
+| 0TN001 | SC       | 2016 |    4800 |      22700 |     27500 |
+| 0TN001 | SC       | 2017 |    4800 |      22700 |     27500 |
+| 0TN001 | ST       | 2014 |    3550 |      22700 |     26250 |
+| 0TN001 | ST       | 2015 |    4800 |      22700 |     27500 |
+| 0TN001 | ST       | 2016 |    4800 |      22700 |     27500 |
+| 0TN001 | ST       | 2017 |    4800 |      22700 |     27500 |
++--------+----------+------+---------+------------+-----------+
+16 rows in set (0.00 sec)
+
+mysql> DESC FACULTY;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| Cid        | varchar(10) | NO   | PRI |         |       |
+| F_name     | varchar(25) | NO   | PRI |         |       |
+| Department | varchar(25) | YES  |     | NULL    |       |
+| Phd        | varchar(30) | YES  |     | NULL    |       |
+| Email_id   | varchar(50) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.27 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Prof. Banshidhar Majhi','Computer Science','NIT Rourkela','bm@iiitdm.ac.in');
+Query OK, 1 row affected (0.31 sec)
+
+mysql> select * from FACULTY;
++--------+------------------------+------------------+--------------+-----------------+
+| Cid    | F_name                 | Department       | Phd          | Email_id        |
++--------+------------------------+------------------+--------------+-----------------+
+| 0TN001 | Prof. Banshidhar Majhi | Computer Science | NIT Rourkela | bm@iiitdm.ac.in |
++--------+------------------------+------------------+--------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Prof. Banshidhar Majhi','Computer Science','NIT Rourkela','bm@iiitdm.ac.in');
+ERROR 1062 (23000): Duplicate entry '0TN001-Prof. Banshidhar Majhi' for key 'PRIMARY'
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Binsu J Kailath','Electrical Engineering','IIT Madras','bkailath@iiitdm.ac.in');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Damodharan P','Electrical Engineering','IIT Madras','damodharan@iiitdm.ac.in');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. T.S. Narayanan (Hari)','Computer Science','Concordia University','tsnarayanan@iiitdm.ac.in');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Jayabal K','Mechanical Engineering','IIT Madras','jayabal@iiitdm.ac.in');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Jayavel S','Mechanical Engineering','IIT Madras','sjv@iiitdm.ac.in');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr Karthic Narayanan R','Mechanical Engineering','Nanyang Technological University','karthicnarayanan@iiitdm.ac.in');
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Karthikeyan S S','Electrical and Communication Engineering','IIT Guwahati','ssk@iiitdm.ac.in');
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Masilamani V','Computer Science','IIT Madras','masila@iiitdm.ac.in');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Naveen Kumar','Electronics Engineering','IIT Delhi','nkumar@iiitdm.ac.in');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Noor Mahammad SK','Computer Science','IIT Madras','noor@iiitdm.ac.in');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Pandithevan P','Mechanical Engineering','IIT Guwahati','ppthevan@iiitdm.ac.in');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr Premkumar K.','Electrical and Communication Engineering','IISC','kpk@iiitdm.ac.in');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Priyanka Kokil','Electronics Engineering','Motilal Nehru Institute of Technology','priyanka@iiitdm.ac.in');
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Raja B','Mechanical Engineering','College of Engineering,Guindy','rajab@iiitdm.ac.in');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Sadagopan N','Computer Science','IIT Madras','sadagopan@iiitdm.ac.in');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Selvajyothi K','Electronics Engineering','IIT Madras','ksjyothi@iiitdm.ac.in');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr Senthilkumaran K','Mechanical Engineering','IIT Delhi','skumaran@iiitdm.ac.in');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Shahul Hamid Khan','Mechanical Engineering','NIT Trichy','bshahul@iiitdm.ac.in');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Shalu M A','Mathematics','NIT Trichy','shalu@iiitdm.ac.in');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> update table FACULTY SET Phd='IIT Madras' where F_Name='Dr. Shalu M A';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table FACULTY SET Phd='IIT Madras' where F_Name='Dr. Shalu M A'' at line 1
+mysql> update FACULTY SET Phd='IIT Madras' where F_Name='Dr. Shalu M A';
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Shunmugham R. Pandian','Electronics Engineering','IIT Delhi','srp@iiitdm.ac.in');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Sivaselvan B','Computer Science','NIT Trichy','sivaselvanb@iiitdm.ac.in');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Sreekumar M','Mechanical Engineering','IIT Madras','msk@iiitdm.ac.in');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Sudhir Varadarajan','Systems Engineering and Management','IIT Madras','sudhir@iiitdm.ac.in');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Sunilkumar Anumula','Physics','Politecnico di Milano','sunilkumar@iiitdm.ac.in');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Tapas Sil','Physics','Visva Bharati, Shantiniketan','tapassil@iiitdm.ac.in');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Umarani Jayaraman','Computer Science','IIT Kanpur','umarani@iiitdm.ac.in');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Venkata Timmaraju Mallina','Mechanical Engineering','IIT Madras','vtmallina@iiitdm.ac.in');
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Vijayakumar S','','IIT Kanpur','umarani@iiitdm.ac.in');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Vijayakumar S','Mathematics','IIT Madras','vijay@iiitdm.ac.in');
+ERROR 1062 (23000): Duplicate entry '0TN001-Dr. Vijayakumar S' for key 'PRIMARY'
+mysql> delete from FACULTY where Department='';
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO FACULTY VALUES('0TN001','Dr. Vijayakumar S','Mathematics','IIT Madras','vijay@iiitdm.ac.in');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from FACULTY;
++--------+---------------------------+---------------------------+--------------------------------+-------------------------------+
+| Cid    | F_name                    | Department                | Phd                            | Email_id                      |
++--------+---------------------------+---------------------------+--------------------------------+-------------------------------+
+| 0TN001 | Dr Karthic Narayanan R    | Mechanical Engineering    | Nanyang Technological Universi | karthicnarayanan@iiitdm.ac.in |
+| 0TN001 | Dr Premkumar K.           | Electrical and Communicat | IISC                           | kpk@iiitdm.ac.in              |
+| 0TN001 | Dr Senthilkumaran K       | Mechanical Engineering    | IIT Delhi                      | skumaran@iiitdm.ac.in         |
+| 0TN001 | Dr. Binsu J Kailath       | Electrical Engineering    | IIT Madras                     | bkailath@iiitdm.ac.in         |
+| 0TN001 | Dr. Damodharan P          | Electrical Engineering    | IIT Madras                     | damodharan@iiitdm.ac.in       |
+| 0TN001 | Dr. Jayabal K             | Mechanical Engineering    | IIT Madras                     | jayabal@iiitdm.ac.in          |
+| 0TN001 | Dr. Jayavel S             | Mechanical Engineering    | IIT Madras                     | sjv@iiitdm.ac.in              |
+| 0TN001 | Dr. Karthikeyan S S       | Electrical and Communicat | IIT Guwahati                   | ssk@iiitdm.ac.in              |
+| 0TN001 | Dr. Masilamani V          | Computer Science          | IIT Madras                     | masila@iiitdm.ac.in           |
+| 0TN001 | Dr. Naveen Kumar          | Electronics Engineering   | IIT Delhi                      | nkumar@iiitdm.ac.in           |
+| 0TN001 | Dr. Noor Mahammad SK      | Computer Science          | IIT Madras                     | noor@iiitdm.ac.in             |
+| 0TN001 | Dr. Pandithevan P         | Mechanical Engineering    | IIT Guwahati                   | ppthevan@iiitdm.ac.in         |
+| 0TN001 | Dr. Priyanka Kokil        | Electronics Engineering   | Motilal Nehru Institute of Tec | priyanka@iiitdm.ac.in         |
+| 0TN001 | Dr. Raja B                | Mechanical Engineering    | College of Engineering,Guindy  | rajab@iiitdm.ac.in            |
+| 0TN001 | Dr. Sadagopan N           | Computer Science          | IIT Madras                     | sadagopan@iiitdm.ac.in        |
+| 0TN001 | Dr. Selvajyothi K         | Electronics Engineering   | IIT Madras                     | ksjyothi@iiitdm.ac.in         |
+| 0TN001 | Dr. Shahul Hamid Khan     | Mechanical Engineering    | NIT Trichy                     | bshahul@iiitdm.ac.in          |
+| 0TN001 | Dr. Shalu M A             | Mathematics               | IIT Madras                     | shalu@iiitdm.ac.in            |
+| 0TN001 | Dr. Shunmugham R. Pandian | Electronics Engineering   | IIT Delhi                      | srp@iiitdm.ac.in              |
+| 0TN001 | Dr. Sivaselvan B          | Computer Science          | NIT Trichy                     | sivaselvanb@iiitdm.ac.in      |
+| 0TN001 | Dr. Sreekumar M           | Mechanical Engineering    | IIT Madras                     | msk@iiitdm.ac.in              |
+| 0TN001 | Dr. Sudhir Varadarajan    | Systems Engineering and M | IIT Madras                     | sudhir@iiitdm.ac.in           |
+| 0TN001 | Dr. Sunilkumar Anumula    | Physics                   | Politecnico di Milano          | sunilkumar@iiitdm.ac.in       |
+| 0TN001 | Dr. T.S. Narayanan (Hari) | Computer Science          | Concordia University           | tsnarayanan@iiitdm.ac.in      |
+| 0TN001 | Dr. Tapas Sil             | Physics                   | Visva Bharati, Shantiniketan   | tapassil@iiitdm.ac.in         |
+| 0TN001 | Dr. Umarani Jayaraman     | Computer Science          | IIT Kanpur                     | umarani@iiitdm.ac.in          |
+| 0TN001 | Dr. Venkata Timmaraju Mal | Mechanical Engineering    | IIT Madras                     | vtmallina@iiitdm.ac.in        |
+| 0TN001 | Dr. Vijayakumar S         | Mathematics               | IIT Madras                     | vijay@iiitdm.ac.in            |
+| 0TN001 | Prof. Banshidhar Majhi    | Computer Science          | NIT Rourkela                   | bm@iiitdm.ac.in               |
++--------+---------------------------+---------------------------+--------------------------------+-------------------------------+
+29 rows in set (0.00 sec)
+
+mysql> tee project.txt;
+mysql> show tales;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tales' at line 1
+mysql> show tables;
++-------------------+
+| Tables_in_PROJECT |
++-------------------+
+| ALUMNI            |
+| BRANCH            |
+| COLLEGE           |
+| COMPANIES         |
+| CUT_OFFS          |
+| EVENTS            |
+| FACULTY           |
+| FEE_STRUCTURE     |
+| PLACEMENTS        |
+| RESEARCH          |
++-------------------+
+10 rows in set (0.00 sec)
+
+mysql> desc EVENTS;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Cid    | varchar(10) | NO   | PRI |         |       |
+| E_name | varchar(20) | NO   | PRI |         |       |
+| Etype  | varchar(20) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> Insert into EVENTS values('0TN001','Samgatha','Techno-Cultural');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into EVENTS values('0TN001','Clusters','Intra-Techno-Cultural');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> select * from EVENTS;
++--------+----------+----------------------+
+| Cid    | E_name   | Etype                |
++--------+----------+----------------------+
+| 0TN001 | Clusters | Intra-Techno-Cultura |
+| 0TN001 | Samgatha | Techno-Cultural      |
++--------+----------+----------------------+
+2 rows in set (0.00 sec)
+
+mysql> desc RESEARCH;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Cid      | varchar(10) | NO   | PRI |         |       |
+| F_name   | varchar(25) | NO   | PRI |         |       |
+| Research | varchar(50) | NO   | PRI |         |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Prof. Banshidhar Majhi','Image Processing');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Prof. Banshidhar Majhi','Data Compression');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Prof. Banshidhar Majhi','Cryptography and Security');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Prof. Banshidhar Majhi','Parallel Computing');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Binsu J Kailath','Analog and Digital IC Design');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Binsu J Kailath','Device Modeling and Technology ');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Damodharan P','Power Electronics and Drives');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Damodharan P','Permanent magnet Brushless DC and AC Drives');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. T.S. Narayanan (Hari)','Big Data & Data Mining ');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. T.S. Narayanan (Hari)','Internet of Things');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. T.S. Narayanan (Hari)','Software Defined Networks ');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Jayabal K','Computational Mechanics');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Jayabal K','Finite Element Methods');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Jayabal K','Smart Materials and Structures');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Jayavel S','Computational Fluid Dynamics');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Karthikeyan S S','Microwave passive devices ');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Karthikeyan S S','Microsrtrip antennas');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Masilamani V','Image Processing and Computer Vision');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Masilamani V','Pattern Recognition');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Masilamani V','Algorithms and Data Structure');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Masilamani V','Theory of Computing');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Naveen Kumar','Fiber Optics');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Noor Mahammad SK','Software for VLSI Design');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> 
+mysql> Insert into RESEARCH values('0TN001','Dr. Noor Mahammad SK','Evolvable Hardware');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Noor Mahammad SK','Network System Design');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Pandithevan P','Geometric Modelling and CAD');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Pandithevan P','Design for Additive Manufacturing');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Pandithevan P','Computer-Aided Tissue Engineering');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr Premkumar K.','Scheduling in Networks');
+Query OK, 1 row affected (0.10 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Priyanka Kokil','System theory');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Priyanka Kokil','Nonlinear systems');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Raja B','Enhanced heat transfer');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Raja B','Electronic cooling systems');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Raja B','Food Processing Techniques and Design');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Raja B','Product design');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Sadagopan N','Graph theory and Combinatorics');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Sadagopan N','Data Structures and Algorithms');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Sadagopan N','Computer Networks');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Sadagopan N','Database Systems');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Selvajyothi K','Power Electronics, Drives and Control');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Selvajyothi K','DSP Realization of Control Algorithms in Power Electronics');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Selvajyothi K','Product Design');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr Senthilkumaran K','Additive Manufacturing');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr Senthilkumaran K','Sustainable Manufacturing');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr Senthilkumaran K','Smart Manufacturing');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Shalu M A','Graph Theory');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Shalu M A','Algorithms');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Shunmugham R. Pandian','Robotics');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Shunmugham R. Pandian','Autonomous systems');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Shunmugham R. Pandian','Control systems');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Sivaselvan B','Knowledge & Data Engineering');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Sivaselvan B','Data Structures in Computer Science');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Sreekumar M','Robotics');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Sreekumar M','Serial and Parallel Mechanisms');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> 
+mysql> Insert into RESEARCH values('0TN001','Dr. Sreekumar M','Smart Materials and Smart Structures');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Sudhir Varadarajan','Complex responsive processes in design and innovation');
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Sudhir Varadarajan','Managing the fuzzy front-end of product ');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Tapas Sil','Giant Resonances of Nuclei');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Tapas Sil','Supersymmetric Quantum Mechanics');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Venkata Timmaraju Mallina','Mathematical Modeling of Materials Behavior');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Venkata Timmaraju Mallina','Fatigue and Fracture of Engineering materials');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Vijayakumar S','Algorithms');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Vijayakumar S','Combinatorial Optimization');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> Insert into RESEARCH values('0TN001','Dr. Vijayakumar S','Graph Theory and Combinatorics');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from RESEARCH;
++--------+---------------------------+----------------------------------------------------+
+| Cid    | F_name                    | Research                                           |
++--------+---------------------------+----------------------------------------------------+
+| 0TN001 | Dr Premkumar K.           | Scheduling in Networks                             |
+| 0TN001 | Dr Senthilkumaran K       | Additive Manufacturing                             |
+| 0TN001 | Dr Senthilkumaran K       | Smart Manufacturing                                |
+| 0TN001 | Dr Senthilkumaran K       | Sustainable Manufacturing                          |
+| 0TN001 | Dr. Binsu J Kailath       | Analog and Digital IC Design                       |
+| 0TN001 | Dr. Binsu J Kailath       | Device Modeling and Technology                     |
+| 0TN001 | Dr. Damodharan P          | Permanent magnet Brushless DC and AC Drives        |
+| 0TN001 | Dr. Damodharan P          | Power Electronics and Drives                       |
+| 0TN001 | Dr. Jayabal K             | Computational Mechanics                            |
+| 0TN001 | Dr. Jayabal K             | Finite Element Methods                             |
+| 0TN001 | Dr. Jayabal K             | Smart Materials and Structures                     |
+| 0TN001 | Dr. Jayavel S             | Computational Fluid Dynamics                       |
+| 0TN001 | Dr. Karthikeyan S S       | Microsrtrip antennas                               |
+| 0TN001 | Dr. Karthikeyan S S       | Microwave passive devices                          |
+| 0TN001 | Dr. Masilamani V          | Algorithms and Data Structure                      |
+| 0TN001 | Dr. Masilamani V          | Image Processing and Computer Vision               |
+| 0TN001 | Dr. Masilamani V          | Pattern Recognition                                |
+| 0TN001 | Dr. Masilamani V          | Theory of Computing                                |
+| 0TN001 | Dr. Naveen Kumar          | Fiber Optics                                       |
+| 0TN001 | Dr. Noor Mahammad SK      | Evolvable Hardware                                 |
+| 0TN001 | Dr. Noor Mahammad SK      | Network System Design                              |
+| 0TN001 | Dr. Noor Mahammad SK      | Software for VLSI Design                           |
+| 0TN001 | Dr. Pandithevan P         | Computer-Aided Tissue Engineering                  |
+| 0TN001 | Dr. Pandithevan P         | Design for Additive Manufacturing                  |
+| 0TN001 | Dr. Pandithevan P         | Geometric Modelling and CAD                        |
+| 0TN001 | Dr. Priyanka Kokil        | Nonlinear systems                                  |
+| 0TN001 | Dr. Priyanka Kokil        | System theory                                      |
+| 0TN001 | Dr. Raja B                | Electronic cooling systems                         |
+| 0TN001 | Dr. Raja B                | Enhanced heat transfer                             |
+| 0TN001 | Dr. Raja B                | Food Processing Techniques and Design              |
+| 0TN001 | Dr. Raja B                | Product design                                     |
+| 0TN001 | Dr. Sadagopan N           | Computer Networks                                  |
+| 0TN001 | Dr. Sadagopan N           | Data Structures and Algorithms                     |
+| 0TN001 | Dr. Sadagopan N           | Database Systems                                   |
+| 0TN001 | Dr. Sadagopan N           | Graph theory and Combinatorics                     |
+| 0TN001 | Dr. Selvajyothi K         | DSP Realization of Control Algorithms in Power Ele |
+| 0TN001 | Dr. Selvajyothi K         | Power Electronics, Drives and Control              |
+| 0TN001 | Dr. Selvajyothi K         | Product Design                                     |
+| 0TN001 | Dr. Shalu M A             | Algorithms                                         |
+| 0TN001 | Dr. Shalu M A             | Graph Theory                                       |
+| 0TN001 | Dr. Shunmugham R. Pandian | Autonomous systems                                 |
+| 0TN001 | Dr. Shunmugham R. Pandian | Control systems                                    |
+| 0TN001 | Dr. Shunmugham R. Pandian | Robotics                                           |
+| 0TN001 | Dr. Sivaselvan B          | Data Structures in Computer Science                |
+| 0TN001 | Dr. Sivaselvan B          | Knowledge & Data Engineering                       |
+| 0TN001 | Dr. Sreekumar M           | Robotics                                           |
+| 0TN001 | Dr. Sreekumar M           | Serial and Parallel Mechanisms                     |
+| 0TN001 | Dr. Sreekumar M           | Smart Materials and Smart Structures               |
+| 0TN001 | Dr. Sudhir Varadarajan    | Complex responsive processes in design and innovat |
+| 0TN001 | Dr. Sudhir Varadarajan    | Managing the fuzzy front-end of product            |
+| 0TN001 | Dr. T.S. Narayanan (Hari) | Big Data & Data Mining                             |
+| 0TN001 | Dr. T.S. Narayanan (Hari) | Internet of Things                                 |
+| 0TN001 | Dr. T.S. Narayanan (Hari) | Software Defined Networks                          |
+| 0TN001 | Dr. Tapas Sil             | Giant Resonances of Nuclei                         |
+| 0TN001 | Dr. Tapas Sil             | Supersymmetric Quantum Mechanics                   |
+| 0TN001 | Dr. Venkata Timmaraju Mal | Fatigue and Fracture of Engineering materials      |
+| 0TN001 | Dr. Venkata Timmaraju Mal | Mathematical Modeling of Materials Behavior        |
+| 0TN001 | Dr. Vijayakumar S         | Algorithms                                         |
+| 0TN001 | Dr. Vijayakumar S         | Combinatorial Optimization                         |
+| 0TN001 | Dr. Vijayakumar S         | Graph Theory and Combinatorics                     |
+| 0TN001 | Prof. Banshidhar Majhi    | Cryptography and Security                          |
+| 0TN001 | Prof. Banshidhar Majhi    | Data Compression                                   |
+| 0TN001 | Prof. Banshidhar Majhi    | Image Processing                                   |
+| 0TN001 | Prof. Banshidhar Majhi    | Parallel Computing                                 |
++--------+---------------------------+----------------------------------------------------+
+64 rows in set (0.00 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_PROJECT |
++-------------------+
+| ALUMNI            |
+| BRANCH            |
+| COLLEGE           |
+| COMPANIES         |
+| CUT_OFFS          |
+| EVENTS            |
+| FACULTY           |
+| FEE_STRUCTURE     |
+| PLACEMENTS        |
+| RESEARCH          |
++-------------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT Cname,No_of_Seats FROM BRANCH natural join COLLEGE where Branch_Name='COE';
++--------------------+-------------+
+| Cname              | No_of_Seats |
++--------------------+-------------+
+| IIITDM Kancheeuram |          40 |
++--------------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> Ctrl-C -- exit!
+Aborted
+mysql> select Crank from COLLEGE WHERE Cname='IIITDM Kancheeuram';
+ERROR 1046 (3D000): No database selected
+mysql> use PROJECT;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select Crank from COLLEGE WHERE Cname='IIITDM Kancheeuram';
++-------+
+| Crank |
++-------+
+|   151 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname='IIITDM Kancheepuram' ;
+Empty set (0.00 sec)
+
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname REGEXP [IIITDM Kancheepuram];
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[IIITDM Kancheepuram]' at line 1
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname REGEXP [^IIITDM];
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[^IIITDM]' at line 1
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname REGEXP ^[^IIITDM];
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '^[^IIITDM]' at line 1
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname REGEXP '^IIITDM';
++-----------------+
+| Companies       |
++-----------------+
+| Bosch           |
+| IVTL            |
+| Saint Gobain    |
+| System Insights |
+| TCS - EIS       |
+| Trimble         |
+| Vassar Labs     |
++-----------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname REGEXP '^IIITDM Kancheepuram';
+Empty set (0.00 sec)
+
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname REGEXP '^IIITDM  Kancheepuram';
+Empty set (0.00 sec)
+
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname REGEXP '^IIITDM Kancheeuram';
++-----------------+
+| Companies       |
++-----------------+
+| Bosch           |
+| IVTL            |
+| Saint Gobain    |
+| System Insights |
+| TCS - EIS       |
+| Trimble         |
+| Vassar Labs     |
++-----------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname='IIITDM Kancheeuram'in(select Companies from COMPANIES natural join COLLEGE WHERE Year='2017' and Cname='IIITDM Kancheeuram') ;
++-----------------+
+| Companies       |
++-----------------+
+| Bosch           |
+| IVTL            |
+| Saint Gobain    |
+| System Insights |
+| TCS - EIS       |
+| Trimble         |
+| Vassar Labs     |
++-----------------+
+7 rows in set, 1 warning (0.00 sec)
+
+mysql> select Companies from COMPANIES natural join COLLEGE WHERE Year='2017' and Cname='IIITDM Kancheeuram';
++------------------+
+| Companies        |
++------------------+
+| DBS Bank         |
+| Fr8              |
+| HCL              |
+| IVTL             |
+| Saint Gobain     |
+| Start Smart Labs |
+| TCS              |
+| Tech Mahindra    |
+| Trimble          |
+| Vassar Labs      |
++------------------+
+10 rows in set (0.00 sec)
+
+mysql> Alter table BRANCH ADD FOREIGN KEY(Cid) references COLLEGE(Cid);
+Query OK, 9 rows affected (0.23 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> Alter table CUT_OFFS ADD FOREIGN KEY(Cid) references COLLEGE(Cid);
+Query OK, 36 rows affected (0.22 sec)
+Records: 36  Duplicates: 0  Warnings: 0
+
+mysql> Alter table RESEARCH FOREIGN KEY(Cid) references COLLEGE(Cid);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FOREIGN KEY(Cid) references COLLEGE(Cid)' at line 1
+mysql> Alter table RESEARCH ADD FOREIGN KEY(Cid) references COLLEGE(Cid);
+Query OK, 64 rows affected (0.24 sec)
+Records: 64  Duplicates: 0  Warnings: 0
+
+mysql> Alter table FEE_STRUCTURE ADD FOREIGN KEY(Cid) references COLLEGE(Cid);
+Query OK, 16 rows affected (0.28 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_PROJECT |
++-------------------+
+| ALUMNI            |
+| BRANCH            |
+| COLLEGE           |
+| COMPANIES         |
+| CUT_OFFS          |
+| EVENTS            |
+| FACULTY           |
+| FEE_STRUCTURE     |
+| PLACEMENTS        |
+| RESEARCH          |
++-------------------+
+10 rows in set (0.00 sec)
+
+mysql> Alter table ALUMNI ADD FOREIGN KEY(Cid) references COLLEGE(Cid);
+Query OK, 4 rows affected (0.26 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> Alter table EVENTS ADD FOREIGN KEY(Cid) references COLLEGE(Cid);
+Query OK, 2 rows affected (0.27 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> Alter table FACULTY ADD FOREIGN KEY(Cid) references COLLEGE(Cid);
+Query OK, 29 rows affected (0.26 sec)
+Records: 29  Duplicates: 0  Warnings: 0
+
+mysql> Alter table PLACEMENTS ADD FOREIGN KEY(Cid) references COLLEGE(Cid);
+Query OK, 6 rows affected (0.30 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> Alter table COMPANIES ADD FOREIGN KEY(Cid) references COLLEGE(Cid);
+Query OK, 17 rows affected (0.25 sec)
+Records: 17  Duplicates: 0  Warnings: 0
+
+mysql> Alter table CUT_OFFS ADD FOREIGN KEY(Branch_Name) references BRANCH(Branch_Name);
+Query OK, 36 rows affected (0.32 sec)
+Records: 36  Duplicates: 0  Warnings: 0
+
+mysql> Alter table PLACEMENTS ADD FOREIGN KEY(Branch_Name) references BRANCH(Branch_Name);
+Query OK, 6 rows affected (0.32 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM PLACEMENTS;
++--------+-------------+------+----------------+------------+----------------+
+| Cid    | Branch_Name | Year | No_of_students | Avg_Salary | Highest_Salary |
++--------+-------------+------+----------------+------------+----------------+
+| 0TN001 | COE         | 2016 |             33 |     489000 |         900000 |
+| 0TN001 | COE         | 2017 |             27 |     467000 |        1000000 |
+| 0TN001 | EDM         | 2016 |             17 |     425000 |         650000 |
+| 0TN001 | EDM         | 2017 |             32 |     382000 |         650000 |
+| 0TN001 | MDM         | 2016 |             11 |     375000 |         600000 |
+| 0TN001 | MDM         | 2017 |             18 |     383000 |         600000 |
++--------+-------------+------+----------------+------------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> ALTER TABLE PLACEMENTS RENAME(Year) as Pass_out_year;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(Year) as Pass_out_year' at line 1
+mysql> ALTER TABLE PLACEMENTS RENAME COLUMN Year TO Pass_out_year;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'COLUMN Year TO Pass_out_year' at line 1
+mysql> ALTER TABLE PLACEMENTS RENAME COLUMN 'Year' TO 'Pass_out_year';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'COLUMN 'Year' TO 'Pass_out_year'' at line 1
+mysql> ALTER TABLE PLACEMENTS CHANGE Year Pass_out_year INT;
+Query OK, 6 rows affected (0.26 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM PLACEMENTS;
++--------+-------------+---------------+----------------+------------+----------------+
+| Cid    | Branch_Name | Pass_out_year | No_of_students | Avg_Salary | Highest_Salary |
++--------+-------------+---------------+----------------+------------+----------------+
+| 0TN001 | COE         |          2016 |             33 |     489000 |         900000 |
+| 0TN001 | COE         |          2017 |             27 |     467000 |        1000000 |
+| 0TN001 | EDM         |          2016 |             17 |     425000 |         650000 |
+| 0TN001 | EDM         |          2017 |             32 |     382000 |         650000 |
+| 0TN001 | MDM         |          2016 |             11 |     375000 |         600000 |
+| 0TN001 | MDM         |          2017 |             18 |     383000 |         600000 |
++--------+-------------+---------------+----------------+------------+----------------+
+6 rows in set (0.01 sec)
+
+mysql> Alter table RESEARCH ADD FOREIGN KEY(F_name) references FACULTY(F_name);
+ERROR 1005 (HY000): Can't create table 'PROJECT.#sql-4ae_37' (errno: 150)
+mysql> SELECT * FROM FACULTY;
++--------+---------------------------+---------------------------+--------------------------------+-------------------------------+
+| Cid    | F_name                    | Department                | Phd                            | Email_id                      |
++--------+---------------------------+---------------------------+--------------------------------+-------------------------------+
+| 0TN001 | Dr Karthic Narayanan R    | Mechanical Engineering    | Nanyang Technological Universi | karthicnarayanan@iiitdm.ac.in |
+| 0TN001 | Dr Premkumar K.           | Electrical and Communicat | IISC                           | kpk@iiitdm.ac.in              |
+| 0TN001 | Dr Senthilkumaran K       | Mechanical Engineering    | IIT Delhi                      | skumaran@iiitdm.ac.in         |
+| 0TN001 | Dr. Binsu J Kailath       | Electrical Engineering    | IIT Madras                     | bkailath@iiitdm.ac.in         |
+| 0TN001 | Dr. Damodharan P          | Electrical Engineering    | IIT Madras                     | damodharan@iiitdm.ac.in       |
+| 0TN001 | Dr. Jayabal K             | Mechanical Engineering    | IIT Madras                     | jayabal@iiitdm.ac.in          |
+| 0TN001 | Dr. Jayavel S             | Mechanical Engineering    | IIT Madras                     | sjv@iiitdm.ac.in              |
+| 0TN001 | Dr. Karthikeyan S S       | Electrical and Communicat | IIT Guwahati                   | ssk@iiitdm.ac.in              |
+| 0TN001 | Dr. Masilamani V          | Computer Science          | IIT Madras                     | masila@iiitdm.ac.in           |
+| 0TN001 | Dr. Naveen Kumar          | Electronics Engineering   | IIT Delhi                      | nkumar@iiitdm.ac.in           |
+| 0TN001 | Dr. Noor Mahammad SK      | Computer Science          | IIT Madras                     | noor@iiitdm.ac.in             |
+| 0TN001 | Dr. Pandithevan P         | Mechanical Engineering    | IIT Guwahati                   | ppthevan@iiitdm.ac.in         |
+| 0TN001 | Dr. Priyanka Kokil        | Electronics Engineering   | Motilal Nehru Institute of Tec | priyanka@iiitdm.ac.in         |
+| 0TN001 | Dr. Raja B                | Mechanical Engineering    | College of Engineering,Guindy  | rajab@iiitdm.ac.in            |
+| 0TN001 | Dr. Sadagopan N           | Computer Science          | IIT Madras                     | sadagopan@iiitdm.ac.in        |
+| 0TN001 | Dr. Selvajyothi K         | Electronics Engineering   | IIT Madras                     | ksjyothi@iiitdm.ac.in         |
+| 0TN001 | Dr. Shahul Hamid Khan     | Mechanical Engineering    | NIT Trichy                     | bshahul@iiitdm.ac.in          |
+| 0TN001 | Dr. Shalu M A             | Mathematics               | IIT Madras                     | shalu@iiitdm.ac.in            |
+| 0TN001 | Dr. Shunmugham R. Pandian | Electronics Engineering   | IIT Delhi                      | srp@iiitdm.ac.in              |
+| 0TN001 | Dr. Sivaselvan B          | Computer Science          | NIT Trichy                     | sivaselvanb@iiitdm.ac.in      |
+| 0TN001 | Dr. Sreekumar M           | Mechanical Engineering    | IIT Madras                     | msk@iiitdm.ac.in              |
+| 0TN001 | Dr. Sudhir Varadarajan    | Systems Engineering and M | IIT Madras                     | sudhir@iiitdm.ac.in           |
+| 0TN001 | Dr. Sunilkumar Anumula    | Physics                   | Politecnico di Milano          | sunilkumar@iiitdm.ac.in       |
+| 0TN001 | Dr. T.S. Narayanan (Hari) | Computer Science          | Concordia University           | tsnarayanan@iiitdm.ac.in      |
+| 0TN001 | Dr. Tapas Sil             | Physics                   | Visva Bharati, Shantiniketan   | tapassil@iiitdm.ac.in         |
+| 0TN001 | Dr. Umarani Jayaraman     | Computer Science          | IIT Kanpur                     | umarani@iiitdm.ac.in          |
+| 0TN001 | Dr. Venkata Timmaraju Mal | Mechanical Engineering    | IIT Madras                     | vtmallina@iiitdm.ac.in        |
+| 0TN001 | Dr. Vijayakumar S         | Mathematics               | IIT Madras                     | vijay@iiitdm.ac.in            |
+| 0TN001 | Prof. Banshidhar Majhi    | Computer Science          | NIT Rourkela                   | bm@iiitdm.ac.in               |
++--------+---------------------------+---------------------------+--------------------------------+-------------------------------+
+29 rows in set (0.00 sec)
+
+mysql> SELECT * FROM RESEARCH;
++--------+---------------------------+----------------------------------------------------+
+| Cid    | F_name                    | Research                                           |
++--------+---------------------------+----------------------------------------------------+
+| 0TN001 | Dr Premkumar K.           | Scheduling in Networks                             |
+| 0TN001 | Dr Senthilkumaran K       | Additive Manufacturing                             |
+| 0TN001 | Dr Senthilkumaran K       | Smart Manufacturing                                |
+| 0TN001 | Dr Senthilkumaran K       | Sustainable Manufacturing                          |
+| 0TN001 | Dr. Binsu J Kailath       | Analog and Digital IC Design                       |
+| 0TN001 | Dr. Binsu J Kailath       | Device Modeling and Technology                     |
+| 0TN001 | Dr. Damodharan P          | Permanent magnet Brushless DC and AC Drives        |
+| 0TN001 | Dr. Damodharan P          | Power Electronics and Drives                       |
+| 0TN001 | Dr. Jayabal K             | Computational Mechanics                            |
+| 0TN001 | Dr. Jayabal K             | Finite Element Methods                             |
+| 0TN001 | Dr. Jayabal K             | Smart Materials and Structures                     |
+| 0TN001 | Dr. Jayavel S             | Computational Fluid Dynamics                       |
+| 0TN001 | Dr. Karthikeyan S S       | Microsrtrip antennas                               |
+| 0TN001 | Dr. Karthikeyan S S       | Microwave passive devices                          |
+| 0TN001 | Dr. Masilamani V          | Algorithms and Data Structure                      |
+| 0TN001 | Dr. Masilamani V          | Image Processing and Computer Vision               |
+| 0TN001 | Dr. Masilamani V          | Pattern Recognition                                |
+| 0TN001 | Dr. Masilamani V          | Theory of Computing                                |
+| 0TN001 | Dr. Naveen Kumar          | Fiber Optics                                       |
+| 0TN001 | Dr. Noor Mahammad SK      | Evolvable Hardware                                 |
+| 0TN001 | Dr. Noor Mahammad SK      | Network System Design                              |
+| 0TN001 | Dr. Noor Mahammad SK      | Software for VLSI Design                           |
+| 0TN001 | Dr. Pandithevan P         | Computer-Aided Tissue Engineering                  |
+| 0TN001 | Dr. Pandithevan P         | Design for Additive Manufacturing                  |
+| 0TN001 | Dr. Pandithevan P         | Geometric Modelling and CAD                        |
+| 0TN001 | Dr. Priyanka Kokil        | Nonlinear systems                                  |
+| 0TN001 | Dr. Priyanka Kokil        | System theory                                      |
+| 0TN001 | Dr. Raja B                | Electronic cooling systems                         |
+| 0TN001 | Dr. Raja B                | Enhanced heat transfer                             |
+| 0TN001 | Dr. Raja B                | Food Processing Techniques and Design              |
+| 0TN001 | Dr. Raja B                | Product design                                     |
+| 0TN001 | Dr. Sadagopan N           | Computer Networks                                  |
+| 0TN001 | Dr. Sadagopan N           | Data Structures and Algorithms                     |
+| 0TN001 | Dr. Sadagopan N           | Database Systems                                   |
+| 0TN001 | Dr. Sadagopan N           | Graph theory and Combinatorics                     |
+| 0TN001 | Dr. Selvajyothi K         | DSP Realization of Control Algorithms in Power Ele |
+| 0TN001 | Dr. Selvajyothi K         | Power Electronics, Drives and Control              |
+| 0TN001 | Dr. Selvajyothi K         | Product Design                                     |
+| 0TN001 | Dr. Shalu M A             | Algorithms                                         |
+| 0TN001 | Dr. Shalu M A             | Graph Theory                                       |
+| 0TN001 | Dr. Shunmugham R. Pandian | Autonomous systems                                 |
+| 0TN001 | Dr. Shunmugham R. Pandian | Control systems                                    |
+| 0TN001 | Dr. Shunmugham R. Pandian | Robotics                                           |
+| 0TN001 | Dr. Sivaselvan B          | Data Structures in Computer Science                |
+| 0TN001 | Dr. Sivaselvan B          | Knowledge & Data Engineering                       |
+| 0TN001 | Dr. Sreekumar M           | Robotics                                           |
+| 0TN001 | Dr. Sreekumar M           | Serial and Parallel Mechanisms                     |
+| 0TN001 | Dr. Sreekumar M           | Smart Materials and Smart Structures               |
+| 0TN001 | Dr. Sudhir Varadarajan    | Complex responsive processes in design and innovat |
+| 0TN001 | Dr. Sudhir Varadarajan    | Managing the fuzzy front-end of product            |
+| 0TN001 | Dr. T.S. Narayanan (Hari) | Big Data & Data Mining                             |
+| 0TN001 | Dr. T.S. Narayanan (Hari) | Internet of Things                                 |
+| 0TN001 | Dr. T.S. Narayanan (Hari) | Software Defined Networks                          |
+| 0TN001 | Dr. Tapas Sil             | Giant Resonances of Nuclei                         |
+| 0TN001 | Dr. Tapas Sil             | Supersymmetric Quantum Mechanics                   |
+| 0TN001 | Dr. Venkata Timmaraju Mal | Fatigue and Fracture of Engineering materials      |
+| 0TN001 | Dr. Venkata Timmaraju Mal | Mathematical Modeling of Materials Behavior        |
+| 0TN001 | Dr. Vijayakumar S         | Algorithms                                         |
+| 0TN001 | Dr. Vijayakumar S         | Combinatorial Optimization                         |
+| 0TN001 | Dr. Vijayakumar S         | Graph Theory and Combinatorics                     |
+| 0TN001 | Prof. Banshidhar Majhi    | Cryptography and Security                          |
+| 0TN001 | Prof. Banshidhar Majhi    | Data Compression                                   |
+| 0TN001 | Prof. Banshidhar Majhi    | Image Processing                                   |
+| 0TN001 | Prof. Banshidhar Majhi    | Parallel Computing                                 |
++--------+---------------------------+----------------------------------------------------+
+64 rows in set (0.00 sec)
+
+mysql> Alter table RESEARCH ADD FOREIGN KEY(F_name) references FACULTY(F_name);
+ERROR 1005 (HY000): Can't create table 'PROJECT.#sql-4ae_37' (errno: 150)
+mysql> DESC RESEARCH;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Cid      | varchar(10) | NO   | PRI |         |       |
+| F_name   | varchar(25) | NO   | PRI |         |       |
+| Research | varchar(50) | NO   | PRI |         |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DESC FACULTY;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| Cid        | varchar(10) | NO   | PRI |         |       |
+| F_name     | varchar(25) | NO   | PRI |         |       |
+| Department | varchar(25) | YES  |     | NULL    |       |
+| Phd        | varchar(30) | YES  |     | NULL    |       |
+| Email_id   | varchar(50) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> Alter table FACULTY ADD FOREIGN KEY(F_name) references RESEARCH(F_name);
+ERROR 1005 (HY000): Can't create table 'PROJECT.#sql-4ae_37' (errno: 150)
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname='IIITDM Kancheeuram'in(select Companies from COMPANIES natural join COLLEGE WHERE Year='2017' and Cname='IIITDM Kancheeuram') ;
++-----------------+
+| Companies       |
++-----------------+
+| Bosch           |
+| IVTL            |
+| Saint Gobain    |
+| System Insights |
+| TCS - EIS       |
+| Trimble         |
+| Vassar Labs     |
++-----------------+
+7 rows in set, 1 warning (0.00 sec)
+
+mysql> SELECT Total_fee from FEE_STRUCTURE natural join COLLEGE WHERE Cname='IIITDM Kancheepuram';
+Empty set (0.00 sec)
+
+mysql> SELECT Total_fee from FEE_STRUCTURE natural join COLLEGE WHERE Cname='IIITDM Kancheeuram';
++-----------+
+| Total_fee |
++-----------+
+|     51250 |
+|     67500 |
+|     71500 |
+|     76500 |
+|     51250 |
+|     67500 |
+|     76500 |
+|     71500 |
+|     26250 |
+|     27500 |
+|     27500 |
+|     27500 |
+|     26250 |
+|     27500 |
+|     27500 |
+|     27500 |
++-----------+
+16 rows in set (0.00 sec)
+
+mysql> SELECT Total_fee from FEE_STRUCTURE natural join COLLEGE WHERE Cname='IIITDM Kancheeuram' and Year='2017';
++-----------+
+| Total_fee |
++-----------+
+|     76500 |
+|     76500 |
+|     27500 |
+|     27500 |
++-----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT Total_fee from FEE_STRUCTURE natural join COLLEGE WHERE Cname='IIITDM Kancheeuram' and Year='2017' and Category='GENERAL';
++-----------+
+| Total_fee |
++-----------+
+|     76500 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * from FEE_STRUCTURE natural join COLLEGE WHERE Cname='IIITDM Kancheeuram' and Year='2017' and Category='GENERAL';
++--------+----------+------+---------+------------+-----------+--------------------+------------------------------------------+-------+-------+--------------------------+
+| Cid    | Category | Year | Sem_fee | Hostel_fee | Total_fee | Cname              | Clocation                                | Ctype | Crank | Clink                    |
++--------+----------+------+---------+------------+-----------+--------------------+------------------------------------------+-------+-------+--------------------------+
+| 0TN001 | GENERAL  | 2017 |   53800 |      22700 |     76500 | IIITDM Kancheeuram | Vandalur-Kelambakkam road,Chennai:600127 | Govt  |   151 | http://www.iiitdm.ac.in/ |
++--------+----------+------+---------+------------+-----------+--------------------+------------------------------------------+-------+-------+--------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * from ALUMNI;
++--------+------+----------------+------------------------+--------------+-------------------------+
+| Cid    | Year | A_Name         | Contact_details        | Achievements | Works_At                |
++--------+------+----------------+------------------------+--------------+-------------------------+
+| 0TN001 | 2014 | Chandrasekar E | mds14m002@iiitdm.ac.in |              | TVS SUNDARAM FASTENERS  |
+| 0TN001 | 2014 | Chetan Soni    | cds14m002@iiitdm.ac.in |              | CTECH LABS              |
+| 0TN001 | 2014 | Dhayalakumar   | eds14m004@iiitdm.ac.in |              | Phd IIITDM Kancheepuram |
+| 0TN001 | 2014 | Jaganathan A   | mds14m007@iiitdm.ac.in |              | TANGEDCO                |
++--------+------+----------------+------------------------+--------------+-------------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT A_Name, Contact_details from ALUMNI NATURAL JOIN COLLEGE WHERE Cname='IIITDM Kancheeuram';
++----------------+------------------------+
+| A_Name         | Contact_details        |
++----------------+------------------------+
+| Chandrasekar E | mds14m002@iiitdm.ac.in |
+| Chetan Soni    | cds14m002@iiitdm.ac.in |
+| Dhayalakumar   | eds14m004@iiitdm.ac.in |
+| Jaganathan A   | mds14m007@iiitdm.ac.in |
++----------------+------------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT A_Name, Contact_details from ALUMNI NATURAL JOIN COLLEGE WHERE Cname='IIITDM Kancheeuram' and Works_At='TANGEDCO';
++--------------+------------------------+
+| A_Name       | Contact_details        |
++--------------+------------------------+
+| Jaganathan A | mds14m007@iiitdm.ac.in |
++--------------+------------------------+
+1 row in set (0.00 sec)
+
+mysql> Ctrl-C -- exit!
+Aborted
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname='IIITDM Kancheepuram' ;
+ERROR 1046 (3D000): No database selected
+mysql> use PROJECT;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname='IIITDM Kancheepuram' ;
+Empty set (0.00 sec)
+
+mysql> SELECT Companies from COMPANIES natural join COLLEGE WHERE Year='2016' and Cname='IIITDM Kancheeuram' ;
++-----------------+
+| Companies       |
++-----------------+
+| Bosch           |
+| IVTL            |
+| Saint Gobain    |
+| System Insights |
+| TCS - EIS       |
+| Trimble         |
+| Vassar Labs     |
++-----------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT Branch_Name,No_of_students from PLACEMENTS NATURAL JOIN COLLEGE WHERE Cname='IIITDM Kancheeuram';
++-------------+----------------+
+| Branch_Name | No_of_students |
++-------------+----------------+
+| COE         |             33 |
+| COE         |             27 |
+| EDM         |             17 |
+| EDM         |             32 |
+| MDM         |             11 |
+| MDM         |             18 |
++-------------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> select F_Name from RESEARCH WHERE Research='Algorithms';
++-------------------+
+| F_Name            |
++-------------------+
+| Dr. Shalu M A     |
+| Dr. Vijayakumar S |
++-------------------+
+2 rows in set (0.01 sec)
+
+mysql> select Cname,Crank from COLLEGE ORDER BY Crank ASC;
++--------------------+-------+
+| Cname              | Crank |
++--------------------+-------+
+| IIITDM Kancheeuram |   151 |
++--------------------+-------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CLocation,Clink from COLLEGE WHERE Cname='IIITDM Kancheeuram';
++------------------------------------------+--------------------------+
+| CLocation                                | Clink                    |
++------------------------------------------+--------------------------+
+| Vandalur-Kelambakkam road,Chennai:600127 | http://www.iiitdm.ac.in/ |
++------------------------------------------+--------------------------+
+1 row in set (0.00 sec)
+
+mysql> select Ename from EVENTS natural join COLLEGE where Cname=’IIITDM Kancheeuram’;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Kancheeuram’' at line 1
+mysql> select * from EVENTS;
++--------+----------+----------------------+
+| Cid    | E_name   | Etype                |
++--------+----------+----------------------+
+| 0TN001 | Clusters | Intra-Techno-Cultura |
+| 0TN001 | Samgatha | Techno-Cultural      |
++--------+----------+----------------------+
+2 rows in set (0.00 sec)
+
+mysql> select E_name from EVENTS natural join COLLEGE where Cname=’IIITDM Kancheeuram’;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Kancheeuram’' at line 1
+mysql> select E_name from EVENTS natural join COLLEGE where Cname='IIITDM Kancheeuram';
++----------+
+| E_name   |
++----------+
+| Clusters |
+| Samgatha |
++----------+
+2 rows in set (0.01 sec)
+
+mysql> select cname from college natural join college where highestsalary=(select max(highest salary )
+    -> from placements where year=’2016’ );
+ERROR 1066 (42000): Not unique table/alias: 'college'
+mysql> SELECT * FROM PLACEMENTS;
++--------+-------------+---------------+----------------+------------+----------------+
+| Cid    | Branch_Name | Pass_out_year | No_of_students | Avg_Salary | Highest_Salary |
++--------+-------------+---------------+----------------+------------+----------------+
+| 0TN001 | COE         |          2016 |             33 |     489000 |         900000 |
+| 0TN001 | COE         |          2017 |             27 |     467000 |        1000000 |
+| 0TN001 | EDM         |          2016 |             17 |     425000 |         650000 |
+| 0TN001 | EDM         |          2017 |             32 |     382000 |         650000 |
+| 0TN001 | MDM         |          2016 |             11 |     375000 |         600000 |
+| 0TN001 | MDM         |          2017 |             18 |     383000 |         600000 |
++--------+-------------+---------------+----------------+------------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT Cname from COLLEGE NATURAL JOIN PLACEMENTS WHERE Highest_Salary=(select max(Highest_Salary) from PLACEMENTS WHERE Pass_out_year='2016');
++--------------------+
+| Cname              |
++--------------------+
+| IIITDM Kancheeuram |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select Cname,F_Name,Email_id,qualification from FACULTY NATURAL JOIN COLLEGE WHERE Department='COE';
+ERROR 1054 (42S22): Unknown column 'qualification' in 'field list'
+mysql> select Cname,F_Name,Email_id,Phd from FACULTY NATURAL JOIN COLLEGE WHERE Department='COE';
+Empty set (0.00 sec)
+
+mysql> select Cname,F_Name,Email_id,Phd from FACULTY NATURAL JOIN COLLEGE WHERE Department='COE';
+Empty set (0.00 sec)
+
+mysql> select * from FACULTY;
++--------+---------------------------+---------------------------+--------------------------------+-------------------------------+
+| Cid    | F_name                    | Department                | Phd                            | Email_id                      |
++--------+---------------------------+---------------------------+--------------------------------+-------------------------------+
+| 0TN001 | Dr Karthic Narayanan R    | Mechanical Engineering    | Nanyang Technological Universi | karthicnarayanan@iiitdm.ac.in |
+| 0TN001 | Dr Premkumar K.           | Electrical and Communicat | IISC                           | kpk@iiitdm.ac.in              |
+| 0TN001 | Dr Senthilkumaran K       | Mechanical Engineering    | IIT Delhi                      | skumaran@iiitdm.ac.in         |
+| 0TN001 | Dr. Binsu J Kailath       | Electrical Engineering    | IIT Madras                     | bkailath@iiitdm.ac.in         |
+| 0TN001 | Dr. Damodharan P          | Electrical Engineering    | IIT Madras                     | damodharan@iiitdm.ac.in       |
+| 0TN001 | Dr. Jayabal K             | Mechanical Engineering    | IIT Madras                     | jayabal@iiitdm.ac.in          |
+| 0TN001 | Dr. Jayavel S             | Mechanical Engineering    | IIT Madras                     | sjv@iiitdm.ac.in              |
+| 0TN001 | Dr. Karthikeyan S S       | Electrical and Communicat | IIT Guwahati                   | ssk@iiitdm.ac.in              |
+| 0TN001 | Dr. Masilamani V          | Computer Science          | IIT Madras                     | masila@iiitdm.ac.in           |
+| 0TN001 | Dr. Naveen Kumar          | Electronics Engineering   | IIT Delhi                      | nkumar@iiitdm.ac.in           |
+| 0TN001 | Dr. Noor Mahammad SK      | Computer Science          | IIT Madras                     | noor@iiitdm.ac.in             |
+| 0TN001 | Dr. Pandithevan P         | Mechanical Engineering    | IIT Guwahati                   | ppthevan@iiitdm.ac.in         |
+| 0TN001 | Dr. Priyanka Kokil        | Electronics Engineering   | Motilal Nehru Institute of Tec | priyanka@iiitdm.ac.in         |
+| 0TN001 | Dr. Raja B                | Mechanical Engineering    | College of Engineering,Guindy  | rajab@iiitdm.ac.in            |
+| 0TN001 | Dr. Sadagopan N           | Computer Science          | IIT Madras                     | sadagopan@iiitdm.ac.in        |
+| 0TN001 | Dr. Selvajyothi K         | Electronics Engineering   | IIT Madras                     | ksjyothi@iiitdm.ac.in         |
+| 0TN001 | Dr. Shahul Hamid Khan     | Mechanical Engineering    | NIT Trichy                     | bshahul@iiitdm.ac.in          |
+| 0TN001 | Dr. Shalu M A             | Mathematics               | IIT Madras                     | shalu@iiitdm.ac.in            |
+| 0TN001 | Dr. Shunmugham R. Pandian | Electronics Engineering   | IIT Delhi                      | srp@iiitdm.ac.in              |
+| 0TN001 | Dr. Sivaselvan B          | Computer Science          | NIT Trichy                     | sivaselvanb@iiitdm.ac.in      |
+| 0TN001 | Dr. Sreekumar M           | Mechanical Engineering    | IIT Madras                     | msk@iiitdm.ac.in              |
+| 0TN001 | Dr. Sudhir Varadarajan    | Systems Engineering and M | IIT Madras                     | sudhir@iiitdm.ac.in           |
+| 0TN001 | Dr. Sunilkumar Anumula    | Physics                   | Politecnico di Milano          | sunilkumar@iiitdm.ac.in       |
+| 0TN001 | Dr. T.S. Narayanan (Hari) | Computer Science          | Concordia University           | tsnarayanan@iiitdm.ac.in      |
+| 0TN001 | Dr. Tapas Sil             | Physics                   | Visva Bharati, Shantiniketan   | tapassil@iiitdm.ac.in         |
+| 0TN001 | Dr. Umarani Jayaraman     | Computer Science          | IIT Kanpur                     | umarani@iiitdm.ac.in          |
+| 0TN001 | Dr. Venkata Timmaraju Mal | Mechanical Engineering    | IIT Madras                     | vtmallina@iiitdm.ac.in        |
+| 0TN001 | Dr. Vijayakumar S         | Mathematics               | IIT Madras                     | vijay@iiitdm.ac.in            |
+| 0TN001 | Prof. Banshidhar Majhi    | Computer Science          | NIT Rourkela                   | bm@iiitdm.ac.in               |
++--------+---------------------------+---------------------------+--------------------------------+-------------------------------+
+29 rows in set (0.00 sec)
+
+mysql> select Cname,F_Name,Email_id,Phd from FACULTY NATURAL JOIN COLLEGE WHERE Department='Computer Science';
++--------------------+---------------------------+--------------------------+----------------------+
+| Cname              | F_Name                    | Email_id                 | Phd                  |
++--------------------+---------------------------+--------------------------+----------------------+
+| IIITDM Kancheeuram | Dr. Masilamani V          | masila@iiitdm.ac.in      | IIT Madras           |
+| IIITDM Kancheeuram | Dr. Noor Mahammad SK      | noor@iiitdm.ac.in        | IIT Madras           |
+| IIITDM Kancheeuram | Dr. Sadagopan N           | sadagopan@iiitdm.ac.in   | IIT Madras           |
+| IIITDM Kancheeuram | Dr. Sivaselvan B          | sivaselvanb@iiitdm.ac.in | NIT Trichy           |
+| IIITDM Kancheeuram | Dr. T.S. Narayanan (Hari) | tsnarayanan@iiitdm.ac.in | Concordia University |
+| IIITDM Kancheeuram | Dr. Umarani Jayaraman     | umarani@iiitdm.ac.in     | IIT Kanpur           |
+| IIITDM Kancheeuram | Prof. Banshidhar Majhi    | bm@iiitdm.ac.in          | NIT Rourkela         |
++--------------------+---------------------------+--------------------------+----------------------+
+7 rows in set (0.00 sec)
+
+mysql> select Cname from COLLEGE NATURAL JOIN FEE_STRUCTURE WHERE Total_fee<90000;
++--------------------+
+| Cname              |
++--------------------+
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
+| IIITDM Kancheeuram |
++--------------------+
+16 rows in set (0.00 sec)
+
+mysql> select distinct Cname from COLLEGE NATURAL JOIN FEE_STRUCTURE WHERE Category='SC'Total_fee<30000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Total_fee<30000' at line 1
+mysql> select distinct Cname from COLLEGE NATURAL JOIN FEE_STRUCTURE WHERE Category='SC' AND Total_fee<30000;
++--------------------+
+| Cname              |
++--------------------+
+| IIITDM Kancheeuram |
++--------------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT Cname,count(*) as No_of_companies from COMPANIES GROUP BY Cid;
+ERROR 1054 (42S22): Unknown column 'Cname' in 'field list'
+mysql> SELECT Cname,count(*) as No_of_companies from COMPANIES natural join COLLEGE GROUP BY Cid;
++--------------------+-----------------+
+| Cname              | No_of_companies |
++--------------------+-----------------+
+| IIITDM Kancheeuram |              17 |
++--------------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Branch_Name,No_of_seats from BRANCH NATURAL JOIN COLLEGE WHERE Cname='IIITDM Kancheeuram';
++-------------+-------------+
+| Branch_Name | No_of_seats |
++-------------+-------------+
+| CED         |          40 |
+| COE         |          40 |
+| EDM         |          40 |
+| ESD         |          20 |
+| EVD         |          20 |
+| MDM         |          40 |
+| MFD         |          20 |
+| MPD         |          20 |
+| MSM         |          40 |
++-------------+-------------+
+9 rows in set (0.00 sec)
+
+mysql> select * from ALUMNI;
++--------+------+----------------+------------------------+--------------+-------------------------+
+| Cid    | Year | A_Name         | Contact_details        | Achievements | Works_At                |
++--------+------+----------------+------------------------+--------------+-------------------------+
+| 0TN001 | 2014 | Chandrasekar E | mds14m002@iiitdm.ac.in |              | TVS SUNDARAM FASTENERS  |
+| 0TN001 | 2014 | Chetan Soni    | cds14m002@iiitdm.ac.in |              | CTECH LABS              |
+| 0TN001 | 2014 | Dhayalakumar   | eds14m004@iiitdm.ac.in |              | Phd IIITDM Kancheepuram |
+| 0TN001 | 2014 | Jaganathan A   | mds14m007@iiitdm.ac.in |              | TANGEDCO                |
++--------+------+----------------+------------------------+--------------+-------------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*) FROM ALUMNI WHERE Works_At='CTECH LABS';
++----------+
+| COUNT(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select distinct Cname from COLLEGE NATURAL JOIN FEE_STRUCTURE WHERE Category='SC' AND Total_fee<30000;
++--------------------+
+| Cname              |
++--------------------+
+| IIITDM Kancheeuram |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select Total_fee from COLLEGE NATURAL JOIN FEE_STRUCTURE WHERE Category='SC';
++-----------+
+| Total_fee |
++-----------+
+|     26250 |
+|     27500 |
+|     27500 |
+|     27500 |
++-----------+
+4 rows in set (0.00 sec)
+
+mysql> select Total_fee from COLLEGE NATURAL JOIN FEE_STRUCTURE WHERE Category='SC' and Year=(select year(curdate()));
+Empty set (0.00 sec)
+
+mysql> select year(curdate());
++-----------------+
+| year(curdate()) |
++-----------------+
+|            2018 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select year(curdate())-1;
++-------------------+
+| year(curdate())-1 |
++-------------------+
+|              2017 |
++-------------------+
+1 row in set (0.01 sec)
+
+mysql> select Total_fee from COLLEGE NATURAL JOIN FEE_STRUCTURE WHERE Category='SC' and Year=(select year(curdate())-1);
++-----------+
+| Total_fee |
++-----------+
+|     27500 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select Cid,count(*) AS  NO_OF_ALUMNI FROM ALUMNI NATURAL JOIN COLLEGE GROUP BY Cid
+    -> ;
++--------+--------------+
+| Cid    | NO_OF_ALUMNI |
++--------+--------------+
+| 0TN001 |            4 |
++--------+--------------+
+1 row in set (0.00 sec)
+
+mysql> select Cid,count(*) AS  NO_OF_ALUMNI FROM ALUMNI NATURAL JOIN COLLEGE GROUP BY Cid;
++--------+--------------+
+| Cid    | NO_OF_ALUMNI |
++--------+--------------+
+| 0TN001 |            4 |
++--------+--------------+
+1 row in set (0.00 sec)
+
+mysql> select Crank from COLLEGE WHERE Cname='IIITDM Kancheeuram';
++-------+
+| Crank |
++-------+
+|   151 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> SELECT Cname,No_of_Seats FROM BRANCH natural join COLLEGE where Branch_Name='COE';
++--------------------+-------------+
+| Cname              | No_of_Seats |
++--------------------+-------------+
+| IIITDM Kancheeuram |          40 |
++--------------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select Cname from COLLEGE NATURAL JOIN CUT_OFFS WHERE Closing_Rank>'4000' AND Caste='OBC-NCL' and Branch_Name='COE';
++--------------------+
+| Cname              |
++--------------------+
+| IIITDM Kancheeuram |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM RESEARCH WHERE LOWER(Research) like '%algorithms%';
++--------+-------------------+----------------------------------------------------+
+| Cid    | F_name            | Research                                           |
++--------+-------------------+----------------------------------------------------+
+| 0TN001 | Dr. Masilamani V  | Algorithms and Data Structure                      |
+| 0TN001 | Dr. Sadagopan N   | Data Structures and Algorithms                     |
+| 0TN001 | Dr. Selvajyothi K | DSP Realization of Control Algorithms in Power Ele |
+| 0TN001 | Dr. Shalu M A     | Algorithms                                         |
+| 0TN001 | Dr. Vijayakumar S | Algorithms                                         |
++--------+-------------------+----------------------------------------------------+
+5 rows in set (0.00 sec)
+
+mysql> select F_Name from RESEARCH group by F_Name having count(*)>=4;
++------------------------+
+| F_Name                 |
++------------------------+
+| Dr. Masilamani V       |
+| Dr. Raja B             |
+| Dr. Sadagopan N        |
+| Prof. Banshidhar Majhi |
++------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select Cid,F_name from FACULTY where Department=’Computer Science’;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Science’' at line 1
+mysql> select Cid,F_name from FACULTY where Department='Computer Science';
++--------+---------------------------+
+| Cid    | F_name                    |
++--------+---------------------------+
+| 0TN001 | Dr. Masilamani V          |
+| 0TN001 | Dr. Noor Mahammad SK      |
+| 0TN001 | Dr. Sadagopan N           |
+| 0TN001 | Dr. Sivaselvan B          |
+| 0TN001 | Dr. T.S. Narayanan (Hari) |
+| 0TN001 | Dr. Umarani Jayaraman     |
+| 0TN001 | Prof. Banshidhar Majhi    |
++--------+---------------------------+
+7 rows in set (0.00 sec)
+
+mysql> select Cid,F_name,Phd from FACULTY where Department='Computer Science';
++--------+---------------------------+----------------------+
+| Cid    | F_name                    | Phd                  |
++--------+---------------------------+----------------------+
+| 0TN001 | Dr. Masilamani V          | IIT Madras           |
+| 0TN001 | Dr. Noor Mahammad SK      | IIT Madras           |
+| 0TN001 | Dr. Sadagopan N           | IIT Madras           |
+| 0TN001 | Dr. Sivaselvan B          | NIT Trichy           |
+| 0TN001 | Dr. T.S. Narayanan (Hari) | Concordia University |
+| 0TN001 | Dr. Umarani Jayaraman     | IIT Kanpur           |
+| 0TN001 | Prof. Banshidhar Majhi    | NIT Rourkela         |
++--------+---------------------------+----------------------+
+7 rows in set (0.00 sec)
+
+mysql> select E_name from EVENTS WHERE E_Type='Cultural';
+ERROR 1054 (42S22): Unknown column 'E_Type' in 'where clause'
+mysql> select * from EVENTS;
++--------+----------+----------------------+
+| Cid    | E_name   | Etype                |
++--------+----------+----------------------+
+| 0TN001 | Clusters | Intra-Techno-Cultura |
+| 0TN001 | Samgatha | Techno-Cultural      |
++--------+----------+----------------------+
+2 rows in set (0.00 sec)
+
+mysql> select E_name from EVENTS WHERE Etype='Cultural';
+Empty set (0.00 sec)
+
+mysql> select E_name from EVENTS WHERE Etype='Techno-Cultural';
++----------+
+| E_name   |
++----------+
+| Samgatha |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select Cname,E_name from EVENTS natural join COLLEGE WHERE Etype='Techno-Cultural';
++--------------------+----------+
+| Cname              | E_name   |
++--------------------+----------+
+| IIITDM Kancheeuram | Samgatha |
++--------------------+----------+
+1 row in set (0.00 sec)
+
+mysql> 

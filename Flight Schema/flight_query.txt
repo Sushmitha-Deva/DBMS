@@ -1,0 +1,70 @@
+1
+select Aname from Aircraft where Aid in (select Aid from Certified where Eid in ( select Eid from Employees where Salary>20000));
+
+2
+select Eid,max(Crange) from Employees natural join Certified natural join Aircraft group by Eid having count(*)>=2;
+
+3 d
+ select Ename from Employees where Salary<(select min(Price) from Flights where src='Chennai' and Dest='Hyderabad');
+
+4
+select A.Aid,A.Aname,avg(salary) from Employees,Certified C,Aircraft A where A.Aid=C.Aid and C.Aid in ( select Aid from Aircraft where Crange=2000) group by C.Aid;
+
+5
+select Ename from Employees natural join Certified natural join Aircraft where Aname='Boeing' and Crange>=(select sum(Distance) from Flights where src='Pune' );
+
+
+6 d
+ select Aid from Aircraft where Crange>all(select Distance from Flights where Src='Chennai' and Dest='Hyderabad');
+
+7
+select Src,Dest from Flights where Distance<(select min(Crange) from (Aircraft natural join Certified) natural join Employees where Salary>25000);
+
+8
+select Ename from Aircraft natural join Certified natural join Employees where Crange>2000 and Aname!='Boeing';
+
+9
+select (select avg(Salary) from Employees natural join Certified)-(select avg(Salary) from Employees) as differnce;
+
+10
+select Ename,Salary from Employees where Eid not in (select Eid from Certified) and Salary>(select avg(Salary) from Employees natural join Certified);
+
+11
+select Ename from Employees natural join Certified natural join Aircraft where Crange>2000;
+
+12\\
+select Eid,Ename from Aircraft natural join Certified natural join Employees where Crange<=2000 group by Eid having count(*)>=2;
+
+13
+ select Ename from Employees natural join Certified natural join Aircraft where Crange>2000 and Aname='Boeing';
+
+14
+select Eid from Employees natural join Certified natural join Aircraft where Aname='Boeing'; 
+
+15
+select Ename from Employees natural join Certified natural join Aircraft where Aname='Boeing'; 
+
+16
+select Aid from Aircraft where Crange>all(select Distance from Flights where src='Jaipur' and Dest='Patna');
+
+17
+select Flno from Flights where Distance<all(select Crange from Aircraft natural join Certified natural join Employees where Salary>25000);
+
+18
+select Ename from Aircraft natural join Certified natural join Employees where Crange>2000 and Aname!='Boeing';
+
+19
+select Eid from Employees where Salary=(select max(Salary) from Employees);
+
+20
+select Eid,Salary from Employees where Salary=(select max(Salary) from Employees where Salary!=(select max(Salary) from Employees));
+
+21
+select Eid,count(*) from Certified natural join Employees group by Eid having count(*)>=all(select count(*) from Certified natural join Employees group by Eid);
+
+22
+select Eid,count(*) from Certified natural join Employees group by Eid having count(*)=3;
+
+
+
+

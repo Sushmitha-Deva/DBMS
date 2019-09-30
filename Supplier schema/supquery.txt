@@ -1,0 +1,98 @@
+1
+select pno,sno,qty from spj where qty>=30 or sno=2;
+
+2
+select S.sno,S.pno,S.jno from (((spj S natural join supplier s) natural join part p) natural join project j);
+
+3
+ select S.sno,S.pno,S.jno from (((spj S join supplier s on S.sno=s.sno) join part p on S.pno=p.pno) join project j on S.jno=j.jno) where s.city!=p.city and p.city!=j.city and s.city!=j.city;
+
+4
+select S.sno,S.pno,S.jno from ((spj S join supplier s on S.sno=s.sno) join project p on S.jno=p.jno) where s.city='warangal' and p.city='warangal';
+
+5
+select S.sno,S.pno,S.jno from ((spj S join supplier s on S.sno=s.sno) join project p on S.jno=p.jno) where s.city=p.city;
+
+6
+select S.sno,S.pno,S.jno from ((spj S join supplier s on S.sno=s.sno) join project p on S.jno=p.jno) where s.city!=p.city;
+
+7
+select distinct  s1.pno,s2.pno,s1.sno from spj s1  join spj s2 where s1.sno=s2.sno;
+
+
+8
+select sum(qty) from spj where sno=1;
+
+9//
+select jno,sum(qty) from spj group by jno;
+
+10
+select pname from ((spj s join project j on j.jno=s.jno)join part p on p.pno=s.pno) where j.city='warangal';
+
+11
+select distinct S.sno from spj S,part p where S.pno=p.pno and S.pno in(select distinct S.pno from spj S,supplier s where s.sno=S.sno and S.sno in(select distinct S.sno from spj S,part p where p.pno=S.pno and p.color='Brown'));
+
+12//
+select jno from spj where qty>(select max(qty) from spj where jno=2) and pno=1;
+
+13
+ select S.sno,S.jno from spj S where S.pno=1 and S.qty>( select avg(qty) from spj S1 where S1.pno=1 and S1.jno=S.jno);
+
+14
+select jno from spj where sno=1;
+
+15
+ select s1.sno,s2.sno,s1.city from supplier s1 join supplier s2 where s1.city=s2.city and s1.sno!=s2.sno order by s1.sno ;
+
+16
+select distinct sno from spj where sno!=2 and sno in ( select s.sno from spj s join s2 on s.pno=s2.pno group by s.sno having count(distinct s.pno)=(select count(*) from s2 group by sno));
+
+17 1pound=453.6grams
+select pno,weight*453 from part where weight*453>15*453;
+
+18
+select sno,sum(qty*(p.weight)) as weight from spj s,part p where p.pno=s.pno group by sno;
+
+19
+select sno,count(pno) from spj group by sno;
+
+20
+select S.pno from ((spj S join supplier s on s.sno=S.sno)join project j on j.jno=S.jno) where s.city='warangal'or j.city='warangal';
+
+21
+select distinct S.sno,S.pno,s.city,p.city from (spj S join supplier s on S.sno=s.sno)join part p on p.pno=S.pno where S.pno=S.sno+1;
+
+22
+ select sno,pno from spj group by sno,pno having count(distinct jno)=(select count(*) from project);
+
+23
+select S.sno,S.pno,S.jno from ((spj S join supplier s on S.sno=s.sno) join project p on S.jno=p.jno) where s.city=p.city;
+
+24
+select distinct S.sno from (spj S join supplier s on S.sno=s.sno)join part p on p.pno=S.pno where p.color='Red';
+
+25
+select sno from supplier where status<(select max(status) from supplier);
+
+26
+select sno,sname from supplier s where not exists (select sno from spj S where pno=2 and S.sno=s.sno);
+ select sno,sname from supplier s where s.sno not in (select sno from spj S where pno=2);
+
+27
+select distinct ssno,vsno from v2 V where (select count(distinct spno) from v2 v where V.vsno=v.vsno and V.ssno=v.ssno and v.ssno!=v.vsno group by vsno,ssno)=(select count(distinct spno) from v2 q where q.ssno=V.ssno  group by ssno) and (select count(distinct spno) from v2 q where q.ssno=V.ssno  group by ssno)=(select count(distinct spno) from v2 q where q.vsno=V.vsno  group by vsno) and ssno!=vsno;
+
+28
+select distinct S.sno,P.pno from spj S,part P where P.pno not in (select distinct pno from spj s where s.sno=S.sno);
+
+29
+select * from spj;
+
+
+
+
+
+
+
+
+
+

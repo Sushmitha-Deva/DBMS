@@ -1,0 +1,751 @@
+mysql> show tables;
++------------------+
+| Tables_in_Flight |
++------------------+
+| Aircraft         |
+| Certified        |
+| ECA              |
+| Employees        |
+| Flights          |
++------------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from Aircraft;
++-----+----------+--------+
+| Aid | Aname    | Crange |
++-----+----------+--------+
+| 500 | Boeing   |   2000 |
+| 501 | Boeing   |   8000 |
+| 502 | Cirrus   |   1500 |
+| 503 | Learjet  |   2000 |
+| 504 | Lockheed |   1800 |
+| 505 | Douglas  |   2500 |
+| 506 | Spitfire |   3500 |
+| 507 | Wright   |   4500 |
+| 508 | Boeing   |   1500 |
+| 509 | Cirrus   |   1800 |
++-----+----------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select * from Certified;
++-----+-----+
+| Aid | Eid |
++-----+-----+
+| 500 | 100 |
+| 500 | 101 |
+| 500 | 102 |
+| 500 | 103 |
+| 500 | 104 |
+| 501 | 100 |
+| 501 | 102 |
+| 502 | 100 |
+| 502 | 101 |
+| 502 | 102 |
+| 503 | 101 |
+| 503 | 102 |
+| 503 | 103 |
+| 504 | 104 |
+| 505 | 105 |
+| 506 | 106 |
+| 507 | 107 |
+| 508 | 108 |
+| 509 | 109 |
++-----+-----+
+19 rows in set (0.00 sec)
+
+mysql> select * from Employees;
++-----+-----------+--------+
+| Eid | Ename     | Salary |
++-----+-----------+--------+
+| 100 | Hrishi    |  25000 |
+| 101 | Harsha    |  20000 |
+| 102 | Bhaskar   |  30000 |
+| 103 | Deva      |  35000 |
+| 104 | Mythu     |  30000 |
+| 105 | Nikhil    |  18000 |
+| 106 | Manoj     |  27000 |
+| 107 | Sadwi     |  16000 |
+| 108 | Pranj     |  15000 |
+| 109 | Macha     |  19000 |
+| 110 | Santhoshi |  30000 |
+| 111 | Vaishnavi |  18000 |
++-----+-----------+--------+
+12 rows in set (0.00 sec)
+
+mysql> select Eid from Employees where Salary>80000;
+Empty set (0.00 sec)
+
+mysql> select Eid from Employees where Salary>20000;
++-----+
+| Eid |
++-----+
+| 100 |
+| 102 |
+| 103 |
+| 104 |
+| 106 |
+| 110 |
++-----+
+6 rows in set (0.01 sec)
+
+mysql> select Aid from Certified where Eid in ( select Eid from Employees where Salary>20000);
++-----+
+| Aid |
++-----+
+| 500 |
+| 501 |
+| 502 |
+| 500 |
+| 501 |
+| 502 |
+| 503 |
+| 500 |
+| 503 |
+| 500 |
+| 504 |
+| 506 |
++-----+
+12 rows in set (0.29 sec)
+
+mysql> select Aname from Aircraft where Aid in (select Aid from Certified where Eid in ( select Eid from Employees where Salary>20000));
++----------+
+| Aname    |
++----------+
+| Boeing   |
+| Boeing   |
+| Cirrus   |
+| Learjet  |
+| Lockheed |
+| Spitfire |
++----------+
+6 rows in set (0.29 sec)
+
+mysql> select Eid,count(*) from Certified group by Eid having count(*)>3; 
++-----+----------+
+| Eid | count(*) |
++-----+----------+
+| 102 |        4 |
++-----+----------+
+1 row in set (0.00 sec)
+
+mysql> select Eid from Certified group by Eid having count(*)>3;
++-----+
+| Eid |
++-----+
+| 102 |
++-----+
+1 row in set (0.00 sec)
+
+mysql> select Aid from Certified where Eid in(select Eid from Certified group by Eid having count(*)>3;);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> select Aid from Certified where Eid in(select Eid from Certified group by Eid having count(*)>3);
++-----+
+| Aid |
++-----+
+| 500 |
+| 501 |
+| 502 |
+| 503 |
++-----+
+4 rows in set (0.00 sec)
+
+mysql> select Aid,Eid from Certified where Eid in(select Eid from Certified group by Eid having count(*)>3);
++-----+-----+
+| Aid | Eid |
++-----+-----+
+| 500 | 102 |
+| 501 | 102 |
+| 502 | 102 |
+| 503 | 102 |
++-----+-----+
+4 rows in set (0.00 sec)
+
+mysql> select max(Crange) from Aircraft where Aid in(select Aid,Eid from Certified where Eid in(select Eid from Certified group by Eid having count(*)>3)); 
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> select max(Crange) from Aircraft where Aid in(select Aid from Certified where Eid in(select Eid from Certified group by Eid having count(*)>3));
++-------------+
+| max(Crange) |
++-------------+
+|        8000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(Crange) from Aircraft where (Aid,Eid) in(select Aid,Eid from Certified where Eid in(select Eid from Certified group by Eid having count(*)>3));
+ERROR 1054 (42S22): Unknown column 'Eid' in 'IN/ALL/ANY subquery'
+mysql> select max(Crange) from Aircraft where Aid in(select Aid,Eid from Certified where Eid in(select Eid from Certified group by Eid having count(*)>3));
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> select max(Crange) from Aircraft where Aid in(select Aid from Certified where Eid in(select Eid from Certified group by Eid having count(*)>3));
++-------------+
+| max(Crange) |
++-------------+
+|        8000 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> select * from Flights;
++------+-----------+------------+----------+----------+----------+-------+
+| Flno | Src       | Dest       | Distance | Departs  | Arrives  | Price |
++------+-----------+------------+----------+----------+----------+-------+
+| 1000 | Chennai   | Hyderabad  |     1500 | 12:30:00 | 14:30:00 | 35000 |
+| 1001 | Chennai   | Hyderabad  |     1500 | 15:00:00 | 18:30:00 | 30000 |
+| 1002 | Cochin    | Hyderabad  |     1000 | 08:00:00 | 12:30:00 | 20000 |
+| 1003 | Mumbai    | Delhi      |     8000 | 07:00:00 | 15:30:00 | 80000 |
+| 1004 | Bangalore | Goa        |     8000 | 06:00:00 | 07:30:00 | 30000 |
+| 1005 | Cochin    | Trivandrum |      800 | 06:00:00 | 07:00:00 | 10000 |
+| 1006 | Ahmedabad | Gwalior    |     1800 | 09:00:00 | 10:50:00 | 25000 |
+| 1007 | Jaipur    | Patna      |     2500 | 09:00:00 | 11:40:00 | 40000 |
+| 1008 | Pune      | Mangalore  |     3500 | 10:00:00 | 12:00:00 | 40000 |
+| 1009 | Pune      | Goa        |     4500 | 10:00:00 | 13:00:00 | 50000 |
++------+-----------+------------+----------+----------+----------+-------+
+10 rows in set (0.01 sec)
+
+mysql> select Ename from Employees where Salary<(select min(Price) from Flights where src='Chennai' and Dest='Hyderabad');
++-----------+
+| Ename     |
++-----------+
+| Hrishi    |
+| Harsha    |
+| Nikhil    |
+| Manoj     |
+| Sadwi     |
+| Pranj     |
+| Macha     |
+| Vaishnavi |
++-----------+
+8 rows in set (0.00 sec)
+
+mysql> select Aid from Aircraft where Crange=2000;
++-----+
+| Aid |
++-----+
+| 500 |
+| 503 |
++-----+
+2 rows in set (0.00 sec)
+
+mysql> select Aid,Aname from Aircraft where Crange=2000;
++-----+---------+
+| Aid | Aname   |
++-----+---------+
+| 500 | Boeing  |
+| 503 | Learjet |
++-----+---------+
+2 rows in set (0.00 sec)
+
+mysql> select Aid,avg(salary) from Employees,Certified where Aid in ( select Aid,Aname from Aircraft where Crange=2000);
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> select Aid,avg(salary) from Employees,Certified where Aid in ( select Aid  from Aircraft where Crange=2000);
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'Flight.Certified.Aid'; this is incompatible with sql_mode=only_full_group_by
+mysql> select Aid,avg(salary) from Employees,Certified where Aid in ( select Aid from Aircraft where Crange=2000);
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'Flight.Certified.Aid'; this is incompatible with sql_mode=only_full_group_by
+mysql> select Aid,avg(salary) from Employees,Certified where Aid in ( select Aid from Aircraft where Crange=2000) group by Aid;
++-----+-------------+
+| Aid | avg(salary) |
++-----+-------------+
+| 500 |  23583.3333 |
+| 503 |  23583.3333 |
++-----+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select Aname,avg(salary) from Employees,Certified,Aircraft A where A.Aid=Aid Aid in ( select Aid from Aircraft where Crange=2000) group by Aid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Aid in ( select Aid from Aircraft where Crange=2000) group by Aid' at line 1
+mysql> select Aname,avg(salary) from Employees,Certified,Aircraft A where A.Aid=Aid Aid in ( select Aid from Aircraft where Crange=2000) group by Aname;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Aid in ( select Aid from Aircraft where Crange=2000) group by Aname' at line 1
+mysql> select Aname,Aid,avg(salary) from Employees,Certified,Aircraft A where A.Aid=Aid Aid in ( select Aid from Aircraft where Crange=2000) group by Aid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Aid in ( select Aid from Aircraft where Crange=2000) group by Aid' at line 1
+mysql> select Aid,avg(salary) from Employees,Certified,Aircraft A where A.Aid=Aid Aid in ( select Aid from Aircraft where Crange=2000) group by Aid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Aid in ( select Aid from Aircraft where Crange=2000) group by Aid' at line 1
+mysql> select Aid,avg(salary) from Employees,Certified C,Aircraft A where A.Aid=C.Aid and C.Aid in ( select Aid from Aircraft where Crange=2000) group by C.Aid;
+ERROR 1052 (23000): Column 'Aid' in field list is ambiguous
+mysql> select Aname,Aid,avg(salary) from Employees,Certified,Aircraft A where A.Aid=Aid and Aid in ( select Aid from Aircraft where Crange=2000) group by Aid;
+ERROR 1052 (23000): Column 'Aid' in field list is ambiguous
+mysql> select Aname,Aid,avg(salary) from Employees,Certified,Aircraft A where A.Aid=Aid and Aid in ( select a.Aid from Aircraft a where Crange=2000) group by Aid;
+ERROR 1052 (23000): Column 'Aid' in field list is ambiguous
+mysql> select Aid,avg(salary) from Employees,Certified C,Aircraft A where A.Aid=C.Aid and C.Aid in ( select Aid from Aircraft where Crange=2000) group by C.Aid;
+ERROR 1052 (23000): Column 'Aid' in field list is ambiguous
+mysql> select C.Aid,avg(salary) from Employees,Certified C,Aircraft A where A.Aid=C.Aid and C.Aid in ( select Aid from Aircraft where Crange=2000) group by C.Aid;
++-----+-------------+
+| Aid | avg(salary) |
++-----+-------------+
+| 500 |  23583.3333 |
+| 503 |  23583.3333 |
++-----+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select A.Aid,A.Aname,avg(salary) from Employees,Certified C,Aircraft A where A.Aid=C.Aid and C.Aid in ( select Aid from Aircraft where Crange=2000) group by C.Aid;
++-----+---------+-------------+
+| Aid | Aname   | avg(salary) |
++-----+---------+-------------+
+| 500 | Boeing  |  23583.3333 |
+| 503 | Learjet |  23583.3333 |
++-----+---------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> quit
+mysql> select Aid from Aircraft where Crange>(select Distance from Flights where Src='Mumbai' and Dest='Delhi');
+Empty set (0.00 sec)
+
+mysql> select Aid from Aircraft where Crange>(select Distance from Flights where Src='Chennai' and Dest='Hyderabad');
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> select Aid from Aircraft where Crange>all(select Distance from Flights where Src='Chennai' and Dest='Hyderabad');
++-----+
+| Aid |
++-----+
+| 500 |
+| 501 |
+| 503 |
+| 504 |
+| 505 |
+| 506 |
+| 507 |
+| 509 |
++-----+
+8 rows in set (0.00 sec)
+
+mysql> select Crange from (Aircraft natural join Certified) natural join Employees where Salary>25000; 
++--------+
+| Crange |
++--------+
+|   2000 |
+|   8000 |
+|   1500 |
+|   2000 |
+|   2000 |
+|   2000 |
+|   2000 |
+|   1800 |
+|   3500 |
++--------+
+9 rows in set (0.30 sec)
+
+mysql> select Src,Dest from Flights where Distance<(select min(Crange) from (Aircraft natural join Certified) natural join Employees where Salary>25000);
++--------+------------+
+| Src    | Dest       |
++--------+------------+
+| Cochin | Hyderabad  |
+| Cochin | Trivandrum |
++--------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select Ename from Aircraft natural join Certified natural join Employees where Crange>2000 and Aname!='Boeing';
++--------+
+| Ename  |
++--------+
+| Nikhil |
+| Manoj  |
+| Sadwi  |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select Ename from ((Employees E natural join Certified C)natural join Aircraft A) where Crange>2000 and C.Aid not in (select Aid from Aircraft where Aname='Boeing');
++--------+
+| Ename  |
++--------+
+| Nikhil |
+| Manoj  |
+| Sadwi  |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select avg(Salary) from Employees natural join certified;
+ERROR 1146 (42S02): Table 'Flight.certified' doesn't exist
+mysql> select avg(Salary) from Employees natural join Certified;
++-------------+
+| avg(Salary) |
++-------------+
+|  25263.1579 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(Salary) from Employees;
++-------------+
+| avg(Salary) |
++-------------+
+|  23583.3333 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select Difference as (select avg(Salary) from Employees natural join Certified)-(select avg(Salary) from Employees);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(select avg(Salary) from Employees natural join Certified)-(select avg(Salary) f' at line 1
+mysql> select (select avg(Salary) from Employees natural join Certified)-(select avg(Salary) from Employees);
++------------------------------------------------------------------------------------------------+
+| (select avg(Salary) from Employees natural join Certified)-(select avg(Salary) from Employees) |
++------------------------------------------------------------------------------------------------+
+|                                                                                      1679.8246 |
++------------------------------------------------------------------------------------------------+
+1 row in set (0.01 sec)
+
+mysql> select (select avg(Salary) from Employees natural join Certified)-(select avg(Salary) from Employees) as differnce;
++-----------+
+| differnce |
++-----------+
+| 1679.8246 |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select Ename,Salary from Employees where Eid not in (select Eid from Certified) and Salary>(select avg(Salary) from Employees natural join Certified)
+    -> ;
++-----------+--------+
+| Ename     | Salary |
++-----------+--------+
+| Santhoshi |  30000 |
++-----------+--------+
+1 row in set (0.00 sec)
+
+mysql> select Ename from Employees natural join Certified natural join Aircraft where Crange>2000;
++---------+
+| Ename   |
++---------+
+| Hrishi  |
+| Bhaskar |
+| Nikhil  |
+| Manoj   |
+| Sadwi   |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> select Ename from Employees E where 2000<=all(select Crange from ((Certified C natural join Employees ) natural join Aircraft) where E.Eid=Eid) and Eid in (select Eid from Certified);
++--------+
+| Ename  |
++--------+
+| Deva   |
+| Nikhil |
+| Manoj  |
+| Sadwi  |
++--------+
+4 rows in set (0.00 sec)
+
+mysql> select Eid from Aircraft natural join Certified natural join Employees where Crange<2000 group by Eid having count(*)>=2; 
+Empty set (0.02 sec)
+
+mysql> select Eid from Aircraft natural join Certified natural join Employees where Crange<=2000 group by Eid having count(*)>=2;
++-----+
+| Eid |
++-----+
+| 100 |
+| 101 |
+| 102 |
+| 103 |
+| 104 |
++-----+
+5 rows in set (0.00 sec)
+
+mysql> select Eid,Ename from Aircraft natural join Certified natural join Employees where Crange<=2000 group by Eid having count(*)>=2;
++-----+---------+
+| Eid | Ename   |
++-----+---------+
+| 100 | Hrishi  |
+| 101 | Harsha  |
+| 102 | Bhaskar |
+| 103 | Deva    |
+| 104 | Mythu   |
++-----+---------+
+5 rows in set (0.00 sec)
+
+mysql> select Eid from Aircraft natural join Certified natural join Employees
+    -> ;
++-----+
+| Eid |
++-----+
+| 100 |
+| 101 |
+| 102 |
+| 103 |
+| 104 |
+| 100 |
+| 102 |
+| 100 |
+| 101 |
+| 102 |
+| 101 |
+| 102 |
+| 103 |
+| 104 |
+| 105 |
+| 106 |
+| 107 |
+| 108 |
+| 109 |
++-----+
+19 rows in set (0.00 sec)
+
+mysql> select * from Aircraft natural join Certified natural join Employees;
++-----+-----+----------+--------+---------+--------+
+| Eid | Aid | Aname    | Crange | Ename   | Salary |
++-----+-----+----------+--------+---------+--------+
+| 100 | 500 | Boeing   |   2000 | Hrishi  |  25000 |
+| 101 | 500 | Boeing   |   2000 | Harsha  |  20000 |
+| 102 | 500 | Boeing   |   2000 | Bhaskar |  30000 |
+| 103 | 500 | Boeing   |   2000 | Deva    |  35000 |
+| 104 | 500 | Boeing   |   2000 | Mythu   |  30000 |
+| 100 | 501 | Boeing   |   8000 | Hrishi  |  25000 |
+| 102 | 501 | Boeing   |   8000 | Bhaskar |  30000 |
+| 100 | 502 | Cirrus   |   1500 | Hrishi  |  25000 |
+| 101 | 502 | Cirrus   |   1500 | Harsha  |  20000 |
+| 102 | 502 | Cirrus   |   1500 | Bhaskar |  30000 |
+| 101 | 503 | Learjet  |   2000 | Harsha  |  20000 |
+| 102 | 503 | Learjet  |   2000 | Bhaskar |  30000 |
+| 103 | 503 | Learjet  |   2000 | Deva    |  35000 |
+| 104 | 504 | Lockheed |   1800 | Mythu   |  30000 |
+| 105 | 505 | Douglas  |   2500 | Nikhil  |  18000 |
+| 106 | 506 | Spitfire |   3500 | Manoj   |  27000 |
+| 107 | 507 | Wright   |   4500 | Sadwi   |  16000 |
+| 108 | 508 | Boeing   |   1500 | Pranj   |  15000 |
+| 109 | 509 | Cirrus   |   1800 | Macha   |  19000 |
++-----+-----+----------+--------+---------+--------+
+19 rows in set (0.00 sec)
+
+mysql> select * from Employees natural join Certified natural join Aircraft;
++-----+-----+---------+--------+----------+--------+
+| Aid | Eid | Ename   | Salary | Aname    | Crange |
++-----+-----+---------+--------+----------+--------+
+| 500 | 100 | Hrishi  |  25000 | Boeing   |   2000 |
+| 500 | 101 | Harsha  |  20000 | Boeing   |   2000 |
+| 500 | 102 | Bhaskar |  30000 | Boeing   |   2000 |
+| 500 | 103 | Deva    |  35000 | Boeing   |   2000 |
+| 500 | 104 | Mythu   |  30000 | Boeing   |   2000 |
+| 501 | 100 | Hrishi  |  25000 | Boeing   |   8000 |
+| 501 | 102 | Bhaskar |  30000 | Boeing   |   8000 |
+| 502 | 100 | Hrishi  |  25000 | Cirrus   |   1500 |
+| 502 | 101 | Harsha  |  20000 | Cirrus   |   1500 |
+| 502 | 102 | Bhaskar |  30000 | Cirrus   |   1500 |
+| 503 | 101 | Harsha  |  20000 | Learjet  |   2000 |
+| 503 | 102 | Bhaskar |  30000 | Learjet  |   2000 |
+| 503 | 103 | Deva    |  35000 | Learjet  |   2000 |
+| 504 | 104 | Mythu   |  30000 | Lockheed |   1800 |
+| 505 | 105 | Nikhil  |  18000 | Douglas  |   2500 |
+| 506 | 106 | Manoj   |  27000 | Spitfire |   3500 |
+| 507 | 107 | Sadwi   |  16000 | Wright   |   4500 |
+| 508 | 108 | Pranj   |  15000 | Boeing   |   1500 |
+| 509 | 109 | Macha   |  19000 | Cirrus   |   1800 |
++-----+-----+---------+--------+----------+--------+
+19 rows in set (0.00 sec)
+
+mysql> select * from Certified;
++-----+-----+
+| Aid | Eid |
++-----+-----+
+| 500 | 100 |
+| 500 | 101 |
+| 500 | 102 |
+| 500 | 103 |
+| 500 | 104 |
+| 501 | 100 |
+| 501 | 102 |
+| 502 | 100 |
+| 502 | 101 |
+| 502 | 102 |
+| 503 | 101 |
+| 503 | 102 |
+| 503 | 103 |
+| 504 | 104 |
+| 505 | 105 |
+| 506 | 106 |
+| 507 | 107 |
+| 508 | 108 |
+| 509 | 109 |
++-----+-----+
+19 rows in set (0.01 sec)
+
+mysql> select Eid,Ename from Aircraft natural join Certified natural join Employees where Crange<=2000 group by Eid having count(*)>=2;
++-----+---------+
+| Eid | Ename   |
++-----+---------+
+| 100 | Hrishi  |
+| 101 | Harsha  |
+| 102 | Bhaskar |
+| 103 | Deva    |
+| 104 | Mythu   |
++-----+---------+
+5 rows in set (0.01 sec)
+
+mysql> 
+mysql> select Ename from Employees E where 2000>=all(select Crange from ((Certified C natural join Employees ) natural join Aircraft) where E.Eid=Eid) and Eid in (select Eid from Certified) and (select count(Aid) from ((Certified C natural join Employees ) natural join Aircraft) where E.Eid=Eid and Crange<=2000 )>=2 ;
++--------+
+| Ename  |
++--------+
+| Harsha |
+| Deva   |
+| Mythu  |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from Employees natural join Certified natural join Aircraft where Crange>2000 and Aname='Boeing';
++-----+-----+---------+--------+--------+--------+
+| Aid | Eid | Ename   | Salary | Aname  | Crange |
++-----+-----+---------+--------+--------+--------+
+| 501 | 100 | Hrishi  |  25000 | Boeing |   8000 |
+| 501 | 102 | Bhaskar |  30000 | Boeing |   8000 |
++-----+-----+---------+--------+--------+--------+
+2 rows in set (0.01 sec)
+
+mysql> select Ename from Employees natural join Certified natural join Aircraft where Crange>2000 and Aname='Boeing';
++---------+
+| Ename   |
++---------+
+| Hrishi  |
+| Bhaskar |
++---------+
+2 rows in set (0.00 sec)
+
+mysql> select Ename from Employees E where 2000<=all(select Crange from ((Certified C natural join Employees ) natural join Aircraft) where E.Eid=Eid) and Eid in (select Eid from Certified) and Eid in (select Eid from (Certified C natural join Aircraft) where Aname='Boeing');
++-------+
+| Ename |
++-------+
+| Deva  |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select Ename from Employees E where 2000<all(select Crange from ((Certified C natural join Employees ) natural join Aircraft) where E.Eid=Eid) and Eid in (select Eid from Certified) and Eid in (select Eid from (Certified C natural join Aircraft) where Aname='Boeing');
+Empty set (0.00 sec)
+
+mysql> select Ename from Employees E where 2000>all(select Crange from ((Certified C natural join Employees ) natural join Aircraft) where E.Eid=Eid) and Eid in (select Eid from Certified) and (select count(Aid) from ((Certified C natural join Employees ) natural join Aircraft) where E.Eid=Eid and Crange<=2000 )>=2 ;
+Empty set (0.00 sec)
+
+mysql> select Eid from Employees natural join Certified natural join Aircraft where Aname='Boeing';
++-----+
+| Eid |
++-----+
+| 100 |
+| 101 |
+| 102 |
+| 103 |
+| 104 |
+| 100 |
+| 102 |
+| 108 |
++-----+
+8 rows in set (0.00 sec)
+
+mysql> select Aid from Aircraft where Crange>(select Distance from Flights wheresrc='Jaipur' and Dest='Patna');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='Jaipur' and Dest='Patna')' at line 1
+mysql> select Aid from Aircraft where Crange>(select Distance from Flights where src='Jaipur' and Dest='Patna');
++-----+
+| Aid |
++-----+
+| 501 |
+| 506 |
+| 507 |
++-----+
+3 rows in set (0.00 sec)
+
+mysql> select Flno from Flights where Distance<all(select Crange from Aircraft natural join Certified natural join Employees where Salary>25000);
++------+
+| Flno |
++------+
+| 1002 |
+| 1005 |
++------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> select * from Flights where Distance <(select min(Crange) from ((Certified C natural join Aircraft A)natural join Employees E) where Salary>20000);
++------+--------+------------+----------+----------+----------+-------+
+| Flno | Src    | Dest       | Distance | Departs  | Arrives  | Price |
++------+--------+------------+----------+----------+----------+-------+
+| 1002 | Cochin | Hyderabad  |     1000 | 08:00:00 | 12:30:00 | 20000 |
+| 1005 | Cochin | Trivandrum |      800 | 06:00:00 | 07:00:00 | 10000 |
++------+--------+------------+----------+----------+----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select max(Salary) from Employees;
++-------------+
+| max(Salary) |
++-------------+
+|       35000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select Eid from Employees where Salary=(select max(Salary) from Employees);
++-----+
+| Eid |
++-----+
+| 103 |
++-----+
+1 row in set (0.00 sec)
+
+mysql> select Eid from Employees where Salary=(select max(Salary) from Employees where Salary!=(select max(Salary) from Employees));
++-----+
+| Eid |
++-----+
+| 102 |
+| 104 |
+| 110 |
++-----+
+3 rows in set (0.00 sec)
+
+mysql> select Eid,Salary from Employees where Salary=(select max(Salary) from Employees where Salary!=(select max(Salary) from Employees));
++-----+--------+
+| Eid | Salary |
++-----+--------+
+| 102 |  30000 |
+| 104 |  30000 |
+| 110 |  30000 |
++-----+--------+
+3 rows in set (0.00 sec)
+
+mysql> select Eid from Certified natural join Employees group by Eid having count(*)>=all(select Eid from Certified natural join Employees group by Eid);
+Empty set (0.00 sec)
+
+mysql> select Eid from Certified natural join Employees group by Eid having count(*)>=all(select count(*) from Certified natural join Employees group by Eid);
++-----+
+| Eid |
++-----+
+| 102 |
++-----+
+1 row in set (0.00 sec)
+
+mysql> select Eid,count(*) from Certified natural join Employees group by Eid having count(*)>=all(select count(*) from Certified natural join Employees group by Eid);
++-----+----------+
+| Eid | count(*) |
++-----+----------+
+| 102 |        4 |
++-----+----------+
+1 row in set (0.00 sec)
+
+mysql> select Eid,count(*) from Certified natural join Employees group by Eid having count(*)=3;
++-----+----------+
+| Eid | count(*) |
++-----+----------+
+| 100 |        3 |
+| 101 |        3 |
++-----+----------+
+2 rows in set (0.00 sec)
+
+mysql> select max(Distance) from Flights where src='Pune';
++---------------+
+| max(Distance) |
++---------------+
+|          4500 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select Ename from Employees natural join Certified natural join natural join Aircraft where Aname='Boeing' and Crange>(select max(Distance) from Flights where src='Pune');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'natural join Aircraft where Aname='Boeing' and Crange>(select max(Distance) from' at line 1
+mysql> select Ename from Employees natural join Certified natural join natural join Aircraft where Aname='Boeing' and Crange>(select max(Distance) from Flights where src='Pune');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'natural join Aircraft where Aname='Boeing' and Crange>(select max(Distance) from' at line 1
+mysql> select Ename from Employees natural join Certified natural join Aircraft where Aname='Boeing' and Crange>(select max(Distance) from Flights where src='Pune');
++---------+
+| Ename   |
++---------+
+| Hrishi  |
+| Bhaskar |
++---------+
+2 rows in set (0.00 sec)
+
+mysql> select Eid,max(Crange) from Employees natural join Certified natural join Aircraft group by Eid having count(*)>=2;
++-----+-------------+
+| Eid | max(Crange) |
++-----+-------------+
+| 100 |        8000 |
+| 101 |        2000 |
+| 102 |        8000 |
+| 103 |        2000 |
+| 104 |        2000 |
++-----+-------------+
+5 rows in set (0.00 sec)
+
+mysql>  select max(Crange),Eid from Aircraft,Certified where Aid in(select Aid from Certified where Eid in(select Eid from Certified group by Eid having count(*)>3));
+ERROR 1052 (23000): Column 'Aid' in IN/ALL/ANY subquery is ambiguous
+mysql> quit

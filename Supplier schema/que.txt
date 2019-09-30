@@ -1,0 +1,21 @@
+16
+select distinct sno from spj where sno!=2 and sno in ( select s.sno from spj s join s2 on s.pno=s2.pno group by s.sno having count(distinct s.pno)=(select count(*) from s2 group by sno));
+ 
+view s2
+mysql> select * from s2;
++-----+-----+-----+------+
+| sno | pno | jno | qty  |
++-----+-----+-----+------+
+|   2 |   1 |   6 |   10 |
+|   2 |   2 |   1 |   40 |
+|   2 |   3 |   6 |   20 |
++-----+-----+-----+------+
+
+27
+select distinct ssno,vsno from v2 V where (select count(distinct spno) from v2 v where V.vsno=v.vsno and V.ssno=v.ssno and v.ssno!=v.vsno group by vsno,ssno)=(select count(distinct spno) from v2 q where q.ssno=V.ssno  group by ssno) and (select count(distinct spno) from v2 q where q.ssno=V.ssno  group by ssno)=(select count(distinct spno) from v2 q where q.vsno=V.vsno  group by vsno) and ssno!=vsno;
+
+view v1
+select distinct pno,sno from spj group by sno;
+
+view v2
+create view v2 (ssno,spno,vsno,vpno) as (select s.sno,s.pno,v.sno,v.pno from spj s join v1 v on s.pno=v.pno);
